@@ -1,4 +1,4 @@
-﻿define(['durandal/plugins/router', 'jquery', 'knockout', 'amplify'], function(router, $, ko, events) {
+﻿define(['durandal/plugins/router', 'amplify'], function(router, events) {
     
     var vm = {
         subscriptions: ko.observableArray([
@@ -17,11 +17,13 @@
                 }])
         }]),
         router : router,
-        activate: function () 
-        {  
-            
-        }
+        activate: activate
     };
     
     return vm;
+    
+    var activate = function() {
+    
+    };
+        
 });

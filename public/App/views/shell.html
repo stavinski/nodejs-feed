@@ -1,6 +1,7 @@
 ﻿<div>
     <div class="navbar">
-        <div class="navbar-inner">
+        <!-- desktop/tablet -->
+        <div class="navbar-inner hidden-phone">
             <a class="brand" data-bind="attr: { href: router.visibleRoutes()[0].hash }">
                 <i class="icon-rss"></i>
             </a>
@@ -13,6 +14,28 @@
                 </li>
                 <li data-bind="css: { active: currentFilter() == 'all' }">
                     <a data-bind="attr: { href: router.visibleRoutes()[0].hash }"> All</a>
+                </li>
+            </ul>
+            <ul class="nav pull-right">
+                <li data-bind="css: { active: router.visibleRoutes()[2].isActive }">
+                    <a data-bind="attr: { href: router.visibleRoutes()[2].hash }"><i class="icon-cogs"></i></a>
+                </li>
+            </ul>
+            <div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
+                <i class="icon-spinner icon-2x icon-spin"></i>
+            </div>
+        </div>
+        <!-- smartphone -->
+        <div class="navbar-inner visible-phone">
+            <ul class="nav">
+                <li data-bind="css: { active: currentFilter() == 'starred' }">
+                    <a data-bind="attr: { href: router.visibleRoutes()[0].hash + '/starred'}"><i class="icon-star"></i></a>
+                </li>
+                <li data-bind="css: { active: currentFilter() == 'unread' }">
+                    <a data-bind="attr: { href: router.visibleRoutes()[0].hash + '/unread' }"><i class="icon-flag"></i><span class="badge badge-info" data-bind="text: unread"></span></a>
+                </li>
+                <li data-bind="css: { active: currentFilter() == 'all' }">
+                    <a data-bind="attr: { href: router.visibleRoutes()[0].hash }">All</a>
                 </li>
             </ul>
             <ul class="nav pull-right">

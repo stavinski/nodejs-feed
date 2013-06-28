@@ -1,8 +1,8 @@
 ﻿
-<ul id="subscriptions" class="unstyled" data-bind="foreach: subscriptions()">
+<ul id="subscriptions" class="unstyled" data-bind="foreach: subscriptions">
     <li>
         <i class="icon-folder-open"></i> <a data-bind="attr: { href: '#' }, text: title"></a> <span class="badge badge-info" data-bind="text: unread"></span>
-        <ul data-bind="foreach: children()" class="unstyled">
+        <ul data-bind="foreach: children" class="unstyled">
             <li class="subscription-item">
                 <i class="icon-rss"></i> <a data-bind="attr: { href: '#' }, text: title"></a> <span class="badge badge-info" data-bind="text: unread"></span>
             </li>

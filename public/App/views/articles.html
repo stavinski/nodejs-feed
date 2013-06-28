@@ -1,7 +1,13 @@
 ﻿<h2>All Items</h2>
-<h3>Article</h3>
-<i class="icon-calendar"></i> <span> 24th June 2013</span>
-
-<section>
-<p>Content</p>
-</section>
+<div class="accordion" id="articles" data-bind="foreach: articles">
+    <div class="accordion-group">
+    <div class="accordion-heading">
+      <a data-bind="text: title" class="accordion-toggle" data-toggle="collapse" data-parent="#articles" href="#collapse1">
+      </a>
+    </div>
+    <div id="collapse1" class="accordion-body collapse in">
+      <div class="accordion-inner" data-bind="html: content">
+        
+      </div>
+    </div>
+</div>
