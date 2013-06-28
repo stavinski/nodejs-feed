@@ -17,13 +17,10 @@
                 }])
         }]),
         router : router,
-        activate: activate
+		activate: function () {
+		}
     };
     
     return vm;
-    
-    var activate = function() {
-    
-    };
-        
+            
 });
