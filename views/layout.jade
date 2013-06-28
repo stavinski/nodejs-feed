@@ -1,0 +1,10 @@
+!!!
+html
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    !=renderStyles()
+    title= title
+  body
+    block content
+    !=renderJs()
+    script(src='App/durandal/amd/require.js', data-main='App/main')
