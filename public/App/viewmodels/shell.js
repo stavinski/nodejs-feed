@@ -6,18 +6,18 @@
         unread: ko.observable(''),
         activate: function () {
             var self = this;
-            events.subscribe('filter-changed', function (msg) {
-                self.currentFilter(msg.filter);
-            });   
+            router.onNavigationComplete = function(routeInfo, params, module) {
+                if (routeInfo.moduleId == 'viewmodels/dashboard') {
+                    var filter = (params.filter) ? params.filter : 'all';
+                    self.currentFilter(filter);
+                    events.publish('filter-changed', { filter: filter });
+                }                
+            };
             
             events.subscribe('unread-changed', function (msg) {
                 self.unread(msg.count);
             });
-            
-            events.subscribe('admin-screen', function (msg) {
-                self.currentFilter('');
-            });
-            
+                        
             return router.activate('dashboard');
         }
     };

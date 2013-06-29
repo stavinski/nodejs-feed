@@ -5,15 +5,32 @@
         articles: ko.observableArray([
             {
                 title: 'The "Ask Udi" podcast is back',
-                date: new Date(),
+                published: new Date(),
+                source: 'Udi Dahan',
                 content: html,
                 url: 'http://feedproxy.google.com/~r/UdiDahan-TheSoftwareSimplist/~3/9Qkgu4YheHg/',
 				collapsed: ko.observable(false),
+                read: ko.observable(true),
 				headerClicked: function (el) {
 					this.collapsed(!el.collapsed())
-				}
+				},
+                starToggle : function () { console.log('star toggled');}
+            },
+            {
+                title: 'RavenDB 2.5: What is new here?',
+                published: new Date(),
+                read: ko.observable(false),
+                source: 'Ayende @ Rahien',
+                content: 'Well, this is still just a high level list only, but there is a lot of stuff there. In many cases, I posted full blog entries about each new feature, but I’ll post a few words about those that I didn’t.',
+                url: 'http://feedproxy.google.com/~r/AyendeRahien/~3/eWWBIFuZdJo/ravendb-2-5-what-is-new-here',
+				collapsed: ko.observable(false),
+				headerClicked: function (el) {
+					this.collapsed(!el.collapsed())
+				},
+                starToggle : function () { console.log('star toggled');}
         }]),
 		filter: ko.observable('all'),
+        refresh: function() { console.log('refresh'); },
         activate: function() {
 			var self = this;
 			events.subscribe('filter-changed', function (msg) {

@@ -10,3 +10,23 @@
     margin-left: 0.7em;
 }
 
+#subscriptions a {
+    text-decoration: none;
+    color: #000;
+}
+
+#subscriptions .feed:hover {
+    background: #eee;
+}
+
+.article  .title{
+    font-size: larger;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.article .article-sub-header {
+    font-weight: larger;
+    margin: 1em 0;
+    text-indent: 0.5em;
+}

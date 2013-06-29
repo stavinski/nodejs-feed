@@ -1,12 +1,50 @@
-﻿<h2 data-bind="text: filter() + ' items'"></h2>
-<div class="accordion" id="articles" data-bind="foreach: articles">
-    <div class="accordion-group">
-    <div class="accordion-heading">
-		<a class="accordion-toggle" data-toggle="collapse" data-parent="#articles" href="#collapse1" data-bind="click: headerClicked" ><i data-bind="css : { 'icon-chevron-down' : collapsed(), 'icon-chevron-up' : !collapsed() }" ></i> </a>
+﻿<!-- smartphone -->
+<div class="page-header hidden-phone">
+    <h1>
+        <!-- ko text: filter() + ' items' --><!-- /ko -->
+        <button data-bind="click: refresh" title="refresh" class="btn btn-primary pull-right"><i class="icon-repeat icon-2x"> </i> </button>
+    </h1>
+</div>
+
+<div class="visible-phone">
+    <h3>
+        <!-- ko text: filter() + ' items' --><!-- /ko -->
+        <button data-bind="click: refresh" title="refresh" class="btn btn-primary pull-right"><i class="icon-repeat icon-2x"> </i> </button>
+    </h3>
+</div>
+
+<div class="article hidden-phone" data-bind="foreach: articles">
+    <div class="article-header well well-small">
+        <button type="button" class="btn btn-primary" data-toggle="collapse" data-bind="attr: { 'data-target' : '#article' + $index() }, click: headerClicked"><i data-bind="css: { 'icon-chevron-up' : !collapsed(), 'icon-chevron-down' : collapsed() }"></i></button>
+        <span class="title" data-bind="text: title, css: { muted: read }"></span>
+        <a data-bind="attr: { href : url }" target="_blank" type="button" class="btn btn-primary pull-right"><i class="icon-external-link"></i></a>            
+        <button type="button" data-bind="click: starToggle" class="btn btn-primary pull-right"><i class="icon-star-empty"></i></button>            
     </div>
-    <div id="collapse1" class="accordion-body collapse in">
-      <div class="accordion-inner" data-bind="html: content">
+           
+    <div data-bind="attr: { id : 'article' + $index() }" class="collapse in">
+        <div class="article-sub-header">
+            <i class="icon-double-angle-right"></i>
+            <em><span data-bind="text: source"></span> - 
+            <span data-bind="date: published"></span></em>
+        </div>
+        <div data-bind="html: content">
         
-      </div>
+        </div>
     </div>
+</div>
+
+<!-- smartphone -->
+<div class="article visible-phone" data-bind="foreach: articles">
+    <div class="well well-small">
+        <div data-bind="text: title, css: { muted: read }"></div>
+        <div class="article-sub-header">
+            <i class="icon-double-angle-right"></i>
+            <em><span data-bind="text: source"></span> - 
+            <span data-bind="date: published"></span></em>
+        </div>
+        <div>
+            <a data-bind="attr: { href : url }" target="_blank" type="button" class="btn btn-primary"><i class="icon-external-link icon-2x"></i></a>
+            <a type="button" data-bind="click: starToggle" class="btn btn-primary"><i class="icon-star-empty icon-2x"></i> </a>            
+        </div>
+    <div>
 </div>
