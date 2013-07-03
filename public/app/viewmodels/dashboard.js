@@ -1,11 +1,12 @@
-define(['durandal/plugins/router', 'jquery', 'knockout', 'amplify'], function(router, $, ko, events) {
+define(['datacontext'], function(datacontext) {
     
     var vm = {
         activate: function () 
         { 
-            
-        },
-        router: router
+            // tell the datacontxt to fill the summary data
+            // returns a promise to durandal
+            return datacontext.populateSummaryData();
+        }
     };
     
     return vm;

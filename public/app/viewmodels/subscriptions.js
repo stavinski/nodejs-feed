@@ -1,10 +1,10 @@
-﻿define(['durandal/plugins/router', 'amplify', 'db/subscriptionsdb'], function(router, events, db) {
+﻿define(['durandal/plugins/router', 'amplify', 'datacontext'], function(router, events, datacontext) {
     
     var vm = {
-        subscriptions: ko.observableArray(),
+        subscriptions: datacontext.subscriptions,
         router : router,
 		activate: function () {
-            this.subscriptions(db.getAll());
+            
 		}
     };
     

@@ -5,6 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , api = require('./routes/api')
   , http = require('http')
   , bundleUp = require('bundle-up')
   , path = require('path');
@@ -36,7 +37,11 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+// screen routes
 app.get('/', routes.index);
+
+// api routes
+app.get('/api/subscriptions/', api.subscriptions);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
