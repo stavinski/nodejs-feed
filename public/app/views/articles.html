@@ -21,7 +21,7 @@
         <button type="button" data-bind="click: starToggle" class="btn btn-primary pull-right"><i class="icon-star-empty"></i></button>            
     </div>
            
-    <div data-bind="attr: { id : 'article' + $index() }" class="collapse in">
+    <div data-bind="attr: { id : 'article' + $index() }, css : { in : !collapsed }" class="collapse">
         <div class="article-sub-header">
             <i class="icon-double-angle-right"></i>
             <em><span data-bind="text: source"></span> - 

@@ -9,7 +9,7 @@
                 source: 'Udi Dahan',
                 content: html,
                 url: 'http://feedproxy.google.com/~r/UdiDahan-TheSoftwareSimplist/~3/9Qkgu4YheHg/',
-				collapsed: ko.observable(false),
+				collapsed: ko.observable(true),
                 read: ko.observable(true),
 				headerClicked: function (el) {
 					this.collapsed(!el.collapsed())
@@ -23,7 +23,7 @@
                 source: 'Ayende @ Rahien',
                 content: 'Well, this is still just a high level list only, but there is a lot of stuff there. In many cases, I posted full blog entries about each new feature, but I’ll post a few words about those that I didn’t.',
                 url: 'http://feedproxy.google.com/~r/AyendeRahien/~3/eWWBIFuZdJo/ravendb-2-5-what-is-new-here',
-				collapsed: ko.observable(false),
+				collapsed: ko.observable(true),
 				headerClicked: function (el) {
 					this.collapsed(!el.collapsed())
 				},

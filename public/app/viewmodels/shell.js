@@ -1,4 +1,4 @@
-﻿define(['durandal/plugins/router', 'durandal/app', 'amplify'], function (router, app, events) {
+﻿define(['durandal/plugins/router', 'durandal/app', 'amplify', 'datacontext'], function (router, app, events, datacontext) {
     
     var vm = {
         router: router,
@@ -18,7 +18,9 @@
                 self.unread(msg.count);
             });
                         
-            return router.activate('dashboard');
+            return router.activate('dashboard')
+                        .then(datacontext.populateSummaryData);
+                    
         }
     };
     

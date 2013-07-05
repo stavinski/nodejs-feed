@@ -5,7 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , api = require('./routes/api')
+  , api = require('./api')
   , http = require('http')
   , bundleUp = require('bundle-up')
   , path = require('path');

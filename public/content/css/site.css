@@ -1,5 +1,6 @@
 #subscriptions-container {
     border-right: 1px solid #CCC;
+    font-size: smaller;
 }
 
 #subscriptions ul li {
@@ -17,6 +18,10 @@
 
 #subscriptions .feed:hover {
     background: #eee;
+}
+
+.article .well {
+    margin-bottom: 5px;
 }
 
 .article  .title{
