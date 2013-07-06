@@ -17,15 +17,15 @@
     <div class="article-header well well-small">
         <button type="button" class="btn btn-primary" data-toggle="collapse" data-bind="attr: { 'data-target' : '#article' + $index() }, click: headerClicked"><i data-bind="css: { 'icon-chevron-up' : !collapsed(), 'icon-chevron-down' : collapsed() }"></i></button>
         <span class="title" data-bind="text: title, css: { muted: read }"></span>
-        <a data-bind="attr: { href : url }" target="_blank" type="button" class="btn btn-primary pull-right"><i class="icon-external-link"></i></a>            
-        <button type="button" data-bind="click: starToggle" class="btn btn-primary pull-right"><i class="icon-star-empty"></i></button>            
+        <a data-bind="attr: { href : link }" target="_blank" type="button" class="btn btn-primary pull-right"><i class="icon-external-link"></i></a>            
+        <button type="button" data-bind="click: starToggle" class="btn btn-primary pull-right"><i data-bind="css : { 'icon-star-empty' : !starred(), 'icon-star' : starred() }" ></i></button>            
     </div>
            
     <div data-bind="attr: { id : 'article' + $index() }, css : { in : !collapsed }" class="collapse">
         <div class="article-sub-header">
             <i class="icon-double-angle-right"></i>
-            <em><span data-bind="text: source"></span> - 
-            <span data-bind="date: published"></span></em>
+            <em><span data-bind="text: author"></span> - 
+            <span data-bind="text: published"></span></em>
         </div>
         <div data-bind="html: content">
         
@@ -39,11 +39,11 @@
         <div data-bind="text: title, css: { muted: read }"></div>
         <div class="article-sub-header">
             <i class="icon-double-angle-right"></i>
-            <em><span data-bind="text: source"></span> - 
-            <span data-bind="date: published"></span></em>
+            <em><span data-bind="text: author"></span> - 
+            <span data-bind="text: published"></span></em>
         </div>
         <div>
-            <a data-bind="attr: { href : url }" target="_blank" type="button" class="btn btn-primary"><i class="icon-external-link icon-2x"></i></a>
+            <a data-bind="attr: { href : link }" target="_blank" type="button" class="btn btn-primary"><i class="icon-external-link icon-2x"></i></a>
             <a type="button" data-bind="click: starToggle" class="btn btn-primary"><i class="icon-star-empty icon-2x"></i> </a>            
         </div>
     <div>

@@ -1,13 +1,13 @@
-﻿define(['durandal/plugins/router', 'amplify', 'datacontext'], function(router, events, datacontext) {
+﻿define(['durandal/plugins/router', 'amplify', 'datacontext', 'bindings/subscriptions'], function(router, events, datacontext, subscriptionBinding) {
         
        
     var vm = {
-        subscription: null,
+        subscriptions: null,
         router: router,
 		activate: function () {
             var self = this;
-            return datacontext.getSubscription(function (data) {
-                self.subscription = data;
+            return datacontext.getSubscriptions(function (subscriptions) {
+                self.subscriptions = subscriptionBinding.bind(subscriptions);
             });
 		}
     };

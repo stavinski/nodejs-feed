@@ -1,6 +1,28 @@
 define(function () {
     
-    var bind = function (subscription) {
+    var bind = function (subscriptions) {
+        
+        var len = subscriptions.length,
+            bindings = [];
+            
+        for (var i=0; i < len; i++) {
+            var item = subscriptions[i],
+                vm = {
+                    _id : item._id,
+                    title : item.title,
+                    profile : item.profile,
+                    url : item.url,
+                    unread : ko.computed(function () { unreadBinding(item.unread); }),
+                    folder: ko.observable(item.folder),
+                    articles: item.articles
+                };
+                        
+            bindings.push(vm); 
+        }
+            
+        return ko.observableArray(bindings);    
+        
+        /*
         var vm = {
             _id : subscription._id,
             subscriptions: ko.observableArray()
@@ -10,7 +32,11 @@ define(function () {
         vm.subscriptions(rootSubscriptions);
                             
         return vm;
+        
+        */
     };
+    
+    /*
     
     var bindSubscriptions = function (subscriptions) {
         var len = subscriptions.length,
@@ -35,9 +61,12 @@ define(function () {
         return results;
     };
     
+    */
+    
     var unreadBinding = function (val) {
-        return (val == 0) ? '' : val;
+        return (val == 0) ? 2 : val;
     }
+    
     
     return {
         bind : bind

@@ -4,6 +4,7 @@
  */
 
 var express = require('express')
+  , startup = require('./startup')
   , routes = require('./routes')
   , api = require('./api')
   , http = require('http')
@@ -11,6 +12,9 @@ var express = require('express')
   , path = require('path');
 
 var app = express();
+
+// startup
+startup.execute();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -42,6 +46,7 @@ app.get('/', routes.index);
 
 // api routes
 app.get('/api/subscriptions/', api.subscriptions);
+app.post('/api/subscriptions/:subscriptionid/articles/:articleindex/read', api.articleRead);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
