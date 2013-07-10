@@ -46,7 +46,10 @@ app.get('/', routes.index);
 
 // api routes
 app.get('/api/subscriptions/', api.subscriptions);
+app.get('/api/subscriptions/:id', api.subscription);
 app.post('/api/subscriptions/:subscriptionid/articles/:articleindex/read', api.articleRead);
+app.get('/api/articles/', api.articles);
+app.get('/api/articles/:id', api.article);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

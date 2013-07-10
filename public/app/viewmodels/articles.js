@@ -17,8 +17,6 @@
                 });
             };
             
-            
-            
             return datacontext.getArticles(bindArticles)
                         .then(subscribeToFilterChanged);
 		}
