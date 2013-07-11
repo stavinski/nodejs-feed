@@ -1,17 +1,17 @@
-﻿define(['durandal/plugins/router', 'amplify', 'datacontext', 'bindings/subscriptions'], function(router, events, datacontext, subscriptionBinding) {
-        
-       
-    var vm = {
-        subscriptions: null,
+﻿define(['durandal/plugins/router', 'models/subscription'], function(router, Subscription) {
+     
+   
+   var ViewModel = {
+        subscriptions: ko.observableArray(),
         router: router,
 		activate: function () {
             var self = this;
-            return datacontext.getSubscriptions(function (subscriptions) {
-                self.subscriptions = subscriptionBinding.bind(subscriptions);
+            return Subscription.loadAll(function (subscriptions) {
+                self.subscriptions(subscriptions);
             });
 		}
     };
     
-    return vm;
+    return ViewModel;
             
 });

@@ -2,7 +2,7 @@ define(function() {
     
     config = {};
     config.api = {};
-    config.api.baseUrl = '/api/';
+    config.api.baseUri = '/api/';
     
     config.toastr = {};
     config.toastr.options = {
