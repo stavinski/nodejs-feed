@@ -4,7 +4,7 @@
  */
 
 var express = require('express')
-  , startup = require('./startup')
+  , indexes = require('./db/indexes')
   , routes = require('./routes')
   , api = require('./api')
   , http = require('http')
@@ -13,8 +13,8 @@ var express = require('express')
 
 var app = express();
 
-// startup
-startup.execute();
+// db indexes
+indexes.ensureIndexes();
 
 // all environments
 app.set('port', process.env.PORT || 3000);

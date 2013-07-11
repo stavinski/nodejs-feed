@@ -2,10 +2,15 @@ var config = require('../config')
     , engine = require('tingodb')()
     , db = new engine.Db( config.db.path , {})    
     , subscriptions = db.collection('subscriptions')
-    , feedParser = require('feedparser')
-    , request = require('request');
-
+    , articles = db.collection('articles')
+    , nodePie = require('feedparser')
+    , request = require('request')
+    , indexes = require('../db/indexes');
+    
 var execute = function() {
+    // db indexes
+    indexes.ensureIndexes();
+
     subscriptions.find({ profile : config.profiles.id, _id : 3 }).toArray(function(err, docs) {
         if (err) throw err;
         
@@ -26,12 +31,36 @@ var execute = function() {
                 
                 // save away the etag and last modified for next request
                 var   etag = response.headers['etag']
-                    , lastModified = response.headers['last-modified'];
+                    , lastModified = response.headers['last-modified']
+                    , feed = new nodePie(body);
                 
-                // parse feed here
-                // do insert 
-                // update etag & lastModified
-                                
+                feed.init();
+                
+                var items = feed.getItems(0);
+                items.forEach(function (item) {
+                    articles.findOne({ link: item.getPermalink() }, function (err, article) {
+                        if (err) throw err;
+                        
+                        // if we dont already have an article already saved
+                        if (article == null) {
+                            article = {
+                                subscription : subscription._id,
+                                link : item.getPermalink(),
+                                title : item.getTitle(),
+                                published : item.getDate(),
+                                starred : false,
+                                read : false,
+                                content : item.getContent(),
+                                author : item.getAuthor()
+                            };
+                            
+                            articles.insert(article, {w:1}, function (err, doc) {
+                                if (err) throw err; 
+                            });
+                        }
+                    });
+                });
+                                                
                 subscriptions.update({ _id : subscription._id }, { $set : { etag : etag, lastModified : lastModified } }, {w:1}, function (err, results) {
                     if (err) throw err;
                                         
