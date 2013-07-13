@@ -3,15 +3,15 @@ var config = require('../config')
     , db = new engine.Db( config.db.path , {})    
     , subscriptions = db.collection('subscriptions')
     , articles = db.collection('articles')
-    , nodePie = require('feedparser')
+    , nodePie = require('nodepie')
     , request = require('request')
     , indexes = require('../db/indexes');
     
 var execute = function() {
-    // db indexes
+    
     indexes.ensureIndexes();
 
-    subscriptions.find({ profile : config.profiles.id, _id : 3 }).toArray(function(err, docs) {
+    subscriptions.find({ profile : config.profiles.id }).toArray(function(err, docs) {
         if (err) throw err;
         
         docs.forEach(function (subscription) {
@@ -36,7 +36,8 @@ var execute = function() {
                 
                 feed.init();
                 
-                var items = feed.getItems(0);
+                var   items = feed.getItems(0)
+                    , articlesInserted = 0;
                 items.forEach(function (item) {
                     articles.findOne({ link: item.getPermalink() }, function (err, article) {
                         if (err) throw err;
@@ -50,18 +51,20 @@ var execute = function() {
                                 published : item.getDate(),
                                 starred : false,
                                 read : false,
-                                content : item.getContent(),
+                                content : item.getContents(),
                                 author : item.getAuthor()
                             };
                             
                             articles.insert(article, {w:1}, function (err, doc) {
                                 if (err) throw err; 
+                                
+                                articlesInserted++;
                             });
                         }
                     });
                 });
                                                 
-                subscriptions.update({ _id : subscription._id }, { $set : { etag : etag, lastModified : lastModified } }, {w:1}, function (err, results) {
+                subscriptions.update({ _id : subscription._id }, { $set : { etag : etag, lastModified : lastModified }, $inc : { unread: articlesInserted } }, {w:1}, function (err, results) {
                     if (err) throw err;
                                         
                 });
@@ -69,6 +72,6 @@ var execute = function() {
         
         });
     });
-};    
-    
+};
+
 execute();
