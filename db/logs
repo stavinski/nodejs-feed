@@ -1,0 +1,9 @@
+{"k":"0000000078","o":"0000000159","v":"001"}
+{"_id":2,"_uid":2,"_dt":1373746456633,"_s":"a0823bdc77f9a0db74e98d9bf68290b8"}
+{"source":"subscriptiondownload","level":"error","msg":{},"at":{"$wrap":"$date","v":1373746456620,"h":"2013-07-13T20:14:16.620Z"},"_id":{"$wrap":"$oid","v":2}}
+{"k":"0000000078","o":"0000000196","v":"001"}
+{"_id":3,"_uid":3,"_dt":1373746566669,"_s":"9c8c4ce12e6d3eb81ef0e1657839ea73"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373746566667,"h":"2013-07-13T20:16:06.667Z"},"_id":{"$wrap":"$oid","v":3}}
+{"k":"0000000078","o":"0000000196","v":"001"}
+{"_id":4,"_uid":4,"_dt":1373746640208,"_s":"11f7525ea791a63eeab7136c47c4435d"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373746640205,"h":"2013-07-13T20:17:20.205Z"},"_id":{"$wrap":"$oid","v":4}}
