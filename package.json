@@ -13,6 +13,7 @@
     "nodemon" : "*",
     "nodepie" : "*",
     "request" : "*",
-    "tingodb" : "*"
+    "tingodb" : "*",
+    "moment" : "*"
   }
 }

@@ -13,6 +13,7 @@ var ensureIndexes = function () {
     articles.ensureIndex({ link : 1 });
     articles.ensureIndex({ starred : 1 });
     articles.ensureIndex({ read : 1 });
+    articles.ensureIndex({ published : 1 });
 };
 
 module.exports.ensureIndexes = ensureIndexes;

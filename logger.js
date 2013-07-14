@@ -13,7 +13,6 @@ var logger = {
         'fatal' : 5
     },
     _log : function (source, msg, level, err) {
-        console.log('asked to log');
         
         var currentLevel = logger._levels[config.logging.level],
             providedLevel = logger._levels[level] || 4; // if the levels is invalid default to 'error'
