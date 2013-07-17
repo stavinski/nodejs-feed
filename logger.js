@@ -20,7 +20,7 @@ var logger = {
         if (providedLevel >= currentLevel) {
             var entry = { source : 'subscriptiondownload', 
                           level : 'error', 
-                          err : err, 
+                          err : JSON.stringify(err), 
                           msg : msg, 
                           at : new Date() };
             logs.insert(entry);

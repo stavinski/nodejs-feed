@@ -7,3 +7,132 @@
 {"k":"0000000078","o":"0000000196","v":"001"}
 {"_id":4,"_uid":4,"_dt":1373746640208,"_s":"11f7525ea791a63eeab7136c47c4435d"}
 {"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373746640205,"h":"2013-07-13T20:17:20.205Z"},"_id":{"$wrap":"$oid","v":4}}
+{"k":"0000000078","o":"0000000196","v":"001"}
+{"_id":5,"_uid":5,"_dt":1373801702823,"_s":"fa2989c6f677a8da89ddd83314229575"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373801702746,"h":"2013-07-14T11:35:02.746Z"},"_id":{"$wrap":"$oid","v":5}}
+{"k":"0000000078","o":"0000000196","v":"001"}
+{"_id":6,"_uid":6,"_dt":1373801702900,"_s":"0107162fe5bd54f4509b1871d3d9c7b6"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373801702900,"h":"2013-07-14T11:35:02.900Z"},"_id":{"$wrap":"$oid","v":6}}
+{"k":"0000000078","o":"0000000196","v":"001"}
+{"_id":7,"_uid":7,"_dt":1373801702923,"_s":"72ebaa6b1ea15109260dfa0bf5d5448d"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373801702923,"h":"2013-07-14T11:35:02.923Z"},"_id":{"$wrap":"$oid","v":7}}
+{"k":"0000000078","o":"0000000196","v":"001"}
+{"_id":8,"_uid":8,"_dt":1373801702951,"_s":"634b8ad13f315df584c107c70f716dcb"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373801702951,"h":"2013-07-14T11:35:02.951Z"},"_id":{"$wrap":"$oid","v":8}}
+{"k":"0000000078","o":"0000000196","v":"001"}
+{"_id":9,"_uid":9,"_dt":1373801702968,"_s":"6d70151acc48ab0b2470d44c05797955"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373801702968,"h":"2013-07-14T11:35:02.968Z"},"_id":{"$wrap":"$oid","v":9}}
+{"k":"0000000080","o":"0000000197","v":"001"}
+{"_id":10,"_uid":10,"_dt":1373801702979,"_s":"3926d4ace3e0985d29dbddfe68a5f809"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373801702979,"h":"2013-07-14T11:35:02.979Z"},"_id":{"$wrap":"$oid","v":10}}
+{"k":"0000000080","o":"0000000197","v":"001"}
+{"_id":11,"_uid":11,"_dt":1373801702989,"_s":"361ba9cb49e899f10daafd94f0eff173"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373801702989,"h":"2013-07-14T11:35:02.989Z"},"_id":{"$wrap":"$oid","v":11}}
+{"k":"0000000080","o":"0000000197","v":"001"}
+{"_id":12,"_uid":12,"_dt":1373807645928,"_s":"c304b618f2ff4505eef4046b6b6489cc"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373807645884,"h":"2013-07-14T13:14:05.884Z"},"_id":{"$wrap":"$oid","v":12}}
+{"k":"0000000080","o":"0000000197","v":"001"}
+{"_id":13,"_uid":13,"_dt":1373807645930,"_s":"7524fcded9fbdf7ca0387919e81a6d9c"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373807645904,"h":"2013-07-14T13:14:05.904Z"},"_id":{"$wrap":"$oid","v":13}}
+{"k":"0000000080","o":"0000000197","v":"001"}
+{"_id":14,"_uid":14,"_dt":1373807645932,"_s":"f9e6db664404418989077a250da11daa"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373807645925,"h":"2013-07-14T13:14:05.925Z"},"_id":{"$wrap":"$oid","v":14}}
+{"k":"0000000080","o":"0000000197","v":"001"}
+{"_id":15,"_uid":15,"_dt":1373807645938,"_s":"1bfcef2ba909aac619402502f31f94b5"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373807645938,"h":"2013-07-14T13:14:05.938Z"},"_id":{"$wrap":"$oid","v":15}}
+{"k":"0000000080","o":"0000000197","v":"001"}
+{"_id":16,"_uid":16,"_dt":1373807645957,"_s":"2ce678ba1cfbc1869c4f420d3e859aca"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373807645957,"h":"2013-07-14T13:14:05.957Z"},"_id":{"$wrap":"$oid","v":16}}
+{"k":"0000000080","o":"0000000197","v":"001"}
+{"_id":17,"_uid":17,"_dt":1373807645974,"_s":"3827508131bb84e7a3c6040d76bc10c6"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373807645974,"h":"2013-07-14T13:14:05.974Z"},"_id":{"$wrap":"$oid","v":17}}
+{"k":"0000000080","o":"0000000197","v":"001"}
+{"_id":18,"_uid":18,"_dt":1373807645985,"_s":"e2c6b6fbf272d0c425b06adac67f2b45"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373807645985,"h":"2013-07-14T13:14:05.985Z"},"_id":{"$wrap":"$oid","v":18}}
+{"k":"0000000080","o":"0000000197","v":"001"}
+{"_id":19,"_uid":19,"_dt":1373807646003,"_s":"0dd2ca34392c5b72d06f8c87f357aca9"}
+{"source":"subscriptiondownload","level":"error","err":{},"msg":"raised when finding articles","at":{"$wrap":"$date","v":1373807646003,"h":"2013-07-14T13:14:06.003Z"},"_id":{"$wrap":"$oid","v":19}}
+{"k":"0000000080","o":"0000000402","v":"001"}
+{"_id":20,"_uid":20,"_dt":1373919363153,"_s":"de4d2ce882e75cf1ec156f2e03be64c1"}
+{"source":"subscriptiondownload","level":"error","err":"{\"_id\":2,\"title\":\".NET Rocks!\",\"profile\":2,\"url\":\"http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master\",\"folder\":false,\"subscribed\":\"2013-07-07T12:30:04.665Z\",\"unread\":0}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373919363099,"h":"2013-07-15T20:16:03.099Z"},"_id":{"$wrap":"$oid","v":20}}
+{"k":"0000000080","o":"0000000402","v":"001"}
+{"_id":21,"_uid":21,"_dt":1373919369381,"_s":"3a00cd06cb102f374d7b518d2689dca7"}
+{"source":"subscriptiondownload","level":"error","err":"{\"_id\":2,\"title\":\".NET Rocks!\",\"profile\":2,\"url\":\"http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master\",\"folder\":false,\"subscribed\":\"2013-07-07T12:30:04.665Z\",\"unread\":0}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373919369379,"h":"2013-07-15T20:16:09.379Z"},"_id":{"$wrap":"$oid","v":21}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":22,"_uid":22,"_dt":1373919427347,"_s":"d6729336b00811ea5fada65dfdb8e542"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373919427317,"h":"2013-07-15T20:17:07.317Z"},"_id":{"$wrap":"$oid","v":22}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":23,"_uid":23,"_dt":1373919469343,"_s":"0d40ab8621ae7d602e3a66de0274c84b"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373919469329,"h":"2013-07-15T20:17:49.329Z"},"_id":{"$wrap":"$oid","v":23}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":24,"_uid":24,"_dt":1373919565916,"_s":"335acc33c071629ab081d318290d6fc2"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373919565895,"h":"2013-07-15T20:19:25.895Z"},"_id":{"$wrap":"$oid","v":24}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":25,"_uid":25,"_dt":1373919602575,"_s":"be6b2adf33ed9810ee0c6630d6abf6a8"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373919602545,"h":"2013-07-15T20:20:02.545Z"},"_id":{"$wrap":"$oid","v":25}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":26,"_uid":26,"_dt":1373919725200,"_s":"59ec0bb490c3a90641867ed269b808dc"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373919725170,"h":"2013-07-15T20:22:05.170Z"},"_id":{"$wrap":"$oid","v":26}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":27,"_uid":27,"_dt":1373919904118,"_s":"44d507455e368a825ccfb2fd8974fc1c"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373919904095,"h":"2013-07-15T20:25:04.095Z"},"_id":{"$wrap":"$oid","v":27}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":28,"_uid":28,"_dt":1373920372287,"_s":"ea51f8505e043b67ccd6c4355853a834"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373920372243,"h":"2013-07-15T20:32:52.243Z"},"_id":{"$wrap":"$oid","v":28}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":29,"_uid":29,"_dt":1373920378568,"_s":"0fb033f33a2ad16a19f199f25c021b68"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373920378565,"h":"2013-07-15T20:32:58.565Z"},"_id":{"$wrap":"$oid","v":29}}
+{"k":"0000000080","o":"0000000402","v":"001"}
+{"_id":30,"_uid":30,"_dt":1373920726256,"_s":"ef2f1bf1a5f832739ff530789ba1eade"}
+{"source":"subscriptiondownload","level":"error","err":"{\"_id\":2,\"title\":\".NET Rocks!\",\"profile\":2,\"url\":\"http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master\",\"folder\":false,\"subscribed\":\"2013-07-07T12:30:04.665Z\",\"unread\":0}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373920726230,"h":"2013-07-15T20:38:46.230Z"},"_id":{"$wrap":"$oid","v":30}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":31,"_uid":31,"_dt":1373920991308,"_s":"83e0f67bdd3e48cddfdd527b4f5ccd04"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373920991285,"h":"2013-07-15T20:43:11.285Z"},"_id":{"$wrap":"$oid","v":31}}
+{"k":"0000000080","o":"0000000402","v":"001"}
+{"_id":32,"_uid":32,"_dt":1373921551828,"_s":"b89aeced663a4c7d62149b0da50b37aa"}
+{"source":"subscriptiondownload","level":"error","err":"{\"_id\":2,\"title\":\".NET Rocks!\",\"profile\":2,\"url\":\"http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master\",\"folder\":false,\"subscribed\":\"2013-07-07T12:30:04.665Z\",\"unread\":0}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373921551790,"h":"2013-07-15T20:52:31.790Z"},"_id":{"$wrap":"$oid","v":32}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":33,"_uid":33,"_dt":1373921702844,"_s":"0905dd2e8c8eaecec2737a3a8818a7a4"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373921702814,"h":"2013-07-15T20:55:02.814Z"},"_id":{"$wrap":"$oid","v":33}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":34,"_uid":34,"_dt":1373921731621,"_s":"314819bc1c6d8120a55ad33915adbe41"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373921731600,"h":"2013-07-15T20:55:31.600Z"},"_id":{"$wrap":"$oid","v":34}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":35,"_uid":35,"_dt":1373921845341,"_s":"ea6e7599978cf7d1e40710948fb2ba58"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373921845294,"h":"2013-07-15T20:57:25.294Z"},"_id":{"$wrap":"$oid","v":35}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":36,"_uid":36,"_dt":1373921956847,"_s":"10d55b31bd7900856e6877f502c74d25"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373921956817,"h":"2013-07-15T20:59:16.817Z"},"_id":{"$wrap":"$oid","v":36}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":37,"_uid":37,"_dt":1373922017503,"_s":"51f97970ae4ff5014d727186ed7dc296"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373922017473,"h":"2013-07-15T21:00:17.473Z"},"_id":{"$wrap":"$oid","v":37}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":38,"_uid":38,"_dt":1373922103611,"_s":"2e8425e2eed1c62c9c6a1e8d5dc36c95"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373922103585,"h":"2013-07-15T21:01:43.585Z"},"_id":{"$wrap":"$oid","v":38}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":39,"_uid":39,"_dt":1373922140557,"_s":"4ce6e8c3781e82619d5c5c2c799abddb"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373922140529,"h":"2013-07-15T21:02:20.529Z"},"_id":{"$wrap":"$oid","v":39}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":40,"_uid":40,"_dt":1373922182556,"_s":"14e9a48c34aad686640392b6bd0d6338"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373922182524,"h":"2013-07-15T21:03:02.524Z"},"_id":{"$wrap":"$oid","v":40}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":41,"_uid":41,"_dt":1373922557282,"_s":"ab3debbeb2ae8bd2c1cb2f0923c60f3a"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373922557256,"h":"2013-07-15T21:09:17.256Z"},"_id":{"$wrap":"$oid","v":41}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":42,"_uid":42,"_dt":1373922645231,"_s":"df8fc761e8c4d1c0678ce2e66ece517d"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373922645204,"h":"2013-07-15T21:10:45.204Z"},"_id":{"$wrap":"$oid","v":42}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":43,"_uid":43,"_dt":1373922684695,"_s":"363ea7f82006305cd2f96eadddf09544"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373922684666,"h":"2013-07-15T21:11:24.666Z"},"_id":{"$wrap":"$oid","v":43}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":44,"_uid":44,"_dt":1373922895352,"_s":"a20e1a97a0abe6f02fe4e587f6238923"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373922895328,"h":"2013-07-15T21:14:55.328Z"},"_id":{"$wrap":"$oid","v":44}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":45,"_uid":45,"_dt":1373922922196,"_s":"c9781bbb155496cee512220ccaf38c88"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373922922159,"h":"2013-07-15T21:15:22.159Z"},"_id":{"$wrap":"$oid","v":45}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":46,"_uid":46,"_dt":1373922940538,"_s":"ad2f70ad2e39aa53c875ca92150cc717"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373922940506,"h":"2013-07-15T21:15:40.506Z"},"_id":{"$wrap":"$oid","v":46}}
+{"k":"0000000080","o":"0000000204","v":"001"}
+{"_id":47,"_uid":47,"_dt":1373923006549,"_s":"cd13485e67ff8004de84e197aee51251"}
+{"source":"subscriptiondownload","level":"error","err":"{}","msg":"raised when finding subscriptions","at":{"$wrap":"$date","v":1373923006527,"h":"2013-07-15T21:16:46.527Z"},"_id":{"$wrap":"$oid","v":47}}

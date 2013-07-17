@@ -9,6 +9,8 @@ define(function() {
         positionClass : 'toast-bottom-right'
     };
     
+    config.debug = true;
+    
     return config;
     
 });

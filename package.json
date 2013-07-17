@@ -14,6 +14,7 @@
     "nodepie" : "*",
     "request" : "*",
     "tingodb" : "*",
-    "moment" : "*"
+    "moment" : "*",
+    "q" : "*"
   }
 }

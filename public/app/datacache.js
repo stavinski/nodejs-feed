@@ -1,4 +1,4 @@
-define(function () {
+define(['./config'], function (config) {
     
     var Cache = {
         _data : {},
@@ -8,10 +8,12 @@ define(function () {
         },
         get : function (key) {
             if (this._data[key]) {
-                //console.log('cache hit with key: ' + key);
+                if (config.debug) console.log('cache hit with key: [' + key + ']');
+                
                 return this._data[key];
             }
-            //console.log('cache miss with key: ' + key);
+            if (config.debug) console.log('cache miss with key: [' + key + ']');
+            
             return null;
         },
         set : function (key, val) {

@@ -1,6 +1,7 @@
 var config = require('../config')
     , engine = require('tingodb')()
     , db = new engine.Db( config.db.path , {})
+    , Q = require('q')
     , logger = require('../logger')
     , subscriptions = db.collection('subscriptions')
     , articles = db.collection('articles');
@@ -15,24 +16,37 @@ exports.getArticles = function(req, res) {
         
     if (req.query.starred)
         filter.starred = true;
+
+    console.log(filter);    
         
-    subscriptions.find(filter).toArray(function (err, subscriptions) {
-        if (err) {
-            logger.error('articlesapi', 'raised when finding subscriptions', err);
-            return;
-        }
+    var fetchFromCursor = function (cursor) {
+        return Q.nbind(cursor.toArray, cursor)();
+    };
     
-        subscriptions.forEach(function (subscription) {
-            articles.find({ subscription: subscription._id }, {content: 0}, {w:1}).toArray(function (err, articles) {
-                if (err) {
-                    logger.error('articlesapi', 'raised when finding articles', err);
-                    return;
-                }
-                
-                res.json(articles);
-            });
-        });  
-    });
+    var flattenArticles = function (articles) {
+        var flattened = [];
+        return flattened.concat.apply(flattened, articles);
+    };
+           
+    Q.nbind(subscriptions.find, subscriptions)(filter)
+        .then(fetchFromCursor)
+        .then(function (subs) { 
+            var deferreds = [];
+                        
+            subs.forEach(function (sub) {
+                var deferred = Q.defer();
+                Q.nbind(articles.find, articles)({ subscription : sub._id}, {content:0})
+                    .then(fetchFromCursor)
+                    .then(deferred.resolve)
+                    .then(deferreds.push(deferred.promise));
+            }); 
+
+            return Q.all(deferreds);
+        })
+        .then(flattenArticles)
+        .then(function (results) { res.json(results); })
+        .done();
+        
 };
 
 exports.getArticle = function(req, res) {
