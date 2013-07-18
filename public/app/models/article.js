@@ -1,4 +1,4 @@
-define(['../logger', '../config', '../durandal/system', '../datasource', '../datacache'], function(logger, config, system, datasource, cache) {
+define(['../logger', '../config', '../durandal/system', '../datacache'], function(logger, config, system, cache) {
     
     var Article = function(vals) {
         this.title = vals.title;
@@ -22,7 +22,7 @@ define(['../logger', '../config', '../durandal/system', '../datasource', '../dat
     };
         
     var queryFailed = function(qXHR) {
-        logger.logError('Could not load aricles', qXHR, system.getModuleId(this), true);     
+        logger.logError('Could not load articles', qXHR, system.getModuleId(this), true);     
     };
     
     var querySucceeded = function(callback, data, filter) {
@@ -59,15 +59,15 @@ define(['../logger', '../config', '../durandal/system', '../datasource', '../dat
                 .done(function (data) { getSucceeded(callback, data); });
     };
     
-    Article.find = function (callback, filter) {
+    Article.find = function (filter, force, callback) {
         var key = buildCacheKey(filter);
-        if (cache.has(key)) {
+        if ((!force) && (cache.has(key))) {
             var articles = cache.get(key);
             callback(articles);
             return new $.Deferred().resolve();
         }
     
-        return $.getJSON(config.api.baseUri + 'articles/', { filter: filter })
+        return $.getJSON(config.api.baseUri + 'articles/', filter)
                 .fail(queryFailed)
                 .done(function (data) { querySucceeded(callback, data, filter); });
     };

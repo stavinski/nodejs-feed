@@ -2,13 +2,13 @@
     
     var vm = {
         router: router,
-        currentFilter: ko.observable('all'),
+        currentFilter: ko.observable(''),
         unread: ko.observable(''),
         activate: function () {
             var self = this;
             router.onNavigationComplete = function(routeInfo, params, module) {
                 if (routeInfo.moduleId == 'viewmodels/dashboard') {
-                    var filter = (params.filter) ? params.filter : 'all';
+                    var filter = (params.filter) ? params.filter : '';
                     self.currentFilter(filter);
                     events.publish('filter-changed', { filter: filter });
                 }                

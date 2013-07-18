@@ -3,7 +3,8 @@
         'text': 'durandal/amd/text',
         'jquery' : '../scripts/jquery-1.9.1',
         'knockout' : '../scripts/knockout-2.2.1',
-        'amplify' : '../scripts/amplify'
+        'amplify' : '../scripts/amplify',
+        'Q' : '../scripts/q'
     },
     shim: {
         'amplify': {
@@ -32,6 +33,7 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plu
             router.mapNav('dashboard/:filter');
             router.mapNav('admin');
             
+            // breaks mobile & tablet
             //app.adaptToDevice();
 
             //Show the app by setting the root view model for our application with a transition.

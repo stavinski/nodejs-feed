@@ -11,14 +11,6 @@ exports.getArticles = function(req, res) {
         profile: config.profiles.id
     };
     
-    if (req.query.unread)
-        filter.read = false;
-        
-    if (req.query.starred)
-        filter.starred = true;
-
-    console.log(filter);    
-        
     var fetchFromCursor = function (cursor) {
         return Q.nbind(cursor.toArray, cursor)();
     };
@@ -28,14 +20,23 @@ exports.getArticles = function(req, res) {
         return flattened.concat.apply(flattened, articles);
     };
            
-    Q.nbind(subscriptions.find, subscriptions)(filter)
+    Q.nbind(subscriptions.find, subscriptions)({ profile : config.profiles.id })
         .then(fetchFromCursor)
         .then(function (subs) { 
             var deferreds = [];
                         
             subs.forEach(function (sub) {
                 var deferred = Q.defer();
-                Q.nbind(articles.find, articles)({ subscription : sub._id}, {content:0})
+                
+                var filter = { 
+                    subscription : sub._id,
+                    read : true,
+                    starred : true
+                };
+                if (!req.query.read) filter.read = false;
+                if (!req.query.starred) filter.starred = false;
+                
+                Q.nbind(articles.find, articles)(filter, {content:0})
                     .then(fetchFromCursor)
                     .then(deferred.resolve)
                     .then(deferreds.push(deferred.promise));
@@ -94,6 +95,3 @@ exports.read = function (req, res) {
         });
     });
 };
-   
-
-    

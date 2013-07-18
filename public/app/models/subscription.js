@@ -1,11 +1,11 @@
-define(['../logger', '../config', '../durandal/system', '../datasource', '../datacache'], function(logger, config, system, datasource, cache) {
+define(['../logger', '../config', '../durandal/system', '../datacache'], function(logger, config, system, cache) {
     
     var Subscription = function(vals) {
         this.title = vals.title;
         this.id = vals._id;
         this.url = vals.url;
         this.folder = vals.folder;
-        this.unread = ko.observable('');
+        this.unread = ko.observable(vals.unread);
     };
         
     var queryFailed = function(qXHR) {
