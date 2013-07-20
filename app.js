@@ -47,7 +47,7 @@ app.get('/', routes.index);
 // api routes
 app.get('/api/subscriptions/', api.subscriptions);
 app.get('/api/subscriptions/:id', api.subscription);
-app.post('/api/articles/read/:id', api.articleRead);
+app.post('/api/articles/:id', api.articleUpdate);
 app.get('/api/articles/', api.articles);
 app.get('/api/articles/:id', api.article);
 

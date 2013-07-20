@@ -29,12 +29,13 @@ exports.getArticles = function(req, res) {
                 var deferred = Q.defer();
                 
                 var filter = { 
-                    subscription : sub._id,
-                    read : true,
-                    starred : true
+                    subscription : sub._id
                 };
-                if (!req.query.read) filter.read = false;
-                if (!req.query.starred) filter.starred = false;
+                
+                if (req.query.read) filter.read = true;
+                if (req.query.starred) filter.starred = true;
+                
+                console.log(filter);
                 
                 Q.nbind(articles.find, articles)(filter, {content:0})
                     .then(fetchFromCursor)
@@ -62,36 +63,18 @@ exports.getArticle = function(req, res) {
     });
 };
 
-exports.read = function (req, res) {
-    var   subscriptionId = req.params.subscriptionid
-        , articleIndex = req.params.articleindex;
-        
-    subscriptions.findOne({ _id: subscriptionId }, function (err, subscription) {
-        if (err) {
-            logger.error('articlesapi', 'raised when setting article to read', err);
-            return;
-        }
-        
-        if (!subscription) {
-            res.json({ status : 'failed', reason : 'could not find subscription' });
-            return;
-        }
-        
-        subscription.unread--;
-        var article = subscription.articles[articleIndex];
-        if (article) {
-            article.read = true;
-        }
-        
-        console.log(subscription);
-                
-        subscriptions.save(subscription, function (err) {
-            if (err) {
-                logger.error('articlesapi', 'raised when saving subscription', err);
-                return;
-            }
-           
-            res.json({ status : 'success' });
-        });
-    });
+exports.update = function (req, res) {
+    
+    return Q.ninvoke(articles, "findOne", { _id : req.params.id })
+        .then(function (result) {
+            var read = (req.body.read == "true");
+            var starred = (req.body.starred == "true");
+            
+            articles.update({ _id : result._id }, { $set: { read : read, starred : starred } });
+                        
+            if ((req.body.read) && (!result.read))
+                subscriptions.update({ _id: result.subscription }, { $inc : { unread : -1 } });            
+        }) 
+        .fin(function () { res.end() })
+        .done();
 };

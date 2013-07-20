@@ -9,6 +9,7 @@ define(['../logger', '../config', '../durandal/system', '../datacache'], functio
         this.starred = ko.observable(vals.starred);
         this.published = vals.published;
         this.author = vals.author;
+        
     };
     
     var buildCacheKey = function (filter) {
@@ -25,6 +26,10 @@ define(['../logger', '../config', '../durandal/system', '../datacache'], functio
         logger.logError('Could not load articles', qXHR, system.getModuleId(this), true);     
     };
     
+    var updateFailed = function(qXHR) {
+        logger.logError('Could not udpate article', qXHR, system.getModuleId(this), true);     
+    };
+    
     var querySucceeded = function(callback, data, filter) {
         var articles = [];
         data.forEach(function (item) {
@@ -37,7 +42,7 @@ define(['../logger', '../config', '../durandal/system', '../datacache'], functio
             
         callback(articles);
     };
-    
+
     var getSucceeded = function (callback, data) {
         var   key = 'article_' + data._id
             , article = new Article(data);
@@ -45,6 +50,47 @@ define(['../logger', '../config', '../durandal/system', '../datacache'], functio
             cache.set(key, article);
         
         callback(article);
+    };
+    
+    var updateCaches = function (article) {
+        var key = 'article_' + article.id;
+        if (cache.has(key)) {
+            cache.set(key, article);
+        }
+    };
+    
+    var postArticleUpdate = function (article) {
+        return Q($.post(config.api.baseUri + 'articles/' + article.id, article.serialize()))
+                    .fail(updateFailed);
+                    //.then(function () { updateCaches(this); });
+    };
+    
+    // instance methods
+    Article.prototype.markAsRead = function() {
+        this.read(true);
+        return postArticleUpdate(this)
+                .fail(function () { this.read(true) });
+    };
+    
+    Article.prototype.toggleStarred = function () {
+        this.starred(!this.starred());
+        return postArticleUpdate(this)
+            .fail(function () { this.starred(!this.starred()); });
+    };
+    
+    Article.prototype.serialize = function () {
+        var self = this;
+        var result = {
+            read : self.read(),
+            starred : self.starred()
+        };
+        
+        return result;
+    };
+    
+    // non instance methods
+    Article.deserialize = function (data) {
+        return new Article(data);
     };
     
     Article.load = function (id, callback) {

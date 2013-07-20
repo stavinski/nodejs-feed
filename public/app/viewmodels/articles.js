@@ -4,20 +4,20 @@
         
         model.headerClicked = function () {
             var self = this;
-            self.loading(true);
             Article.load(this.id, function (article) {
                 self.content(article.content());
-                self.loading(false);
                 self.collapsed(!self.collapsed());
-            });            
+            }).then(function () {
+                return self.markAsRead();
+            });
         };
         
         model.starToggle = function () {
-            console.log('star toggle');
+            var self = this;
+            self.toggleStarred();
         };
         
         model.collapsed = ko.observable(true);
-        model.loading = ko.observable(false);
         
         return model;
     };
