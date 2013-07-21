@@ -4,8 +4,8 @@
             
         },
         update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            var val = valueAccessor().toDateString();
-            var observable = ko.observable(val);
+            var val = moment(valueAccessor());
+            var observable = ko.observable(val.fromNow());
             ko.bindingHandlers.text.update(element, observable);
         }
     };

@@ -29,13 +29,12 @@ exports.getArticles = function(req, res) {
                 var deferred = Q.defer();
                 
                 var filter = { 
-                    subscription : sub._id
+                    subscription : sub._id,
                 };
                 
+                if ((!req.query.read) && (!req.query.starred)) filter.read = false;
                 if (req.query.read) filter.read = true;
                 if (req.query.starred) filter.starred = true;
-                
-                console.log(filter);
                 
                 Q.nbind(articles.find, articles)(filter, {content:0})
                     .then(fetchFromCursor)

@@ -4,7 +4,8 @@
         'jquery' : '../scripts/jquery-1.9.1',
         'knockout' : '../scripts/knockout-2.2.1',
         'amplify' : '../scripts/amplify',
-        'Q' : '../scripts/q'
+        'Q' : '../scripts/q',
+        'moment' : '../scripts/moment'
     },
     shim: {
         'amplify': {

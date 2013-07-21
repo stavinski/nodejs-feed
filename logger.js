@@ -3,6 +3,7 @@ var   config = require('./config')
     , engine = require('tingodb')()
     , db = new engine.Db('./db/' , {})    
     , logs = db.collection('logs')
+    , Q = require('q');
 
 var logger = {
     _levels : {
@@ -13,6 +14,10 @@ var logger = {
         'fatal' : 5
     },
     _log : function (source, msg, level, err) {
+        // make sure we have common indexes sorted
+        logs.ensureIndex({ level : 1 });
+        logs.ensureIndex({ source : 1 });
+        logs.ensureIndex({ at : -1 });
         
         var currentLevel = logger._levels[config.logging.level],
             providedLevel = logger._levels[level] || 4; // if the levels is invalid default to 'error'
@@ -40,6 +45,12 @@ var logger = {
     },
     fatal : function (source, msg, err) {
         logger._log(source, msg, 'fatal', err);
+    },
+    query : function (filter) {
+        return Q.ninvoke(logs, "find", filter, { sort : [["at", "desc"]] })
+            .then(function (cursor) { 
+                return Q.ninvoke(cursor, "toArray"); 
+            });
     }
 }
 
@@ -49,3 +60,4 @@ module.exports.debug = logger.debug;
 module.exports.warn = logger.warn;
 module.exports.info = logger.info;
 module.exports.fatal = logger.fatal;
+module.exports.query = logger.query;

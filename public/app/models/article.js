@@ -27,7 +27,7 @@ define(['../logger', '../config', '../durandal/system', '../datacache'], functio
     };
     
     var updateFailed = function(qXHR) {
-        logger.logError('Could not udpate article', qXHR, system.getModuleId(this), true);     
+        logger.logError('Could not update article', qXHR, system.getModuleId(this), true);     
     };
     
     var querySucceeded = function(callback, data, filter) {
@@ -60,22 +60,23 @@ define(['../logger', '../config', '../durandal/system', '../datacache'], functio
     };
     
     var postArticleUpdate = function (article) {
-        return Q($.post(config.api.baseUri + 'articles/' + article.id, article.serialize()))
-                    .fail(updateFailed);
+        return Q($.post(config.api.baseUri + 'articles/' + article.id, article.serialize()));
                     //.then(function () { updateCaches(this); });
     };
     
     // instance methods
     Article.prototype.markAsRead = function() {
-        this.read(true);
-        return postArticleUpdate(this)
-                .fail(function () { this.read(true) });
+        var self = this;
+        self.read(true);
+        return postArticleUpdate(self)
+                .fail(function (err) { self.read(true); updateFailed(err); });
     };
     
     Article.prototype.toggleStarred = function () {
-        this.starred(!this.starred());
+        var self = this;
+        self.starred(!self.starred());
         return postArticleUpdate(this)
-            .fail(function () { this.starred(!this.starred()); });
+            .fail(function (err) { self.starred(!self.starred()); updateFailed(err); });
     };
     
     Article.prototype.serialize = function () {

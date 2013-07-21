@@ -12,9 +12,14 @@
             });
         };
         
-        model.starToggle = function () {
+        model.externalLinkClicked = function(data, evt) {
             var self = this;
-            self.toggleStarred();
+            self.markAsRead();
+            return true;
+        };
+        
+        model.starToggle = function () {
+            return this.toggleStarred();
         };
         
         model.collapsed = ko.observable(true);

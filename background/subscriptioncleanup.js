@@ -12,24 +12,6 @@ var execute = function() {
     
     indexes.ensureIndexes();
     
-    // tidy up any unreads that have gone out of sync
-    subscriptions.find({ profile: config.profiles.id }).each(function (err, subscription) {
-        if (err) {
-            logger.error('subscriptioncleanup', err, 'raised while retrieving subscriptions');
-            return;
-        }
-        
-        if (subscription == null) return;
-    
-        articles.count({ subscription : subscription._id, read: false }, function (err, count) {
-            if (err) {
-                logger.error('subscriptioncleanup', err, 'raised while retrieving unread article count');
-                return;
-            }
-            subscriptions.update({ _id : subscription._id }, { $set: { unread : count } }); 
-        });
-    });
-    
     // staleness check
     profiles.findOne({ _id : config.profiles.id }, {settings:1}, function (err, profile) {
         if (err) {
@@ -48,8 +30,8 @@ var execute = function() {
                                         
             if (subscription == null) return;
             
-            var unreadCutOff = moment().subtract('days', profile.settings.unreadCutOffDays).toDate();
-            var readCutOff = moment().subtract('days', profile.settings.readCutOffDays).toDate();
+            var unreadCutOff = moment().subtract('days', 2).toDate();
+            var readCutOff = moment().subtract('days', 2).toDate();
             
             // unread removal 
             articles.remove( {subscription : subscription._id, read: false, published : { $lt: unreadCutOff } },{w:1}, function (err, removed) {
@@ -71,6 +53,23 @@ var execute = function() {
         });
     });
     
+    // tidy up any unreads that have gone out of sync
+    subscriptions.find({ profile: config.profiles.id }).each(function (err, subscription) {
+        if (err) {
+            logger.error('subscriptioncleanup', err, 'raised while retrieving subscriptions');
+            return;
+        }
+        
+        if (subscription == null) return;
+    
+        articles.count({ subscription : subscription._id, read: false }, function (err, count) {
+            if (err) {
+                logger.error('subscriptioncleanup', err, 'raised while retrieving unread article count');
+                return;
+            }
+            subscriptions.update({ _id : subscription._id }, { $set: { unread : count } }); 
+        });
+    });
     
 };
 
