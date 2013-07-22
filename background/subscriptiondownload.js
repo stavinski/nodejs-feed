@@ -1,6 +1,6 @@
 var config = require('../config')
     , engine = require('tingodb')()
-    , db = new engine.Db('../db/' , {})    
+    , db = new engine.Db('./db/' , {})    
     , subscriptions = db.collection('subscriptions')
     , articles = db.collection('articles')
     , logger = require('../logger')

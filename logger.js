@@ -22,26 +22,27 @@ var logger = {
         var currentLevel = logger._levels[config.logging.level],
             providedLevel = logger._levels[level] || 4; // if the levels is invalid default to 'error'
         
-        if (providedLevel >= currentLevel) {
-            var entry = { source : 'subscriptiondownload', 
-                          level : 'error', 
+	if (providedLevel >= currentLevel) {
+            var entry = { source : source, 
+                          level : level, 
                           err : JSON.stringify(err), 
                           msg : msg, 
                           at : new Date() };
             logs.insert(entry);
+//		console.log(entry);
         }
     },
     error : function (source, msg, err) {
         logger._log(source, msg, 'error', err);
     },
     debug : function (source, msg) {
-        logger._log(source, msg, 'debug');
+        logger._log(source, msg, 'debug', null);
     },
     warn : function (source, msg) {
-        logger._log(source, msg, 'warn');
+        logger._log(source, msg, 'warn', null);
     },
     info : function (source, msg) {
-        logger._log(source, msg, 'info');
+        logger._log(source, msg, 'info', null);
     },
     fatal : function (source, msg, err) {
         logger._log(source, msg, 'fatal', err);

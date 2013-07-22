@@ -3,7 +3,8 @@
 # this is the script that gets called by cron
 # it executes the subscriptiondownloader node app
 
-export PATH=/opt/node/bin/node:$PATH
+export PATH=/opt/node/bin:$PATH
 export NODE_PATH=/opt/node/bin/node/node_modules
 
-node subscriptiondownload > /dev/null 2>&1
+cd /home/pi/github/nodejs-feed
+node background/subscriptiondownload > background/subscriptiondownload.output

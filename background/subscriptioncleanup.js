@@ -1,6 +1,6 @@
 var config = require('../config')
     , engine = require('tingodb')()
-    , db = new engine.Db('../db/' , {})    
+    , db = new engine.Db('./db/' , {})    
     , moment = require('moment')
     , subscriptions = db.collection('subscriptions')
     , articles = db.collection('articles')
@@ -11,13 +11,17 @@ var config = require('../config')
 var execute = function() {
     
     indexes.ensureIndexes();
-    
+
+	profiles.update({ _id: config.profiles.id }, { $set : { settings : { unreadCutOffDays : 20 } } });
+
     // staleness check
     profiles.findOne({ _id : config.profiles.id }, {settings:1}, function (err, profile) {
         if (err) {
             logger.error('subscriptioncleanup', err, 'raised while retrieving profile');
             return;
         }
+
+	
             
         logger.debug('subscriptioncleanup', 'using unread cut off value of: ' + profile.settings.unreadCutOffDays);
         logger.debug('subscriptioncleanup', 'using read cut off value of: ' + profile.settings.readCutOffDays);
@@ -30,8 +34,8 @@ var execute = function() {
                                         
             if (subscription == null) return;
             
-            var unreadCutOff = moment().subtract('days', 2).toDate();
-            var readCutOff = moment().subtract('days', 2).toDate();
+            var unreadCutOff = moment().subtract('days', profile.settings.unreadCutOffDays).toDate();
+            var readCutOff = moment().subtract('days', profile.settings.readCutOffDays).toDate();
             
             // unread removal 
             articles.remove( {subscription : subscription._id, read: false, published : { $lt: unreadCutOff } },{w:1}, function (err, removed) {

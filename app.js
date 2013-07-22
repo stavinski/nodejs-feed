@@ -30,8 +30,8 @@ bundleUp(app, __dirname + '/assets', {
   staticRoot: __dirname + '/public/',
   staticUrlRoot:'/',
   bundle: false,
-  minifyCss: false,
-  minifyJs: false
+  minifyCss: true,
+  minifyJs: true
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
