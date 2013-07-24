@@ -196,12 +196,12 @@ var nextTick =(function () {
 // modifications.
 // There is no situation where this is necessary.
 // If you need a security guarantee, these primordials need to be
-// deeply frozen anyway, and if you don’t need a security guarantee,
+// deeply frozen anyway, and if you donï¿½t need a security guarantee,
 // this is just plain paranoid.
 // However, this does have the nice side-effect of reducing the size
 // of the code by reducing x.call() to merely x(), eliminating many
 // hard-to-minify characters.
-// See Mark Miller’s explanation of what this does.
+// See Mark Millerï¿½s explanation of what this does.
 // http://wiki.ecmascript.org/doku.php?id=conventions:safe_meta_programming
 function uncurryThis(f) {
     var call = Function.call;
@@ -876,8 +876,8 @@ Q.thenReject = function (promise, reason) {
 /**
  * If an object is not a promise, it is as "near" as possible.
  * If a promise is rejected, it is as "near" as possible too.
- * If it’s a fulfilled promise, the fulfillment value is nearer.
- * If it’s a deferred promise and the deferred has been resolved, the
+ * If itï¿½s a fulfilled promise, the fulfillment value is nearer.
+ * If itï¿½s a deferred promise and the deferred has been resolved, the
  * resolution is "nearer".
  * @param object
  * @returns most resolved (nearest) form of the object

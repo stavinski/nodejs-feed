@@ -12,16 +12,12 @@ var execute = function() {
     
     indexes.ensureIndexes();
 
-	profiles.update({ _id: config.profiles.id }, { $set : { settings : { unreadCutOffDays : 20 } } });
-
     // staleness check
     profiles.findOne({ _id : config.profiles.id }, {settings:1}, function (err, profile) {
         if (err) {
             logger.error('subscriptioncleanup', err, 'raised while retrieving profile');
             return;
         }
-
-	
             
         logger.debug('subscriptioncleanup', 'using unread cut off value of: ' + profile.settings.unreadCutOffDays);
         logger.debug('subscriptioncleanup', 'using read cut off value of: ' + profile.settings.readCutOffDays);
@@ -47,6 +43,7 @@ var execute = function() {
             });
 
             // read removal           
+	    /*
             articles.remove( {subscription : subscription._id, read: true, published : { $lt: readCutOff } },{w:1}, function (err, removed) {
                 if (err) {
                     logger.error('subscriptioncleanup', err, 'raised while removing read articles');
@@ -54,6 +51,7 @@ var execute = function() {
                 }
                 logger.debug('subscriptioncleanup', 'removed ' + removed + ' read articles');
             });
+	    */
         });
     });
     
