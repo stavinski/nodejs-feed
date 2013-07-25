@@ -9,6 +9,8 @@ var express = require('express')
   , api = require('./api')
   , http = require('http')
   , bundleUp = require('bundle-up')
+  , logger = require('./logger')
+  , Q = require('q')
   , path = require('path');
 
 var app = express();
@@ -50,6 +52,17 @@ app.get('/api/subscriptions/:id', api.subscription);
 app.post('/api/articles/:id', api.articleUpdate);
 app.get('/api/articles/', api.articles);
 app.get('/api/articles/:id', api.article);
+
+// logger routes
+app.get('/logger/:level', function (req, res) {
+    var filter = {
+        level : req.params.level
+    };
+    
+    logger.query(filter)
+        .then(function (results) { res.json(results); })
+        .done();
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

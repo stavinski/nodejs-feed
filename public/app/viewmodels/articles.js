@@ -38,11 +38,14 @@
     var ViewModel = {
         _refresh : function (force) {
             var self = this;
+            self.loading(true);
             return Q.fcall(getFindFilter, this.filter())
                         .then(function (filter) {
+                            self.articles([]);
                             Article.find(filter, force, function (articles) {
                                 boundArticles = articles.map(bindArticle);
                                 self.articles(boundArticles);
+                                self.loading(false);
                             });
                         }).then(function() {
                             events.subscribe('filter-changed', function (msg) {
@@ -50,6 +53,7 @@
                             });
                         });
          },
+        loading: ko.observable(false),
         articles: ko.observableArray(),
         filter: ko.observable(''),
         refresh: function() { this._refresh(true); },

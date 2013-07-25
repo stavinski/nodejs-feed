@@ -37,9 +37,6 @@
 				<a data-bind="attr: { href: router.visibleRoutes()[0].hash + '/read' }"><i class="icon-flag icon-2x"></i></a>
 			</li>
 		</ul>
-        <div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
-			<i class="icon-spinner icon-2x icon-spin"></i>
-		</div>
 	</div>
 </div>
 <div data-bind="compose: { model: router.activeItem,  afterCompose: router.afterCompose, transition: 'entrance' }"></div>
