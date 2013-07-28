@@ -4,20 +4,8 @@
 }
 
 #subscriptions ul li {
-    margin: 0.5em 0;
-}
-
-#subscriptions .subscription-item  {
-    margin-left: 0.7em;
-}
-
-#subscriptions a {
-    text-decoration: none;
-    color: #000;
-}
-
-#subscriptions .feed:hover {
-    background: #eee;
+    margin: 0;
+    padding: 0;
 }
 
 .article .well {

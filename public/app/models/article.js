@@ -9,7 +9,7 @@ define(['../logger', '../config', '../durandal/system', '../datacache'], functio
         this.starred = ko.observable(vals.starred);
         this.published = vals.published;
         this.author = vals.author;
-        
+        this.subscription = vals.subscription;
     };
     
     var buildCacheKey = function (filter) {

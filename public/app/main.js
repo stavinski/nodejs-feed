@@ -32,6 +32,7 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plu
             router.useConvention();
             router.mapNav('dashboard');
             router.mapNav('dashboard/:filter');
+            router.mapNav('dashboard/:filter/:id');
             router.mapNav('admin');
             
             // breaks mobile & tablet

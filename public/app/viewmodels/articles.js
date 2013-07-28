@@ -1,7 +1,11 @@
-﻿define(['amplify', 'models/article', 'Q'], function (events, Article, Q) {
+﻿define(['amplify', 'models/article', 'Q', 'filters'], function (events, Article, Q, filters) {
+        
+    var filterArticle = function (model) {
+        if (!filters.subscription) return true;
+        return (model.subscription == filters.subscription);
+    };
         
     var bindArticle = function (model) {
-        
         model.headerClicked = function () {
             var self = this;
             Article.load(this.id, function (article) {
@@ -27,10 +31,10 @@
         return model;
     };
         
-    var getFindFilter = function (val) {
+    var getFindFilter = function () {
         var filter = {};
-        if (val == 'starred') filter.starred = true;
-        if (val == 'read') filter.read = true;
+        if (filters.applied == 'starred') filter.starred = true;
+        if (filters.applied == 'read') filter.read = true;
         
         return filter;
     };    
@@ -39,24 +43,20 @@
         _refresh : function (force) {
             var self = this;
             self.loading(true);
-            return Q.fcall(getFindFilter, this.filter())
+            return Q.fcall(getFindFilter)
                         .then(function (filter) {
                             self.articles([]);
                             Article.find(filter, force, function (articles) {
-                                boundArticles = articles.map(bindArticle);
+                                boundArticles = articles.filter(filterArticle)
+                                                        .map(bindArticle);
                                 self.articles(boundArticles);
                                 self.loading(false);
-                            });
-                        }).then(function() {
-                            events.subscribe('filter-changed', function (msg) {
-                                self.filter(msg.filter);
                             });
                         });
          },
         loading: ko.observable(false),
         articles: ko.observableArray(),
-        filter: ko.observable(''),
-        refresh: function() { this._refresh(true); },
+        refresh: function() { return this._refresh(true); },
         activate: function() { return this._refresh(false); }
     };
     

@@ -1,9 +1,10 @@
-define(function() {
+define(['filters'], function(filters) {
     
     var vm = {
-        activate: function () 
+        activate: function (splat) 
         { 
-            
+            filters.applied = splat.filter;
+            filters.subscription = splat.id;
         }
     };
     

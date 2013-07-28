@@ -1,18 +1,18 @@
-{"k":"0000000079","o":"0000000262","v":"001"}
-{"_id":2,"_uid":57,"_dt":1374394250405,"_s":"f1cc86d0284f2ea538f8c59dc70fee06"}
-{"_id":{"$wrap":"$oid","v":2},"title":".NET Rocks!","profile":{"$wrap":"$oid","v":2},"url":"http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"k":"0000000079","o":"0000000263","v":"001"}
+{"_id":2,"_uid":57,"_dt":1374822893099,"_s":"9a4659cae76ec9fe912a2e972623e859"}
+{"_id":{"$wrap":"$oid","v":2},"title":".NET Rocks!","profile":{"$wrap":"$oid","v":2},"url":"http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":16}
 {"k":"0000000079","o":"0000000329","v":"001"}
 {"_id":3,"_uid":57,"_dt":1374131998171,"_s":"49c3f52700988eebd82580d69bb3aab4"}
 {"_id":{"$wrap":"$oid","v":3},"title":"Alt.NET Podcast","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/altnetpodcast","lastModified":"Sat, 13 Jul 2013 17:24:56 GMT","etag":"ZF3ITXfczy5qp9EHdb/KxTYy/ok","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000079","o":"0000000331","v":"001"}
-{"_id":4,"_uid":57,"_dt":1374354396175,"_s":"ad139f6bd66455ba436bfebc89221e90"}
-{"_id":{"$wrap":"$oid","v":4},"title":"Deep Fried Bytes","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/deepfriedbytes","lastModified":"Sat, 20 Jul 2013 19:47:32 GMT","etag":"Pq9iPShyMcAa1yjx8WlfMspGDvo","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
-{"k":"0000000079","o":"0000000338","v":"001"}
-{"_id":5,"_uid":57,"_dt":1374394250458,"_s":"d71e09d8ffb5224cf5a69a83d9a277f0"}
-{"_id":{"$wrap":"$oid","v":5},"title":"Hanselminutes","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/HanselminutesCompleteMP3","lastModified":"Sun, 21 Jul 2013 07:28:52 GMT","etag":"s1vRzt5V/Tc+XRmcic69Q0srr+4","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
-{"k":"0000000079","o":"0000000324","v":"001"}
-{"_id":6,"_uid":57,"_dt":1374394250459,"_s":"d505ff93b65fa4977a030096deafd92f"}
-{"_id":{"$wrap":"$oid","v":6},"title":"Herding Code","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/herdingcode","lastModified":"Sun, 21 Jul 2013 07:38:43 GMT","etag":"vXZeUcCKCYyHHepp+sL/31SU/jU","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":4,"_uid":57,"_dt":1374779039332,"_s":"b17329082cfff93389bf70e243df4c7c"}
+{"_id":{"$wrap":"$oid","v":4},"title":"Deep Fried Bytes","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/deepfriedbytes","lastModified":"Thu, 25 Jul 2013 18:39:10 GMT","etag":"S5YHzC5EmkszxFkmeacnD49t874","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":1}
+{"k":"0000000079","o":"0000000339","v":"001"}
+{"_id":5,"_uid":57,"_dt":1375020750376,"_s":"424ea0ad5aac41c98c1ce2efa07e9fa7"}
+{"_id":{"$wrap":"$oid","v":5},"title":"Hanselminutes","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/HanselminutesCompleteMP3","lastModified":"Sun, 28 Jul 2013 13:59:33 GMT","etag":"BLGNR/MwKeG6EXfWCi5w/QY1M9w","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":17}
+{"k":"0000000079","o":"0000000325","v":"001"}
+{"_id":6,"_uid":57,"_dt":1375020749830,"_s":"75543599565d6bd74d69619106c7cad6"}
+{"_id":{"$wrap":"$oid","v":6},"title":"Herding Code","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/herdingcode","lastModified":"Sun, 28 Jul 2013 14:02:17 GMT","etag":"IZon/JVpR+zGY51Qq9AZb9wIoAA","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":18}
 {"k":"0000000079","o":"0000000335","v":"001"}
 {"_id":7,"_uid":57,"_dt":1374131998315,"_s":"ee1adce720d9d4de9d5346c995f966f2"}
 {"_id":{"$wrap":"$oid","v":7},"title":"Polymorphic Podcast","profile":{"$wrap":"$oid","v":2},"url":"http://polymorphicpodcast.com/podcast/feed/","lastModified":"Sat, 13 Jul 2013 18:19:39 GMT","etag":"Sn7qVhIC8iSRMSsKBvlXLLNEf3A","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
@@ -20,44 +20,44 @@
 {"_id":8,"_uid":57,"_dt":1374131998326,"_s":"5d2cb8d7c2e076084e3a7eb23055743e"}
 {"_id":{"$wrap":"$oid","v":8},"title":"Global: Charlie Brooker | guardian.co.uk","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.guardian.co.uk/theguardian/profile/charliebrooker/rss","lastModified":"Sat, 13 Jul 2013 18:32:44 GMT","etag":"/zgGJBv8CZuL1j/jSQtGodpRX9g","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000079","o":"0000000374","v":"001"}
-{"_id":9,"_uid":57,"_dt":1374352068139,"_s":"3b0b14069e5a25f74a1588379646b234"}
-{"_id":{"$wrap":"$oid","v":9},"title":"AddyOsmani.com | jQuery & JavaScript Articles For The Community","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/addyosmani","lastModified":"Sat, 13 Jul 2013 18:17:41 GMT","etag":"DHKGs6T238g9mZ75RyLTKOrfXFU","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":9,"_uid":57,"_dt":1374923071008,"_s":"1629f835fa285d2cdc0330c804807fc4"}
+{"_id":{"$wrap":"$oid","v":9},"title":"AddyOsmani.com | jQuery & JavaScript Articles For The Community","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/addyosmani","lastModified":"Sat, 27 Jul 2013 07:51:20 GMT","etag":"VNh/eL/Gjx7AsnUgz71hIr1SLZM","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":1}
 {"k":"0000000080","o":"0000000340","v":"001"}
-{"_id":10,"_uid":57,"_dt":1374355923346,"_s":"525ac4a3d851deaafaa527f412ddc53d"}
-{"_id":{"$wrap":"$oid","v":10},"title":"Ayende @ Rahien","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/AyendeRahien?format=xml","lastModified":"Sat, 20 Jul 2013 20:52:32 GMT","etag":"3PnOv6W/O2njz1DpmjoYmD8HacU","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":10,"_uid":57,"_dt":1374923385646,"_s":"6112f358bef812cb6810b674f869a4b6"}
+{"_id":{"$wrap":"$oid","v":10},"title":"Ayende @ Rahien","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/AyendeRahien?format=xml","lastModified":"Sat, 27 Jul 2013 08:38:32 GMT","etag":"QcMzBmHiLpBcC9aJxqwvmlKIi6Q","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":8}
 {"k":"0000000080","o":"0000000354","v":"001"}
 {"_id":11,"_uid":57,"_dt":1374131998352,"_s":"df2da9e99660dfaaeb4c39ce88ba0eb3"}
 {"_id":{"$wrap":"$oid","v":11},"title":"Bill Poole's Creative Abrasion","profile":{"$wrap":"$oid","v":2},"url":"http://bill-poole.blogspot.com/feeds/posts/default","lastModified":"Sat, 13 Jul 2013 19:09:40 GMT","etag":"GhglPpfx0Xu5D2mlEBlNd8/pX/Y","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000080","o":"0000000322","v":"001"}
-{"_id":13,"_uid":57,"_dt":1374354907150,"_s":"67d69517495fceed8d9e98a067edae26"}
-{"_id":{"$wrap":"$oid","v":13},"title":"BlogCoward","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/Blogcoward","lastModified":"Sat, 20 Jul 2013 20:32:30 GMT","etag":"Sf+NPvejOwaCUV9FjOhhmZowoe4","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":13,"_uid":57,"_dt":1374915518702,"_s":"ae7a21dfad0501a9d450b5fde7b23c66"}
+{"_id":{"$wrap":"$oid","v":13},"title":"BlogCoward","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/Blogcoward","lastModified":"Thu, 25 Jul 2013 18:38:16 GMT","etag":"OaaTm27NkijiLv/qaQ9l3LicwkU","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":5}
 {"k":"0000000080","o":"0000000319","v":"001"}
 {"_id":14,"_uid":57,"_dt":1374354396179,"_s":"f2b50a647c096a89b447f64d610c5a38"}
 {"_id":{"$wrap":"$oid","v":14},"title":"Code rant","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/CodeRant","lastModified":"Sat, 20 Jul 2013 20:11:51 GMT","etag":"g0ZFjn6pfZmkt06dlegNAX8tvO8","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000080","o":"0000000326","v":"001"}
-{"_id":15,"_uid":57,"_dt":1374354396180,"_s":"bcc656260f42fdd170d0a4022140a8ce"}
-{"_id":{"$wrap":"$oid","v":15},"title":"CodeBetter.Com","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/CodeBetter","lastModified":"Sat, 20 Jul 2013 20:09:38 GMT","etag":"AjNtBeUhKa2n9cx8t/u6ZERDf0g","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":15,"_uid":57,"_dt":1374779039488,"_s":"8dd5b41e5dd8109bb53b7f1075b1721b"}
+{"_id":{"$wrap":"$oid","v":15},"title":"CodeBetter.Com","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/CodeBetter","lastModified":"Thu, 25 Jul 2013 18:09:21 GMT","etag":"BeMKahEZDSaOCom1NeQRFJiKa9c","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":5}
 {"k":"0000000080","o":"0000000327","v":"001"}
 {"_id":16,"_uid":57,"_dt":1374355771185,"_s":"88ac5a5489d70e5790db9265862ea532"}
 {"_id":{"$wrap":"$oid","v":16},"title":"Coding Horror","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/codinghorror","lastModified":"Sat, 20 Jul 2013 20:45:23 GMT","etag":"bCikG8MieLKJODJShJ73Hoz5BMc","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000080","o":"0000000331","v":"001"}
-{"_id":17,"_uid":57,"_dt":1374131998388,"_s":"feee72fb20d93f6fc40aff971129c56d"}
-{"_id":{"$wrap":"$oid","v":17},"title":"Coding Instinct","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/codinginstinct","lastModified":"Sat, 13 Jul 2013 18:44:25 GMT","etag":"b8s10XfsU6h036lxirJ6mHccLx4","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":17,"_uid":57,"_dt":1374779039489,"_s":"f722c28c85e42f4fa6459f40c18b05c8"}
+{"_id":{"$wrap":"$oid","v":17},"title":"Coding Instinct","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/codinginstinct","lastModified":"Thu, 25 Jul 2013 18:45:20 GMT","etag":"DQ5nk7ZgFfO/rxlYOr7Qdc/8hMI","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000080","o":"0000000337","v":"001"}
 {"_id":18,"_uid":57,"_dt":1374131998394,"_s":"f381ec14cb27021f53d6aa30327a7d92"}
 {"_id":{"$wrap":"$oid","v":18},"title":"Cre8ive Thought - Mark Nijhof","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/Fohjin","lastModified":"Sat, 13 Jul 2013 19:03:37 GMT","etag":"uE919clHPWRhOmiSgGAuSp5T1ME","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"k":"0000000080","o":"0000000324","v":"001"}
+{"_id":19,"_uid":57,"_dt":1375020775444,"_s":"c8d1837cb7de271f5b3be008db51b706"}
+{"_id":{"$wrap":"$oid","v":19},"title":"Devlicio.us","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/Devlicious","lastModified":"Sun, 28 Jul 2013 14:12:15 GMT","etag":"t88flelxhqF7bo0Q+UVEqePEUCc","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":19}
+{"k":"0000000080","o":"0000000281","v":"001"}
+{"_id":20,"_uid":57,"_dt":1374822894336,"_s":"47c45d2ff5c9d358e42f7b47ad8d4031"}
+{"_id":{"$wrap":"$oid","v":20},"title":"Dimecasts.Net -- Inform & Educate in ~10 minutes or less","profile":{"$wrap":"$oid","v":2},"url":"http://www.dimecasts.net/Feeds/RSS","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":15}
 {"k":"0000000080","o":"0000000323","v":"001"}
-{"_id":19,"_uid":57,"_dt":1374355651974,"_s":"3ee66853ce1603be8c28e3bdde9327c6"}
-{"_id":{"$wrap":"$oid","v":19},"title":"Devlicio.us","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/Devlicious","lastModified":"Sat, 20 Jul 2013 20:46:02 GMT","etag":"ZlU8Dg6XovIfHv7JAszj1sSOYZ0","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
-{"k":"0000000080","o":"0000000280","v":"001"}
-{"_id":20,"_uid":57,"_dt":1374394151084,"_s":"40b978fe8d8332a332194da3aaf78929"}
-{"_id":{"$wrap":"$oid","v":20},"title":"Dimecasts.Net -- Inform & Educate in ~10 minutes or less","profile":{"$wrap":"$oid","v":2},"url":"http://www.dimecasts.net/Feeds/RSS","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
-{"k":"0000000080","o":"0000000323","v":"001"}
-{"_id":21,"_uid":57,"_dt":1374355589697,"_s":"f87fed39ae141f2a938e83848c37d24b"}
-{"_id":{"$wrap":"$oid","v":21},"title":"Elegant Code","profile":{"$wrap":"$oid","v":2},"url":"http://elegantcode.com/feed/","lastModified":"Fri, 19 Jul 2013 20:37:40 GMT","etag":"\"6e49893f47484c60edcf9e98ce5ac1ec\"","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
-{"k":"0000000080","o":"0000000320","v":"001"}
-{"_id":23,"_uid":57,"_dt":1374394151086,"_s":"fa977878eb2f40221f8f9e4af5fa36e8"}
-{"_id":{"$wrap":"$oid","v":23},"title":"Hibernating Rhinos","profile":{"$wrap":"$oid","v":2},"url":"http://blogs.hibernatingrhinos.com/rss","etag":"2013-07-21T07:36:32.2266250Zc37b1ce8-11c0-4559-ac3d-45afa692280e","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":21,"_uid":57,"_dt":1374923071015,"_s":"0ee35c5438d59ebf74253417db01acfc"}
+{"_id":{"$wrap":"$oid","v":21},"title":"Elegant Code","profile":{"$wrap":"$oid","v":2},"url":"http://elegantcode.com/feed/","lastModified":"Fri, 26 Jul 2013 22:12:54 GMT","etag":"\"5e847316272456abc3ed156b843d1b23\"","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":2}
+{"k":"0000000080","o":"0000000321","v":"001"}
+{"_id":23,"_uid":57,"_dt":1375020750917,"_s":"147c06ee3edb9763976b0da2f0148fc6"}
+{"_id":{"$wrap":"$oid","v":23},"title":"Hibernating Rhinos","profile":{"$wrap":"$oid","v":2},"url":"http://blogs.hibernatingrhinos.com/rss","etag":"2013-07-28T13:42:50.4619766Z4d35c932-117e-4067-9c8d-e11c2bc0a6e2","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":19}
 {"k":"0000000080","o":"0000000354","v":"001"}
 {"_id":24,"_uid":57,"_dt":1374131998418,"_s":"3374d25a1b3c575346511e0d91cea22a"}
 {"_id":{"$wrap":"$oid","v":24},"title":"ISerializable - Roy Osherove&#39;s Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/Iserializable","lastModified":"Sat, 13 Jul 2013 17:48:08 GMT","etag":"wE643P+zGkJlkajcNCpNWvDwYjI","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
@@ -65,29 +65,29 @@
 {"_id":25,"_uid":57,"_dt":1374354396186,"_s":"db77ce5edbe88f1f77f29d742a37af08"}
 {"_id":{"$wrap":"$oid","v":25},"title":"Jean-Paul S. Boodhoo's Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/JPBoodhoo","lastModified":"Sat, 20 Jul 2013 19:52:41 GMT","etag":"MVySHFMj8gyfoMUs1CK7QcQ+0vQ","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000080","o":"0000000342","v":"001"}
-{"_id":26,"_uid":57,"_dt":1374355546001,"_s":"36cca233d11a935003a080f7fc2cffd8"}
-{"_id":{"$wrap":"$oid","v":26},"title":"Jeffrey Palermo (.com)","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.jeffreypalermo.com/jeffreypalermo","lastModified":"Sat, 20 Jul 2013 19:33:46 GMT","etag":"Cmvj7nZ9K2wf3OCWUXV0Uv4Y2gA","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":26,"_uid":57,"_dt":1374934961345,"_s":"9f1bf2d209d3daea1875c297daa95bca"}
+{"_id":{"$wrap":"$oid","v":26},"title":"Jeffrey Palermo (.com)","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.jeffreypalermo.com/jeffreypalermo","lastModified":"Sat, 27 Jul 2013 08:55:11 GMT","etag":"ASjPbLS35K5idCSikEsL/2mnQh8","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":1}
 {"k":"0000000080","o":"0000000342","v":"001"}
 {"_id":27,"_uid":57,"_dt":1374394250469,"_s":"c127b1334ba52d03f968dfb444f075fd"}
 {"_id":{"$wrap":"$oid","v":27},"title":"Jon Skeet: Coding Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/JonSkeetCodingBlog","lastModified":"Sun, 21 Jul 2013 06:43:58 GMT","etag":"+lN4bB1LO7qRII6etG4b7Tg3faY","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
-{"k":"0000000080","o":"0000000310","v":"001"}
-{"_id":28,"_uid":57,"_dt":1374354331647,"_s":"fd98f71c4d157444ad1781c497438c40"}
-{"_id":{"$wrap":"$oid","v":28},"title":"Journal of a software dev","profile":{"$wrap":"$oid","v":2},"url":"http://journalofasoftwaredev.wordpress.com/feed/","lastModified":"Tue, 16 Jul 2013 14:18:59 GMT","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"k":"0000000080","o":"0000000311","v":"001"}
+{"_id":28,"_uid":57,"_dt":1375020759046,"_s":"f9211c0970651435f80dfb8e737050d8"}
+{"_id":{"$wrap":"$oid","v":28},"title":"Journal of a software dev","profile":{"$wrap":"$oid","v":2},"url":"http://journalofasoftwaredev.wordpress.com/feed/","lastModified":"Sun, 28 Jul 2013 03:29:03 GMT","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":10}
 {"k":"0000000080","o":"0000000325","v":"001"}
-{"_id":29,"_uid":57,"_dt":1374354396188,"_s":"bac75dca10e882c1bd08b41f2270c17a"}
-{"_id":{"$wrap":"$oid","v":29},"title":"K. Scott Allen","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/OdeToCode","lastModified":"Sat, 20 Jul 2013 19:48:15 GMT","etag":"yusWAowqDG80WnjATeLs0qjIBvI","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":29,"_uid":57,"_dt":1374779039495,"_s":"c9de5c47df85088294a46dc8f5d72ef4"}
+{"_id":{"$wrap":"$oid","v":29},"title":"K. Scott Allen","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/OdeToCode","lastModified":"Thu, 25 Jul 2013 17:47:37 GMT","etag":"rbAXS2+RRBHe7lh8thH2lq6D08c","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":5}
 {"k":"0000000080","o":"0000000335","v":"001"}
-{"_id":30,"_uid":57,"_dt":1374354396188,"_s":"154c02c919465404d52fcfdfdd4b6d33"}
-{"_id":{"$wrap":"$oid","v":30},"title":"Karl Seguin's Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/KarlSeguinsBlog","lastModified":"Sat, 20 Jul 2013 20:55:49 GMT","etag":"qxaW7q37IFUEIpnEWV3kVb6E4uI","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":30,"_uid":57,"_dt":1374784448172,"_s":"63d6f332eb089615620b14820fcbcf7c"}
+{"_id":{"$wrap":"$oid","v":30},"title":"Karl Seguin's Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/KarlSeguinsBlog","lastModified":"Thu, 25 Jul 2013 18:30:59 GMT","etag":"XvlAXvgsd4zo52/98EdbUdwQydk","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":1}
 {"k":"0000000080","o":"0000000320","v":"001"}
-{"_id":31,"_uid":57,"_dt":1374354396189,"_s":"3f7abad2a8cad5131b21751f8692e01e"}
-{"_id":{"$wrap":"$oid","v":31},"title":"Lazycoder","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/Lazycoder","lastModified":"Sat, 20 Jul 2013 20:51:03 GMT","etag":"IK5+Lh4y3PuZ+OsrsUeX1a23Vfo","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
-{"k":"0000000080","o":"0000000323","v":"001"}
-{"_id":32,"_uid":57,"_dt":1374394250471,"_s":"f1f09f4c98f05b9f5bafced891bce3d1"}
-{"_id":{"$wrap":"$oid","v":32},"title":"LostTechies","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/lostechies","lastModified":"Sun, 21 Jul 2013 07:36:45 GMT","etag":"hfQj9qtKW0az0l64rXI8uHDtvqc","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":31,"_uid":57,"_dt":1374779039495,"_s":"3f042cba2a76b1168bdb1ddce25232a5"}
+{"_id":{"$wrap":"$oid","v":31},"title":"Lazycoder","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/Lazycoder","lastModified":"Thu, 25 Jul 2013 18:27:08 GMT","etag":"Fr2Vr8Jc3wj9VSkGY+uHOXm/j2Y","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":5}
+{"k":"0000000080","o":"0000000324","v":"001"}
+{"_id":32,"_uid":57,"_dt":1375020745928,"_s":"0af35b3d5186df210f9f86b615a9ba7b"}
+{"_id":{"$wrap":"$oid","v":32},"title":"LostTechies","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/lostechies","lastModified":"Sun, 28 Jul 2013 13:45:52 GMT","etag":"XhgZ8hqlEfxBSj3wKOTsEOiBHsE","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":14}
 {"k":"0000000080","o":"0000000341","v":"001"}
-{"_id":33,"_uid":57,"_dt":1374355527446,"_s":"b1d0edf6edec0339e85151f9525de8c1"}
-{"_id":{"$wrap":"$oid","v":33},"title":"Martin Fowler's Bliki","profile":{"$wrap":"$oid","v":2},"url":"http://www.martinfowler.com/bliki/bliki.atom","lastModified":"Fri, 19 Jul 2013 22:48:30 GMT","etag":"\"4ccb5-343cb-4e1e520268b80\"","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":33,"_uid":57,"_dt":1375020759048,"_s":"8b107aa735c6f7e15d28d65cf816583e"}
+{"_id":{"$wrap":"$oid","v":33},"title":"Martin Fowler's Bliki","profile":{"$wrap":"$oid","v":2},"url":"http://www.martinfowler.com/bliki/bliki.atom","lastModified":"Sat, 27 Jul 2013 15:00:08 GMT","etag":"\"4c8c4-36176-4e27f83df0e00\"","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":9}
 {"k":"0000000080","o":"0000000283","v":"001"}
 {"_id":35,"_uid":57,"_dt":1374131998440,"_s":"3899010f81a5fe23327d260a63f1c430"}
 {"_id":{"$wrap":"$oid","v":35},"title":"Object Mentor Blog","profile":{"$wrap":"$oid","v":2},"url":"http://blog.objectmentor.com/xml/rss20/feed.xml","lastModified":"","etag":"","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
@@ -101,8 +101,8 @@
 {"_id":38,"_uid":57,"_dt":1374131998440,"_s":"c2b3802a84089424798bea88219bb74e"}
 {"_id":{"$wrap":"$oid","v":38},"title":"Scott Bellware","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/sbellware","lastModified":"Sat, 13 Jul 2013 17:34:16 GMT","etag":"/I2YL2d29CEp7Tc6+BbiudatDhU","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000080","o":"0000000308","v":"001"}
-{"_id":39,"_uid":57,"_dt":1374394250473,"_s":"1ea9f90d97c83909889186e396792fe9"}
-{"_id":{"$wrap":"$oid","v":39},"title":"Scott Hanselman's Computer Zen","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/ScottHanselman","etag":"\"b9ecec1753df644ae73176299908fbdb\"","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":39,"_uid":57,"_dt":1375020759051,"_s":"8d1c1245275ba7b2d532f44d33ce0e64"}
+{"_id":{"$wrap":"$oid","v":39},"title":"Scott Hanselman's Computer Zen","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/ScottHanselman","etag":"\"9a8c79098ba0e916fc919b72d16ccf67\"","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":5}
 {"k":"0000000080","o":"0000000343","v":"001"}
 {"_id":40,"_uid":57,"_dt":1374131998441,"_s":"da38c510aa7891f5812e6008ad201678"}
 {"_id":{"$wrap":"$oid","v":40},"title":"StevenHarman.net","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.stevenharman.net/stevenharman?format=xml","lastModified":"Sat, 13 Jul 2013 17:59:12 GMT","etag":"LD5Q8eV5Vs3SEcY8Ws4qKlVcV2s","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
@@ -110,23 +110,23 @@
 {"_id":42,"_uid":57,"_dt":1374131998441,"_s":"4bde30546f2bc12a97fc0a381756000b"}
 {"_id":{"$wrap":"$oid","v":42},"title":"The Inquisitive Coder - Davy Brion's Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/davybrion","lastModified":"Sat, 13 Jul 2013 18:56:46 GMT","etag":"VZU6vtLVRKJL8zGiUWiJac4fq7M","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000080","o":"0000000339","v":"001"}
-{"_id":43,"_uid":57,"_dt":1374355473143,"_s":"1328ff201d568e76abb53972f9ad57e7"}
-{"_id":{"$wrap":"$oid","v":43},"title":"The Morning Brew","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/ReflectivePerspective","lastModified":"Sat, 20 Jul 2013 19:33:59 GMT","etag":"JNl1eJFEcsbRCqP0yY8T3FCDe0A","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":43,"_uid":57,"_dt":1374923093098,"_s":"3e97f67ebce8e652e7390c4ea109261c"}
+{"_id":{"$wrap":"$oid","v":43},"title":"The Morning Brew","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/ReflectivePerspective","lastModified":"Sat, 27 Jul 2013 08:51:28 GMT","etag":"3Lrb0KjJ4DishZH+imIcFxPEMog","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":9}
 {"k":"0000000080","o":"0000000326","v":"001"}
-{"_id":44,"_uid":57,"_dt":1374354396194,"_s":"516f5d2907de54efdce03d211811f882"}
-{"_id":{"$wrap":"$oid","v":44},"title":"Troy Hunt's Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/TroyHunt","lastModified":"Sat, 20 Jul 2013 20:36:01 GMT","etag":"kXXaJYUDq8qsp5UoqCbIyVJmsxU","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":44,"_uid":57,"_dt":1374779039500,"_s":"e4892b290379061cc8703c7fc1017792"}
+{"_id":{"$wrap":"$oid","v":44},"title":"Troy Hunt's Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/TroyHunt","lastModified":"Thu, 25 Jul 2013 17:58:06 GMT","etag":"mRuE6P++ypYUpeprcJzKRHWwzaI","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":5}
 {"k":"0000000080","o":"0000000363","v":"001"}
-{"_id":45,"_uid":57,"_dt":1374354396194,"_s":"986c411cad3d087eaa23e7a61ba54756"}
-{"_id":{"$wrap":"$oid","v":45},"title":"Udi Dahan - The Software Simplist","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/UdiDahan-TheSoftwareSimplist","lastModified":"Sat, 20 Jul 2013 20:20:24 GMT","etag":"ruZFroSWHMsDeDlfiSExtERj9ag","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":45,"_uid":57,"_dt":1374923071025,"_s":"d1c46188f085c64b5b5ea0e65617ff25"}
+{"_id":{"$wrap":"$oid","v":45},"title":"Udi Dahan - The Software Simplist","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/UdiDahan-TheSoftwareSimplist","lastModified":"Sat, 27 Jul 2013 08:22:05 GMT","etag":"8VgJdGXObVGx6bDmmQ4N1LHPohA","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":1}
 {"k":"0000000080","o":"0000000326","v":"001"}
 {"_id":46,"_uid":57,"_dt":1374354396194,"_s":"fb447177096f36762de0d88ade90e524"}
 {"_id":{"$wrap":"$oid","v":46},"title":"you've been HAACKED","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.haacked.com/haacked/","lastModified":"Sat, 20 Jul 2013 20:57:08 GMT","etag":"iWlRRqIQjXA6hc5mncLl1DUQBh8","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000080","o":"0000000354","v":"001"}
 {"_id":47,"_uid":57,"_dt":1374131998444,"_s":"e8068ac00069b7b9d3997aa9f80ec4bd"}
 {"_id":{"$wrap":"$oid","v":47},"title":"Bill Poole's Creative Abrasion","profile":{"$wrap":"$oid","v":2},"url":"http://bill-poole.blogspot.com/feeds/posts/default","lastModified":"Sat, 13 Jul 2013 19:09:40 GMT","etag":"GhglPpfx0Xu5D2mlEBlNd8/pX/Y","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
-{"k":"0000000080","o":"0000000320","v":"001"}
-{"_id":49,"_uid":57,"_dt":1374392476136,"_s":"057df230db04b383b38410f3868fec06"}
-{"_id":{"$wrap":"$oid","v":49},"title":"Hibernating Rhinos","profile":{"$wrap":"$oid","v":2},"url":"http://blogs.hibernatingrhinos.com/rss","etag":"2013-07-21T07:36:32.2266250Zc37b1ce8-11c0-4559-ac3d-45afa692280e","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"k":"0000000080","o":"0000000321","v":"001"}
+{"_id":49,"_uid":57,"_dt":1375020759053,"_s":"f70086cf3d8daec1dda1e5873f3c58ef"}
+{"_id":{"$wrap":"$oid","v":49},"title":"Hibernating Rhinos","profile":{"$wrap":"$oid","v":2},"url":"http://blogs.hibernatingrhinos.com/rss","etag":"2013-07-28T13:42:50.4619766Z4d35c932-117e-4067-9c8d-e11c2bc0a6e2","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":19}
 {"k":"0000000080","o":"0000000342","v":"001"}
 {"_id":50,"_uid":57,"_dt":1374392473290,"_s":"bfb7b7ef8f06cf08e9f442df0ff9f0ee"}
 {"_id":{"$wrap":"$oid","v":50},"title":"Jon Skeet: Coding Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/JonSkeetCodingBlog","lastModified":"Sun, 21 Jul 2013 06:43:58 GMT","etag":"+lN4bB1LO7qRII6etG4b7Tg3faY","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
@@ -140,14 +140,14 @@
 {"_id":53,"_uid":57,"_dt":1374131998444,"_s":"f063ac1dcd8e578f494b65995ee9d895"}
 {"_id":{"$wrap":"$oid","v":53},"title":"Stefan Norberg's weblog","profile":{"$wrap":"$oid","v":2},"url":"http://stnor.wordpress.com/feed/","lastModified":"Mon, 22 Apr 2013 19:12:32 GMT","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000080","o":"0000000333","v":"001"}
-{"_id":54,"_uid":57,"_dt":1374394250478,"_s":"b3966a1aec7c9fe9e8561e121e8e94ff"}
-{"_id":{"$wrap":"$oid","v":54},"title":"The Daily WTF","profile":{"$wrap":"$oid","v":2},"url":"http://syndication.thedailywtf.com/TheDailyWtf","lastModified":"Sun, 21 Jul 2013 07:30:00 GMT","etag":"u1pK2A0Cc4m9XtEVEj89Ixv56ww","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":54,"_uid":57,"_dt":1375025668640,"_s":"ddea799b79982267ebf516f23585018e"}
+{"_id":{"$wrap":"$oid","v":54},"title":"The Daily WTF","profile":{"$wrap":"$oid","v":2},"url":"http://syndication.thedailywtf.com/TheDailyWtf","lastModified":"Sun, 28 Jul 2013 13:46:22 GMT","etag":"IWSQM27UFgvNG+ZECXPlZem3jTo","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":9}
 {"k":"0000000080","o":"0000000352","v":"001"}
 {"_id":55,"_uid":57,"_dt":1374131998445,"_s":"edcd30b4068a29100d08d7c3c1245735"}
 {"_id":{"$wrap":"$oid","v":55},"title":"The Inquisitive Coder - Davy Brion's Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/davybrion","lastModified":"Sat, 13 Jul 2013 18:56:46 GMT","etag":"VZU6vtLVRKJL8zGiUWiJac4fq7M","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
 {"k":"0000000080","o":"0000000339","v":"001"}
-{"_id":56,"_uid":57,"_dt":1374355200559,"_s":"03b683b5d3b7ccf70f1a4414e770b0ae"}
-{"_id":{"$wrap":"$oid","v":56},"title":"The Morning Brew","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/ReflectivePerspective","lastModified":"Sat, 20 Jul 2013 19:33:59 GMT","etag":"JNl1eJFEcsbRCqP0yY8T3FCDe0A","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":56,"_uid":57,"_dt":1374923130764,"_s":"eea4d8d27ffc89f6388ccb6f7dbba13f"}
+{"_id":{"$wrap":"$oid","v":56},"title":"The Morning Brew","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/ReflectivePerspective","lastModified":"Sat, 27 Jul 2013 08:51:28 GMT","etag":"3Lrb0KjJ4DishZH+imIcFxPEMog","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":9}
 {"k":"0000000080","o":"0000000326","v":"001"}
-{"_id":57,"_uid":57,"_dt":1374354396198,"_s":"6cb7b63baca3f2fda0a82617339dad1e"}
-{"_id":{"$wrap":"$oid","v":57},"title":"Troy Hunt's Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/TroyHunt","lastModified":"Sat, 20 Jul 2013 20:36:01 GMT","etag":"kXXaJYUDq8qsp5UoqCbIyVJmsxU","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":0}
+{"_id":57,"_uid":57,"_dt":1374923271564,"_s":"79ed49874e54ece7bfaad57b4f17b4c2"}
+{"_id":{"$wrap":"$oid","v":57},"title":"Troy Hunt's Blog","profile":{"$wrap":"$oid","v":2},"url":"http://feeds.feedburner.com/TroyHunt","lastModified":"Thu, 25 Jul 2013 17:58:06 GMT","etag":"mRuE6P++ypYUpeprcJzKRHWwzaI","folder":false,"subscribed":{"$wrap":"$date","v":1373200204665,"h":"2013-07-07T12:30:04.665Z"},"unread":4}
