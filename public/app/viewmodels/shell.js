@@ -1,4 +1,4 @@
-﻿define(['durandal/plugins/router', 'durandal/app', 'amplify'], function (router, app, events) {
+﻿define(['durandal/plugins/router', 'durandal/app', 'amplify', 'models/subscription'], function (router, app, events, Subscription) {
     
     var vm = {
         router: router,
@@ -6,19 +6,16 @@
         unread: ko.observable(''),
         activate: function () {
             var self = this;
-            router.onNavigationComplete = function(routeInfo, params, module) {
-                if (routeInfo.moduleId == 'viewmodels/dashboard') {
-                    var filter = (params.filter) ? params.filter : '';
-                    self.currentFilter(filter);
-                    events.publish('filter-changed', { filter: filter });
-                }                
-            };
             
-            events.subscribe('unread-changed', function (msg) {
-                self.unread(msg.count);
-            });
+            return Subscription.loadAll(function (subscriptions) {
+                        var count = subscriptions
+                                        .map(function (subscription) { return subscription.unread(); })
+                                        .reduce(function (prev, current) { return prev + current; });
+                        self.unread((count == 0) ? '' : count);
                         
-            return router.activate('dashboard');
+                   }).then(function () {
+                        router.activate('dashboard')
+                   });
         }
     };
     

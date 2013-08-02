@@ -1,12 +1,11 @@
-﻿define(['durandal/plugins/router', 'models/subscription', 'filters'], function(router, Subscription, filters) {
+﻿define(['durandal/plugins/router', 'models/subscription', 'filters', 'nicescroll'], function(router, Subscription, filters, scroll) {
    
    var bindSubscription = function (model) {
                 
         model.unread = ko.computed(function () {
             return (model.unread() != 0) ? model.unread() : '';
         });
-                        
-        console.log(filters);                
+        
         model.active = ko.observable(model.id == filters.subscription);
         return model;
     };
@@ -28,6 +27,13 @@
             if (filters.applied) route += '/' + filters.applied;
             router.navigateTo(route + '/' + self.id);
             return false;
+        },
+        viewAttached : function () {
+            $('#subscriptions').niceScroll({
+                cursorcolor:"#CCC",
+                cursorfixedheight: true,
+                autohidemode: false
+            });
         }
     };
     

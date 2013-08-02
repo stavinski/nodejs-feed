@@ -1,3 +1,7 @@
+body {
+    padding-top: 40px;
+}
+
 #subscriptions-container {
     border-right: 1px solid #CCC;
     font-size: smaller;

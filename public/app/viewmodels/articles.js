@@ -56,7 +56,6 @@
          },
         loading: ko.observable(false),
         articles: ko.observableArray(),
-        refresh: function() { return this._refresh(true); },
         activate: function() { return this._refresh(false); }
     };
     

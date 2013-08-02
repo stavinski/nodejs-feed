@@ -5,7 +5,8 @@
         'knockout' : '../scripts/knockout-2.2.1',
         'amplify' : '../scripts/amplify',
         'Q' : '../scripts/q',
-        'moment' : '../scripts/moment'
+        'moment' : '../scripts/moment',
+        'nicescroll' : '../scripts/jquery.nicescroll'
     },
     shim: {
         'amplify': {

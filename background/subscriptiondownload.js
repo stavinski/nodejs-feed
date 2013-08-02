@@ -84,7 +84,7 @@ var execute = function() {
                                 author : item.getAuthor()
                             };
                             
-                            logger.debug('subscriptiondownload', 'not article found with link: ' + item.getLink() + ' inserting');
+                            logger.debug('subscriptiondownload', 'no article found with link: ' + item.getLink() + ' inserting');
                             
                             articles.insert(article, {w:1}, function (err, doc) {
                                 if (err) throw err; 
