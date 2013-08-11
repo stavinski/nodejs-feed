@@ -1,18 +1,16 @@
 var config = require('../config')
-    , engine = require('tingodb')()
-    , db = new engine.Db( config.db.path , {})
+    , mongodb = require('mongodb')
+    , ObjectID = require('mongodb').ObjectID
+    , dbServer = new mongodb.Server(config.db.host, config.db.port)
+    , db = new mongodb.Db('pushfeed', dbServer, {w:0})
     , Q = require('q')
     , logger = require('../logger');
     
 exports.getArticles = function(req, res) {
     var filter = {
-        profile: config.profiles.id
+        profile: new ObjectID(config.profiles.id)
     };
-    
-    var fetchFromCursor = function (cursor) {
-        return Q.ninvoke(cursor, 'toArray');
-    };
-    
+        
     var flattenArticles = function (articles) {
         var flattened = []
             , results = flattened.concat.apply(flattened, articles);
@@ -28,26 +26,26 @@ exports.getArticles = function(req, res) {
         .then (function (db) {
             var   subscriptions = db.collection('subscriptions')
                 , articles = db.collection('articles');
-            Q.ninvoke(subscriptions, 'find', { profile : config.profiles.id })
-                .then(fetchFromCursor)
+            return Q.ninvoke(subscriptions, 'find', { profile : new ObjectID(config.profiles.id) })
+                .then(function (cursor) { return Q.ninvoke(cursor, 'toArray'); })
                 .then(function (subs) { 
                     var deferreds = [];
-                                
+                    
                     subs.forEach(function (sub) {
-                        var deferred = Q.defer();
-                        
-                        var filter = { 
-                            subscription : sub._id,
-                        };
+                        var   deferred = Q.defer()
+                            , filter = { 
+                                subscription : sub._id,
+                            };
+                        deferreds.push(deferred.promise);
                         
                         if ((!req.query.read) && (!req.query.starred)) filter.read = false;
                         if (req.query.read) filter.read = true;
                         if (req.query.starred) filter.starred = true;
                                                 
-                        Q.invoke(articles, 'find', filter, {content:0})
-                            .then(fetchFromCursor)
-                            .then(deferred.resolve)
-                            .then(deferreds.push(deferred.promise));
+                        var cursor = articles.find(filter, { content: 0, summary: 0 });
+                        Q.ninvoke(cursor, 'toArray')
+                         .then(function (articles) { deferred.resolve(articles); });
+                                                     
                     }); 
 
                     return Q.all(deferreds);
@@ -55,6 +53,7 @@ exports.getArticles = function(req, res) {
             .then(flattenArticles)
             .then(function (results) { res.json(results); })
         })
+        .fin(function () { db.close(); })
         .done();
             
 };
@@ -66,11 +65,12 @@ exports.getArticle = function(req, res) {
             return db.collection('articles');
         })
         .then(function (articles) {
-            return Q.ninvoke(articles, 'findOne', {_id : id});
+            return Q.ninvoke(articles, 'findOne', {_id : new ObjectID(id) });
         })
         .then(function (article) {
             res.json(article);
         })
+        .fin(function () { db.close(); })
         .done();
 };
 
@@ -79,7 +79,7 @@ exports.update = function (req, res) {
         .then(function (db) {
             var   articles = db.collection('articles')
                 , subscriptions = db.collection('subscriptions');
-            Q.ninvoke(articles, "findOne", { _id : req.params.id })
+            Q.ninvoke(articles, "findOne", { _id : new ObjectID(req.params.id) })
                 .then(function (result) {
                     var read = (req.body.read == "true");
                     var starred = (req.body.starred == "true");
@@ -90,6 +90,9 @@ exports.update = function (req, res) {
                         subscriptions.update({ _id: result.subscription }, { $inc : { unread : -1 } });            
                 });
         })
-        .fin(function () { res.end() })
+        .fin(function () { 
+            res.end();
+            db.close(); 
+         })
         .done();
 };

@@ -11,10 +11,10 @@
     "forever": "*",
     "bundle-up": "*",
     "nodemon" : "*",
-    "nodepie" : "*",
-    "request" : "*",
-    "tingodb" : "*",
+    "feedparser" : "*",
     "moment" : "*",
-    "q" : "*"
+    "q" : "*",
+    "mongodb" : "*",
+    "request" : "*"
   }
 }

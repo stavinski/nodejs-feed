@@ -4,6 +4,7 @@
  */
 
 var express = require('express')
+  , config = require('./config')
   , indexes = require('./db/indexes')
   , routes = require('./routes')
   , api = require('./api')
@@ -19,7 +20,7 @@ var app = express();
 indexes.ensureIndexes();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', config.app.port);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon(__dirname + '/public/content/images/favicon.ico'));
