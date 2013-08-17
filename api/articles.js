@@ -86,8 +86,8 @@ exports.update = function (req, res) {
                     
                     articles.update({ _id : result._id }, { $set: { read : read, starred : starred } });
                                 
-                    if ((req.body.read) && (!result.read))
-                        subscriptions.update({ _id: result.subscription }, { $inc : { unread : -1 } });            
+                    //if ((req.body.read) && (!result.read))
+                    //    subscriptions.update({ _id: result.subscription }, { $inc : { unread : -1 } });            
                 });
         })
         .fin(function () { 

@@ -84,6 +84,14 @@ var processArticle = function(subscription, item) {
         
     return deferred.promise;
 };    
+
+var updateUnread = function (subscription) {
+    var   subscriptions = db.collection('subscriptions')
+        , articles = db.collection('articles');
+    
+    return Q.ninvoke(articles, 'count', { subscription : subscription._id, read: false })
+                .then(function (result) { subscriptions.update({ _id : subscription._id }, { $set : { unread : count }}) });
+};
     
 var execute = function() {
     
@@ -128,7 +136,9 @@ var execute = function() {
                              }
                         });
                     
-                    Q.all(articleDeferreds).then(function () { deferred.resolve() });
+                    Q.all(articleDeferreds)
+                        //.then(function () { return updateUnread(subscription); })
+                        .then(function () { deferred.resolve() });
                     
                     // tell string reader to buffer through stream
                     sr.resume();

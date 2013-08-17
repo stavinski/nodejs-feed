@@ -7,12 +7,15 @@ var express = require('express')
   , config = require('./config')
   , indexes = require('./db/indexes')
   , routes = require('./routes')
+  , authentication = require('./authentication')
   , api = require('./api')
   , http = require('http')
   , bundleUp = require('bundle-up')
   , logger = require('./logger')
   , Q = require('q')
-  , path = require('path');
+  , path = require('path')
+  , passport = require('passport')
+  , MongoStore = require('connect-mongo')(express);
 
 var app = express();
 
@@ -27,6 +30,17 @@ app.use(express.favicon(__dirname + '/public/content/images/favicon.ico'));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+app.use(express.cookieParser());
+app.use(express.session({ 
+            secret : '@>i5[3q@Xs+*/X9',
+            store : new MongoStore({
+                db: 'web',
+                host: config.db.host,
+                port: config.db.port
+            })
+        }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(app.router);
 
 bundleUp(app, __dirname + '/assets', {
@@ -54,16 +68,7 @@ app.post('/api/articles/:id', api.articleUpdate);
 app.get('/api/articles/', api.articles);
 app.get('/api/articles/:id', api.article);
 
-// logger routes
-app.get('/logger/:level', function (req, res) {
-    var filter = {
-        level : req.params.level
-    };
-    
-    logger.query(filter)
-        .then(function (results) { res.json(results); })
-        .done();
-});
+authentication.initialize(app);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
