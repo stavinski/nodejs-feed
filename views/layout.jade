@@ -5,10 +5,7 @@ html
     !=renderStyles()
     title= title
   body
-    if signedIn
-        block content
-        !=renderJs()
-        script(src='app/durandal/amd/require.js', data-main='app/main')
-    else
-        !=renderJs()
-        p Sign-in Form Here
+    block content
+    script(src='socket.io/socket.io.js')
+    !=renderJs()
+    script(src='app/durandal/amd/require.js', data-main='app/main')

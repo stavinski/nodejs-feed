@@ -39,4 +39,24 @@
 		</ul>
 	</div>
 </div>
-<div data-bind="compose: { model: router.activeItem,  afterCompose: router.afterCompose, transition: 'entrance' }"></div>
+
+<!-- sign-in dialog -->
+<div class="modal-backdrop hide"></div>
+<div id="signin" class="modal hide" data-backdrop="true" role="dialog">
+    <div class="modal-header">
+        <h3>Sign-in</h3>
+    </div>
+    <div class="modal-body">
+        <p>Please select from the below OpenID providers:</p>
+        
+        <a href="/auth/google">
+            <img src="content/images/signin-google.png" alt="sign-in with Google" />
+        </a>
+    </div>
+    <div class="modal-footer">
+        <p>Having issues signing in? <a href="#">visit help</a>.
+    </div>
+</div>
+
+<!-- standard composing -->
+<div data-bind="ifnot: unauthorized, compose: { model: router.activeItem,  afterCompose: router.afterCompose, transition: 'entrance' }"></div>

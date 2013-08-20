@@ -15,10 +15,13 @@
         router: router,
 		activate: function () {
             var self = this;
+            /*
             return Subscription.loadAll(function (subscriptions) {
                 boundSubscriptions = subscriptions.map(bindSubscription);
                 self.subscriptions(boundSubscriptions);
             });
+            
+            */
 		},
         makeActive : function () {
             var   self = this

@@ -15,9 +15,15 @@ var express = require('express')
   , Q = require('q')
   , path = require('path')
   , passport = require('passport')
-  , MongoStore = require('connect-mongo')(express);
-
-var app = express();
+  , MongoStore = require('connect-mongo')(express)
+  , app = express()
+  , server = http.createServer(app)
+  , io = require('socket.io').listen(server)
+  , sessionStore = new MongoStore({
+                db: 'web',
+                host: config.db.host,
+                port: config.db.port
+            });
 
 // db indexes
 indexes.ensureIndexes();
@@ -32,12 +38,8 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({ 
-            secret : '@>i5[3q@Xs+*/X9',
-            store : new MongoStore({
-                db: 'web',
-                host: config.db.host,
-                port: config.db.port
-            })
+            secret : config.session.secret,
+            store : sessionStore
         }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -68,8 +70,8 @@ app.post('/api/articles/:id', api.articleUpdate);
 app.get('/api/articles/', api.articles);
 app.get('/api/articles/:id', api.article);
 
-authentication.initialize(app);
+authentication.initialize(app, io, sessionStore);
 
-http.createServer(app).listen(app.get('port'), function(){
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

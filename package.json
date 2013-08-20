@@ -27,6 +27,7 @@
     "connect-mongo" : "*",
     "passport" : "*",
     "passport-google": "*",
-    "socket.io" : "*"
+    "socket.io" : "*",
+    "passport.socketio" : "*"
   }
 }

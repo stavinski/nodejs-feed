@@ -11,6 +11,5 @@ module.exports = function(assets) {
     assets.addJs('/public/scripts/q.js');
     assets.addJs('/public/scripts/moment.js');
     assets.addJs('/public/scripts/bindings/date.js');
-    assets.addJs('/public/scripts/jquery.nicescroll.js');
     assets.addCss('/public/content/css/*.css');
 };

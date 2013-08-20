@@ -6,7 +6,7 @@ config.app = {};
 config.app.port = process.env.OPENSHIFT_INTERNAL_PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 config.db = {};
-config.db.host = process.env.OPENSHIFT_MONGODB_DB_HOST || '192.168.0.16';
+config.db.host = process.env.OPENSHIFT_MONGODB_DB_HOST || 'mongodb';
 config.db.port = parseInt(process.env.OPENSHIFT_MONGODB_DB_PORT) || 27017;
 
 config.profiles = {};
@@ -14,5 +14,9 @@ config.profiles.id = '51fcf8f50b4f238839000001';
 
 config.logging = {};
 config.logging.level = 'debug';
+
+config.session = {};
+config.session.key = 'connect.sid';
+config.session.secret = '@>i5[3q@Xs+*/X9';
 
 module.exports = config;

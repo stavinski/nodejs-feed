@@ -42,6 +42,7 @@
     var ViewModel = {
         _refresh : function (force) {
             var self = this;
+            /*
             self.loading(true);
             return Q.fcall(getFindFilter)
                         .then(function (filter) {
@@ -53,6 +54,8 @@
                                 self.loading(false);
                             });
                         });
+                        
+            */
          },
         loading: ko.observable(false),
         articles: ko.observableArray(),

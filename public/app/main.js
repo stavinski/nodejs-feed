@@ -6,7 +6,8 @@
         'amplify' : '../scripts/amplify',
         'Q' : '../scripts/q',
         'moment' : '../scripts/moment',
-        'nicescroll' : '../scripts/jquery.nicescroll'
+        'socket.io' : '/socket.io/socket.io',
+        'bootstrap' : '../scripts/bootstrap'
     },
     shim: {
         'amplify': {
