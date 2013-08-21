@@ -1,23 +1,23 @@
 ﻿<div class="navbar">
 	<!-- desktop/tablet -->
 	<div class="navbar-inner hidden-phone navbar-fixed-top">
-		<a class="brand" data-bind="attr: { href: router.visibleRoutes()[0].hash }">
+		<a class="brand" data-bind="attr: { href: router.navigationModel()[0].hash }">
 			<i class="icon-rss"></i>
 		</a>
 		<ul class="nav">
-			<li data-bind="css: { active: currentFilter() == '' }">
-				<a data-bind="attr: { href: router.visibleRoutes()[0].hash }"><i class="icon-flag-alt"></i> Unread <span class="badge badge-info" data-bind="text: unread"></span></a>
+			<li data-bind="css: { active: router.navigationModel()[1].isActive }">
+				<a href="#/unread"><i class="icon-flag-alt"></i> Unread <span class="badge badge-info" data-bind="text: unread"></span></a>
 			</li>
-            <li data-bind="css: { active: currentFilter() == 'starred' }">
-				<a data-bind="attr: { href: router.visibleRoutes()[0].hash + '/starred'}"><i class="icon-star"></i> Starred</a>
+            <li data-bind="css: { active: router.navigationModel()[2].isActive }">
+				<a href="#/starred"><i class="icon-star"></i> Starred</a>
 			</li>
-			<li data-bind="css: { active: currentFilter() == 'read' }">
-				<a data-bind="attr: { href: router.visibleRoutes()[0].hash + '/read' }"><i class="icon-flag"></i> Read</a>
+			<li data-bind="css: { active: router.navigationModel()[3].isActive }">
+				<a href="#/read"><i class="icon-flag"></i> Read</a>
 			</li>
 		</ul>
 		<ul class="nav pull-right">
-			<li data-bind="css: { active: router.visibleRoutes()[2].isActive }">
-				<a data-bind="attr: { href: router.visibleRoutes()[2].hash }"><i class="icon-cogs"></i></a>
+			<li data-bind="css: { active: router.navigationModel()[4].isActive }">
+				<a data-bind="attr: { href: router.navigationModel()[4].hash }"><i class="icon-cogs"></i></a>
 			</li>
 		</ul>
 		<div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
@@ -27,14 +27,14 @@
 	<!-- smartphone -->
 	<div class="navbar-inner visible-phone navbar-fixed-top">
 		<ul class="nav">
-			<li data-bind="css: { active: currentFilter() == '' }">
-				<a data-bind="attr: { href: router.visibleRoutes()[0].hash }"><i class="icon-flag-alt icon-2x"></i><span class="badge badge-info" data-bind="text: unread"></span></a>
+			<li data-bind="css: { active: router.navigationModel()[1].isActive }">
+				<a href="#/unread"><i class="icon-flag-alt icon-2x"></i><span class="badge badge-info" data-bind="text: unread"></span></a>
 			</li>
-            <li data-bind="css: { active: currentFilter() == 'starred' }">
-				<a data-bind="attr: { href: router.visibleRoutes()[0].hash + '/starred'}"><i class="icon-star icon-2x"></i></a>
+            <li data-bind="css: { active: router.navigationModel()[2].isActive }">
+				<a href="#/starred"><i class="icon-star icon-2x"></i></a>
 			</li>
-			<li data-bind="css: { active: currentFilter() == 'read' }">
-				<a data-bind="attr: { href: router.visibleRoutes()[0].hash + '/read' }"><i class="icon-flag icon-2x"></i></a>
+			<li data-bind="css: { active: router.navigationModel()[3].isActive }">
+				<a href="#/read"><i class="icon-flag icon-2x"></i></a>
 			</li>
 		</ul>
 	</div>
@@ -59,4 +59,4 @@
 </div>
 
 <!-- standard composing -->
-<div data-bind="ifnot: unauthorized, compose: { model: router.activeItem,  afterCompose: router.afterCompose, transition: 'entrance' }"></div>
+<div data-bind="router: { transition:'entrance', view: 'views/dashboard/index' }"></div>

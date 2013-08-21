@@ -1,4 +1,4 @@
-﻿define(['amplify', 'models/article', 'Q', 'filters'], function (events, Article, Q, filters) {
+﻿define(['amplify', 'models/article', 'Q', 'filters','knockout'], function (events, Article, Q, filters, ko) {
         
     var filterArticle = function (model) {
         if (!filters.subscription) return true;

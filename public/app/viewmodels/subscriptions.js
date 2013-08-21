@@ -1,4 +1,4 @@
-﻿define(['durandal/plugins/router', 'models/subscription', 'filters', 'nicescroll'], function(router, Subscription, filters, scroll) {
+﻿define(['plugins/router', 'models/subscription', 'filters', 'knockout'], function(router, Subscription, filters, ko) {
    
    var bindSubscription = function (model) {
                 
@@ -30,13 +30,6 @@
             if (filters.applied) route += '/' + filters.applied;
             router.navigateTo(route + '/' + self.id);
             return false;
-        },
-        viewAttached : function () {
-            $('#subscriptions').niceScroll({
-                cursorcolor:"#CCC",
-                cursorfixedheight: true,
-                autohidemode: false
-            });
         }
     };
     

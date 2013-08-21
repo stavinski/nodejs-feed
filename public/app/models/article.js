@@ -1,4 +1,4 @@
-define(['../logger', '../config', '../durandal/system', '../datacache'], function(logger, config, system, cache) {
+define(['../logger', '../config', '../durandal/system', '../datacache', 'knockout'], function(logger, config, system, cache, ko) {
     
     var Article = function(vals) {
         this.title = vals.title;

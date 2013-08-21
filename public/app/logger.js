@@ -1,5 +1,5 @@
-﻿define(['durandal/system', 'config'],
-    function (system, config) {
+﻿define(['durandal/system', 'config', 'toastr'],
+    function (system, config, toastr) {
         // setup toastr options
         toastr.options = config.toastr.options;
     

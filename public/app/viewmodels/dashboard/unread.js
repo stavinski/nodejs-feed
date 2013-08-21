@@ -1,9 +1,9 @@
 define(function() {
     
     var vm = {
-        activate: function () 
-        {
-            
+        activate: function (id) 
+        { 
+
         }
     };
     
