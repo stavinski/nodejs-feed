@@ -45,6 +45,6 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/rout
             //Look for partial views in a 'views' folder in the root.
             viewLocator.useConvention();
             
-            app.setRoot('viewmodels/shell', 'entrance');
+            app.setRoot('viewmodels/shell');
         });
     });

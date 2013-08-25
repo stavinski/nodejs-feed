@@ -7,11 +7,6 @@ var config = require('../config')
     , logger = require('../logger');
     
 exports.getAll = function(filter) {
-    filters = {
-        profile : new ObjectID(config.profiles.id),
-        read : false
-    };
-    
     var flattenArticles = function (articles) {
         var flattened = []
             , results = flattened.concat.apply(flattened, articles);
@@ -27,22 +22,22 @@ exports.getAll = function(filter) {
         .then (function (db) {
             var   subscriptions = db.collection('subscriptions')
                 , articles = db.collection('articles');
-            return Q.ninvoke(subscriptions, 'find', { profile : filters.profile })
+            return Q.ninvoke(subscriptions, 'find', { profile : new ObjectID(config.profiles.id) })
                 .then(function (cursor) { return Q.ninvoke(cursor, 'toArray'); })
                 .then(function (subs) { 
                     var deferreds = [];
                     
                     subs.forEach(function (sub) {
                         var   deferred = Q.defer()
-                            , filter = { 
-                                subscription : sub._id,
-                            };
+                            , query = { read : false };
                         deferreds.push(deferred.promise);
+                        
                     
-                        if (filter === 'read') filters.read = true;
-                        if (filter === 'starred') filters.starred = true;
-                                                                        
-                        var cursor = articles.find(filter, { content: 0, summary: 0 });
+                        query.subscription = sub._id;
+                        if (filter === 'read') query.read = true;  
+                        if (filter === 'starred') query.starred = true;
+                                                      
+                        var cursor = articles.find(query, { content: 0, summary: 0 });
                         Q.ninvoke(cursor, 'toArray')
                          .then(function (articles) { deferred.resolve(articles); });
                                                      

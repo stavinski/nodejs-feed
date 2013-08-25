@@ -33,23 +33,26 @@
         activate : function (filter, subscription) {
             var   self = this
                 , filter = filter || 'unread';
-                        
+            
+            self.filter(filter);
             self.loading(true);
+            self.articles([]);
             return connection.wait()
                     .then(function () {
                         connection.send('backend.syncarticles', { filter: filter, subscription : subscription })
-                                .then(function () { return connection.receive('backend.articles'); })
-                                .then(function (articles) {
-                                    console.log('articles received');
-                                    boundArticles = articles.map(bindArticle);
-                                    self.articles(boundArticles);
-                                    self.loading(false);
+                                .then(function () { 
+                                    connection.receive('backend.articles', function (articles) {
+                                        boundArticles = articles.map(bindArticle);
+                                        self.articles(boundArticles);
+                                        self.loading(false);
+                                    }); 
                                 });
                    });
             
         },
         loading: ko.observable(false),
-        articles: ko.observableArray()
+        articles: ko.observableArray(),
+        filter : ko.observable('')
     };
     
     return ViewModel;

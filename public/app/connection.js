@@ -21,7 +21,7 @@ define(['socket.io', 'Q', 'amplify'], function (sio, Q, amplify) {
         io.on('disconnect', function () {
             amplify.publish(TOPIC_DISCONNECTED);
         });
-        
+                
     };
     
     var _wait = function () {
@@ -56,8 +56,8 @@ define(['socket.io', 'Q', 'amplify'], function (sio, Q, amplify) {
         return Q.fcall(function () { io.emit(evt, data); });
     };
     
-    var _receive = function (evt) {
-        return _oncall(evt);
+    var _receive = function (evt, callback) {
+        io.on(evt, callback);
     };
     
     var _send = function (evt, data) {

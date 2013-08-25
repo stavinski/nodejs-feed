@@ -12,20 +12,21 @@
         return model;
     };
    
+   
    var ViewModel = {
         subscriptions: ko.observableArray(),
         router: router,
 		activate: function () {
             var self = this;
-            
+            self.subscriptions([]);
             return connection.wait()
                     .then(function () {
+                        connection.receive('backend.subscriptions', function (subscriptions) {
+                            boundSubscriptions = subscriptions.map(bindSubscription);
+                            self.subscriptions(boundSubscriptions);
+                        });
+                        
                         connection.send('backend.syncsubscriptions');
-                        connection.receive('backend.subscriptions')
-                                .then(function (subscriptions) {
-                                    boundSubscriptions = subscriptions.map(bindSubscription);
-                                    self.subscriptions(boundSubscriptions);
-                                });
                     });
         },
         makeActive : function () {

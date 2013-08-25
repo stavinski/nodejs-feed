@@ -9,6 +9,12 @@
                     <img src="content/images/loading.gif" alt="loading articles..." />
                     <p>loading articles...</p>
                 </div>
+                
+                <!-- ko if: !loading() && articles().length <= 0 -->
+                <div class="alert alert-info alert-block">
+                    <i class="icon-frown icon-4x"></i><span>No <strong data-bind="text: filter"></strong> articles could be located</span>
+                </div>
+                <!-- /ko -->
 
                 <div class="article hidden-phone" data-bind="foreach: articles">
                     <div class="article-header well well-small">
