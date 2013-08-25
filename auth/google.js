@@ -1,27 +1,16 @@
-var   config = require('./config')
+var   config = require('../config')
     , passport = require('passport')
-    , express = require('express')
     , GoogleStrategy = require('passport-google').Strategy
-    , passportSIO = require('passport.socketio')
     , mongodb = require('mongodb')
     , ObjectID = require('mongodb').ObjectID
     , dbServer = new mongodb.Server(config.db.host, config.db.port)
     , db = new mongodb.Db('pushfeed', dbServer, {w:0})
     , Q = require('q');
 
-var initialize = function (app, io, sessionStore) {
-    passport.serializeUser(function(profile, done) {
-        done(null, profile);
-    });
-
-    passport.deserializeUser(function(obj, done) {
-        done(null, obj);
-    });
-    
-    // google
+var initialize = function (app) {
     passport.use(new GoogleStrategy({
-            returnURL: 'http://pushfeed.local:3000/auth/google/return',
-            realm: 'http://pushfeed.local:3000/',
+            returnURL: config.app.baseUrl + 'auth/google/return',
+            realm: config.app.baseUrl,
             profile : false
         }, function(identifier, profile, done) {
             var profiles = db.collection('profiles');            
@@ -51,25 +40,6 @@ var initialize = function (app, io, sessionStore) {
         function(req, res) {
             res.redirect('/');
     });
-    
-    // google end
-    
-    // socket io auth
-    io.set("authorization", passportSIO.authorize({
-        cookieParser: express.cookieParser, 
-        key:          config.session.key,        
-        secret:       config.session.secret,  
-        store:        sessionStore,      
-        fail: function(data, accept) {
-            accept(null, false);
-        },
-        success: function(data, accept) {
-            console.log(data);
-            accept(null, true);
-        }
-    }));
-
 };
 
 module.exports.initialize = initialize;
-    

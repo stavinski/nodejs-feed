@@ -1,10 +1,5 @@
-﻿define(['amplify', 'models/article', 'Q', 'filters','knockout'], function (events, Article, Q, filters, ko) {
-        
-    var filterArticle = function (model) {
-        if (!filters.subscription) return true;
-        return (model.subscription == filters.subscription);
-    };
-        
+﻿define(['amplify', 'models/article', 'Q', 'knockout', 'connection'], function (amplify, Article, Q, ko, connection) {
+            
     var bindArticle = function (model) {
         model.headerClicked = function () {
             var self = this;
@@ -27,39 +22,34 @@
         };
         
         model.collapsed = ko.observable(true);
+        model.starred = ko.observable(model.starred);
+        model.read = ko.observable(model.read);
+        model.content = ko.observable('');
         
         return model;
     };
-        
-    var getFindFilter = function () {
-        var filter = {};
-        if (filters.applied == 'starred') filter.starred = true;
-        if (filters.applied == 'read') filter.read = true;
-        
-        return filter;
-    };    
     
     var ViewModel = {
-        _refresh : function (force) {
-            var self = this;
-            /*
-            self.loading(true);
-            return Q.fcall(getFindFilter)
-                        .then(function (filter) {
-                            self.articles([]);
-                            Article.find(filter, force, function (articles) {
-                                boundArticles = articles.filter(filterArticle)
-                                                        .map(bindArticle);
-                                self.articles(boundArticles);
-                                self.loading(false);
-                            });
-                        });
+        activate : function (filter, subscription) {
+            var   self = this
+                , filter = filter || 'unread';
                         
-            */
-         },
+            self.loading(true);
+            return connection.wait()
+                    .then(function () {
+                        connection.send('backend.syncarticles', { filter: filter, subscription : subscription })
+                                .then(function () { return connection.receive('backend.articles'); })
+                                .then(function (articles) {
+                                    console.log('articles received');
+                                    boundArticles = articles.map(bindArticle);
+                                    self.articles(boundArticles);
+                                    self.loading(false);
+                                });
+                   });
+            
+        },
         loading: ko.observable(false),
-        articles: ko.observableArray(),
-        activate: function() { return this._refresh(false); }
+        articles: ko.observableArray()
     };
     
     return ViewModel;

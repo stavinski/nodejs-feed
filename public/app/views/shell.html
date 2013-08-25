@@ -5,35 +5,35 @@
 			<i class="icon-rss"></i>
 		</a>
 		<ul class="nav">
-			<li data-bind="css: { active: router.navigationModel()[1].isActive }">
+			<li>
 				<a href="#/unread"><i class="icon-flag-alt"></i> Unread <span class="badge badge-info" data-bind="text: unread"></span></a>
 			</li>
-            <li data-bind="css: { active: router.navigationModel()[2].isActive }">
+            <li>
 				<a href="#/starred"><i class="icon-star"></i> Starred</a>
 			</li>
-			<li data-bind="css: { active: router.navigationModel()[3].isActive }">
+			<li>
 				<a href="#/read"><i class="icon-flag"></i> Read</a>
 			</li>
 		</ul>
 		<ul class="nav pull-right">
-			<li data-bind="css: { active: router.navigationModel()[4].isActive }">
-				<a data-bind="attr: { href: router.navigationModel()[4].hash }"><i class="icon-cogs"></i></a>
+			<li data-bind="css: { active: router.navigationModel()[1].isActive }">
+				<a data-bind="attr: { href: router.navigationModel()[1].hash }"><i class="icon-cogs"></i></a>
 			</li>
 		</ul>
-		<div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
-			<i class="icon-spinner icon-2x icon-spin"></i>
+        <div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
+			<i class="icon-spinner icon-spin"></i>
 		</div>
 	</div>
 	<!-- smartphone -->
 	<div class="navbar-inner visible-phone navbar-fixed-top">
 		<ul class="nav">
-			<li data-bind="css: { active: router.navigationModel()[1].isActive }">
+			<li>
 				<a href="#/unread"><i class="icon-flag-alt icon-2x"></i><span class="badge badge-info" data-bind="text: unread"></span></a>
 			</li>
-            <li data-bind="css: { active: router.navigationModel()[2].isActive }">
+            <li>
 				<a href="#/starred"><i class="icon-star icon-2x"></i></a>
 			</li>
-			<li data-bind="css: { active: router.navigationModel()[3].isActive }">
+			<li>
 				<a href="#/read"><i class="icon-flag icon-2x"></i></a>
 			</li>
 		</ul>
@@ -59,4 +59,4 @@
 </div>
 
 <!-- standard composing -->
-<div data-bind="router: { transition:'entrance', view: 'views/dashboard/index' }"></div>
+<div data-bind="router: { transition:'entrance' }"></div>

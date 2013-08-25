@@ -1,14 +1,9 @@
 
-/**
- * Module dependencies.
- */
-
 var express = require('express')
   , config = require('./config')
   , indexes = require('./db/indexes')
   , routes = require('./routes')
-  , authentication = require('./authentication')
-  , api = require('./api')
+  , auth = require('./auth')
   , http = require('http')
   , bundleUp = require('bundle-up')
   , logger = require('./logger')
@@ -18,6 +13,7 @@ var express = require('express')
   , MongoStore = require('connect-mongo')(express)
   , app = express()
   , server = http.createServer(app)
+  , socketApp = require('./socketapp')
   , io = require('socket.io').listen(server)
   , sessionStore = new MongoStore({
                 db: 'web',
@@ -63,14 +59,8 @@ if ('development' == app.get('env')) {
 // screen routes
 app.get('/', routes.index);
 
-// api routes
-app.get('/api/subscriptions/', api.subscriptions);
-app.get('/api/subscriptions/:id', api.subscription);
-app.post('/api/articles/:id', api.articleUpdate);
-app.get('/api/articles/', api.articles);
-app.get('/api/articles/:id', api.article);
-
-authentication.initialize(app, io, sessionStore);
+auth.initialize(app, io, sessionStore);
+socketApp.start(io);
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

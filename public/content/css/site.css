@@ -1,10 +1,10 @@
+
 body {
     padding-top: 40px;
 }
 
 #subscriptions-container {
     border-right: 1px solid #CCC;
-    font-size: smaller;
 }
 
 #subscriptions ul li {
@@ -17,13 +17,10 @@ body {
 }
 
 .article  .title{
-    font-size: larger;
     vertical-align: middle;
-    font-weight: bold;
 }
 
 .article .article-sub-header {
-    font-weight: larger;
     margin: 1em 0;
     text-indent: 0.5em;
 }

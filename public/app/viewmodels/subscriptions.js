@@ -1,10 +1,12 @@
-﻿define(['plugins/router', 'models/subscription', 'filters', 'knockout'], function(router, Subscription, filters, ko) {
+﻿define(['plugins/router', 'models/subscription', 'filters', 'knockout', 'amplify', 'connection'], function(router, Subscription, filters, ko, amplify, connection) {
    
    var bindSubscription = function (model) {
-                
+        
+        /*
         model.unread = ko.computed(function () {
             return (model.unread() != 0) ? model.unread() : '';
         });
+        */
         
         model.active = ko.observable(model.id == filters.subscription);
         return model;
@@ -15,14 +17,17 @@
         router: router,
 		activate: function () {
             var self = this;
-            /*
-            return Subscription.loadAll(function (subscriptions) {
-                boundSubscriptions = subscriptions.map(bindSubscription);
-                self.subscriptions(boundSubscriptions);
-            });
             
-            */
-		},
+            return connection.wait()
+                    .then(function () {
+                        connection.send('backend.syncsubscriptions');
+                        connection.receive('backend.subscriptions')
+                                .then(function (subscriptions) {
+                                    boundSubscriptions = subscriptions.map(bindSubscription);
+                                    self.subscriptions(boundSubscriptions);
+                                });
+                    });
+        },
         makeActive : function () {
             var   self = this
                 , route = '#/dashboard';

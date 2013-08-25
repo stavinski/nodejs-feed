@@ -1,7 +1,7 @@
 ﻿<div id="subscriptions">
 <ul id="subscriptions" class="nav nav-list" data-bind="foreach: subscriptions">
     <li data-bind="css : { active : active }">
-        <a href="#" data-bind="click: $parent.makeActive"><i class="icon-rss-sign"></i> <!-- ko text: title --> <!-- /ko --> <span class="badge badge-info" data-bind="text: unread"></span></a>
+        <a href="#" data-bind="click: $root.makeActive"><i class="icon-rss-sign"></i> <!-- ko text: title --> <!-- /ko --> 
     </li>
 </ul>
 </div>

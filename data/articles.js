@@ -6,11 +6,12 @@ var config = require('../config')
     , Q = require('q')
     , logger = require('../logger');
     
-exports.getArticles = function(req, res) {
-    var filter = {
-        profile: new ObjectID(config.profiles.id)
+exports.getAll = function(filter) {
+    filters = {
+        profile : new ObjectID(config.profiles.id),
+        read : false
     };
-        
+    
     var flattenArticles = function (articles) {
         var flattened = []
             , results = flattened.concat.apply(flattened, articles);
@@ -22,11 +23,11 @@ exports.getArticles = function(req, res) {
         return results;
     };
     
-    Q.ninvoke(db, 'open')
+    return Q.ninvoke(db, 'open')
         .then (function (db) {
             var   subscriptions = db.collection('subscriptions')
                 , articles = db.collection('articles');
-            return Q.ninvoke(subscriptions, 'find', { profile : new ObjectID(config.profiles.id) })
+            return Q.ninvoke(subscriptions, 'find', { profile : filters.profile })
                 .then(function (cursor) { return Q.ninvoke(cursor, 'toArray'); })
                 .then(function (subs) { 
                     var deferreds = [];
@@ -37,11 +38,10 @@ exports.getArticles = function(req, res) {
                                 subscription : sub._id,
                             };
                         deferreds.push(deferred.promise);
-                        
-                        if ((!req.query.read) && (!req.query.starred)) filter.read = false;
-                        if (req.query.read) filter.read = true;
-                        if (req.query.starred) filter.starred = true;
-                                                
+                    
+                        if (filter === 'read') filters.read = true;
+                        if (filter === 'starred') filters.starred = true;
+                                                                        
                         var cursor = articles.find(filter, { content: 0, summary: 0 });
                         Q.ninvoke(cursor, 'toArray')
                          .then(function (articles) { deferred.resolve(articles); });
@@ -50,11 +50,9 @@ exports.getArticles = function(req, res) {
 
                     return Q.all(deferreds);
             })
-            .then(flattenArticles)
-            .then(function (results) { res.json(results); })
+            .then(flattenArticles);
         })
-        .fin(function () { db.close(); })
-        .done();
+        .fin(function () { db.close(); });
             
 };
 
