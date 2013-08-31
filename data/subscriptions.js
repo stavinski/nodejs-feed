@@ -5,13 +5,13 @@ var config = require('../config')
     , db = new mongodb.Db('pushfeed', dbServer,{w:0})
     , Q = require('q');
 
-exports.getAll = function(){
+exports.getAll = function(userId, since) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
                 return db.collection('subscriptions');
             })
             .then(function (subscriptions) {
-                var cursor = subscriptions.find({ profile: new ObjectID(config.profiles.id) }, { sort : [['title', 1]] });
+                var cursor = subscriptions.find({ profile: new ObjectID(userId), created : { $gte : new Date(since) } }, { sort : [['title', 1]] });
                 return Q.ninvoke(cursor, 'toArray');
             })
             .fin(function () { db.close(); });

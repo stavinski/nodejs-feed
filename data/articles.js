@@ -6,7 +6,7 @@ var config = require('../config')
     , Q = require('q')
     , logger = require('../logger');
     
-exports.getAll = function(filter) {
+exports.getAll = function(userId, filter, since) {
     var flattenArticles = function (articles) {
         var flattened = []
             , results = flattened.concat.apply(flattened, articles);
@@ -22,17 +22,17 @@ exports.getAll = function(filter) {
         .then (function (db) {
             var   subscriptions = db.collection('subscriptions')
                 , articles = db.collection('articles');
-            return Q.ninvoke(subscriptions, 'find', { profile : new ObjectID(config.profiles.id) })
+            
+            return Q.ninvoke(subscriptions, 'find', { profile : new ObjectID(userId) })
                 .then(function (cursor) { return Q.ninvoke(cursor, 'toArray'); })
                 .then(function (subs) { 
                     var deferreds = [];
                     
                     subs.forEach(function (sub) {
                         var   deferred = Q.defer()
-                            , query = { read : false };
+                            , query = { read : false, downloaded : { $gte : new Date(since) } };
                         deferreds.push(deferred.promise);
-                        
-                    
+                                            
                         query.subscription = sub._id;
                         if (filter === 'read') query.read = true;  
                         if (filter === 'starred') query.starred = true;

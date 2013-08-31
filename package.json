@@ -28,6 +28,8 @@
     "passport" : "*",
     "passport-google": "*",
     "socket.io" : "*",
-    "passport.socketio" : "*"
+    "passport.socketio" : "*",
+    "snrub" : "*",
+    "socket.io-client" : "*"
   }
 }

@@ -2,7 +2,7 @@
 config = {};
 
 config.app = {};
-//config.app.ipaddress = process.env.OPENSHIFT_INTERNAL_IP || process.env.OPENSHIFT_NODEJS_IP || 127.0.0.1;
+config.app.ipaddress = process.env.OPENSHIFT_INTERNAL_IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 config.app.port = process.env.OPENSHIFT_INTERNAL_PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000;
 config.app.baseUrl = 'http://pushfeed.local:3000/';
 
@@ -23,5 +23,9 @@ config.session.secret = '@>i5[3q@Xs+*/X9';
 config.socketio = {};
 config.socketio.loglevel = 1;
 config.socketio.minify = false;
+
+config.background = {};
+config.background.port = 15000;
+config.background.pollMs = 30000;
 
 module.exports = config;

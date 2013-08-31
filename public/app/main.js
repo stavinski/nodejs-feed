@@ -32,7 +32,7 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/rout
         system.debug(true);
         //>>excludeEnd("build");
 
-        app.title = 'Push Feed';
+        app.title = 'pushfeed.net';
         
         app.configurePlugins({
             router:true,

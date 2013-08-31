@@ -1,4 +1,4 @@
-﻿define(['plugins/router', 'durandal/app', 'durandal/system', 'amplify', 'models/subscription', 'connection', 'bootstrap','knockout', 'logger'], function (router, app, system, amplify, Subscription, connection, bootstrap, ko, logger) {
+﻿define(['plugins/router', 'durandal/app', 'durandal/system', 'amplify', 'models/subscription', 'connection', 'bootstrap','knockout', 'logger', 'cache'], function (router, app, system, amplify, Subscription, connection, bootstrap, ko, logger, cache) {
     
     var vm = {
         router: router,
@@ -19,20 +19,24 @@
                     logger.logError('could not connect to backend', reason, system.getModuleId(this), true);
                 })
                 .then(function () { 
+                    self.connected(true);
+                    connection.receive('backend.profile', function (data) {
+                        cache.set('profile', data);                    
+                    });
+                    connection.send('backend.syncprofile');
+                                        
                     amplify.subscribe(connection.TOPIC_CONNECTED, function () {
                         self.connected(true);
-                        logger.log('connected to backend', null, system.getModuleId(this), true);
                     });
                     
                     amplify.subscribe(connection.TOPIC_DISCONNECTED, function () {
                         self.connected(false);
-                        logger.log('disconnected from backend', null, system.getModuleId(this), true);
                     });
                 })
                 .then(function () {
                     return router.makeRelative({ moduleId: 'viewmodels' })
                          .map([
-                                { route : 'dashboard/:filter(/:subscription)', title : 'Unread', moduleId : 'articles', nav : true },
+                                { route : ':filter(/:subscription)', title: 'dashboard', moduleId : 'articles', nav : true },
                                 { route : 'article/:id', moduleId : 'article', },
                                 { route : 'admin', moduleId : 'admin', nav : true }
                          ])
@@ -41,10 +45,15 @@
                          .activate();
                 });
         },
-        viewAttached : function () {
+        attached : function () {
             if (this.unauthorized) {
                 $('#signin').modal();
             }
+        },
+        forceConnection : function () {
+            if (this.connected()) return;
+            
+            connection.connect();
         }
     };
     

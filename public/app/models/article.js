@@ -1,3 +1,5 @@
+/*
+
 define(['../logger', '../config', '../durandal/system', '../datacache', 'knockout'], function(logger, config, system, cache, ko) {
     
     var Article = function(vals) {
@@ -121,3 +123,6 @@ define(['../logger', '../config', '../durandal/system', '../datacache', 'knockou
     
     return Article;
 });
+
+
+*/

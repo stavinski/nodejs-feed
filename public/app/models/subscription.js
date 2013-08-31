@@ -1,3 +1,5 @@
+/*
+
 define(['../logger', '../config', '../durandal/system', '../datacache', 'knockout'], function(logger, config, system, cache, ko) {
     
     var Subscription = function(vals) {
@@ -38,3 +40,5 @@ define(['../logger', '../config', '../durandal/system', '../datacache', 'knockou
     
     return Subscription;
 });
+
+*/

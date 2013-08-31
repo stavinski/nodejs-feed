@@ -16,6 +16,14 @@
 			</li>
 		</ul>
 		<ul class="nav pull-right">
+            <li>
+                <a href="#" class="icon-stack" data-bind="click: forceConnection">
+                    <i class="icon-cloud" ></i>
+                    <!-- ko if: !connected() -->
+                    <i class="icon-ban-circle icon-stack-base text-error"></i>
+                    <!--/ko-->
+                </a>
+            </li>
 			<li data-bind="css: { active: router.navigationModel()[1].isActive }">
 				<a data-bind="attr: { href: router.navigationModel()[1].hash }"><i class="icon-cogs"></i></a>
 			</li>
@@ -59,4 +67,4 @@
 </div>
 
 <!-- standard composing -->
-<div data-bind="router: {  }"></div>
+<div data-bind="router: {}"></div>
