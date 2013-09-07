@@ -35,9 +35,7 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/rout
         app.title = 'pushfeed.net';
         
         app.configurePlugins({
-            router:true,
-            dialog: true,
-            widget: true
+            router:true
         });
         
         app.start().then(function() {

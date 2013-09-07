@@ -1,7 +1,6 @@
 var   config = require('./config')
     , subscriptions = require('./data/subscriptions')
     , articles = require('./data/articles')
-    , articlesHandler = require('./handlers/articlesupdated')
     , user = null;
 
 var assignUser = function (socket) {
@@ -51,7 +50,20 @@ var start = function (sio) {
        syncArticles(socket);
        syncProfile(socket);
        
-       articlesHandler.init(socket, user);
+       socket.on('backend.addfeed', function (data, callback) {
+            var   feed = require('./feed');
+            
+            feed.details(data.url)
+                    .then(function (details) {
+                        callback({ status : 'success', details : details });
+                    })
+                    .fail(function (err) {
+                        callback({ status : 'error' });
+                    })
+                    .done();
+       });
+       
+       
     });
     
 };

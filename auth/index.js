@@ -12,7 +12,7 @@ var   providers = ['google']
     , db = new mongodb.Db('pushfeed', dbServer, {w:0})
     , Q = require('q');
 
-var initialize = function (app, io, sessionStore) {
+var init = function (app, io, sessionStore) {
     passport.serializeUser(function(profile, done) {
         done(null, profile);
     });
@@ -42,5 +42,5 @@ var initialize = function (app, io, sessionStore) {
     
 };
 
-module.exports.initialize = initialize;
+module.exports.init = init;
     

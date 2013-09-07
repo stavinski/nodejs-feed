@@ -8,7 +8,6 @@
         connected : ko.observable(false),
         activate: function () {
             var self = this;
-                 
             return connection.connect()
                 .fail(function (reason) { 
                     if (reason == 'handshake unauthorized') {
@@ -34,13 +33,15 @@
                     });
                 })
                 .then(function () {
-                    return router.makeRelative({ moduleId: 'viewmodels' })
+                    return router
                          .map([
-                                { route : ':filter(/:subscription)', title: 'dashboard', moduleId : 'articles', nav : true },
-                                { route : 'article/:id', moduleId : 'article', },
-                                { route : 'admin', moduleId : 'admin', nav : true }
+                                { route : '', title: 'unread', moduleId : 'viewmodels/unread' },
+                                { route : 'unread(/:subscription)', title: 'unread', moduleId : 'viewmodels/unread', hash: '#unread', nav : true },
+                                { route : 'starred(/:subscription)', title: 'starred', moduleId : 'viewmodels/starred', hash : '#starred', nav : true },
+                                { route : 'read(/:subscription)', title: 'read', moduleId : 'viewmodels/read', hash : '#read', nav : true },
+                                { route : 'article/:id', moduleId : 'viewmodels/article', },
+                                { route : 'admin', moduleId : 'viewmodels/admin', title : 'admin', nav : true }
                          ])
-                         .mapUnknownRoutes('articles')
                          .buildNavigationModel()
                          .activate();
                 });

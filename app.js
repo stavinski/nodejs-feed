@@ -14,6 +14,7 @@ var express = require('express')
   , app = express()
   , server = http.createServer(app)
   , socketApp = require('./socketapp')
+  , feedpush = require('./feedpush')
   , io = require('socket.io').listen(server)
   , sessionStore = new MongoStore({
                 db: 'web',
@@ -59,7 +60,8 @@ if ('development' == app.get('env')) {
 // screen routes
 app.get('/', routes.index);
 
-auth.initialize(app, io, sessionStore);
+auth.init(app, io, sessionStore);
+feedpush.init(app);
 socketApp.start(io);
 
 server.listen(app.get('port'), function(){

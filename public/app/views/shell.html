@@ -1,35 +1,16 @@
 ﻿<div class="navbar">
-	<!-- desktop/tablet -->
+    <!-- desktop/tablet -->
 	<div class="navbar-inner hidden-phone navbar-fixed-top">
 		<a class="brand" data-bind="attr: { href: router.navigationModel()[0].hash }">
 			<i class="icon-rss"></i>
 		</a>
-		<ul class="nav">
-			<li>
-				<a href="#/unread"><i class="icon-flag-alt"></i> Unread <span class="badge badge-info" data-bind="text: unread"></span></a>
-			</li>
-            <li>
-				<a href="#/starred"><i class="icon-star"></i> Starred</a>
-			</li>
-			<li>
-				<a href="#/read"><i class="icon-flag"></i> Read</a>
+		<ul class="nav" data-bind="foreach: router.navigationModel">
+			<li data-bind="css : { active : isActive }">
+				<a data-bind="attr: { href : hash }, text: title"></a>
 			</li>
 		</ul>
-		<ul class="nav pull-right">
-            <li>
-                <a href="#" class="icon-stack" data-bind="click: forceConnection">
-                    <i class="icon-cloud" ></i>
-                    <!-- ko if: !connected() -->
-                    <i class="icon-ban-circle icon-stack-base text-error"></i>
-                    <!--/ko-->
-                </a>
-            </li>
-			<li data-bind="css: { active: router.navigationModel()[1].isActive }">
-				<a data-bind="attr: { href: router.navigationModel()[1].hash }"><i class="icon-cogs"></i></a>
-			</li>
-		</ul>
-        <div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
-			<i class="icon-spinner icon-spin"></i>
+		<div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
+			<i class="icon-spinner icon-spin icon-2x"></i>
 		</div>
 	</div>
 	<!-- smartphone -->
@@ -66,5 +47,4 @@
     </div>
 </div>
 
-<!-- standard composing -->
-<div data-bind="router: {}"></div>
+<div data-bind="router: { }"></div>

@@ -25,7 +25,6 @@ config.socketio.loglevel = 1;
 config.socketio.minify = false;
 
 config.background = {};
-config.background.port = 15000;
 config.background.pollMs = 30000;
 
 module.exports = config;

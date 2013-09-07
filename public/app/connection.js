@@ -56,12 +56,20 @@ define(['socket.io', 'Q', 'amplify'], function (sio, Q, amplify) {
         return Q.fcall(function () { io.emit(evt, data); });
     };
     
+    var _emitcallack = function (evt, data, ack) {
+        return Q.fcall(function () { io.emit(evt, data, ack); });
+    };
+    
     var _receive = function (evt, callback) {
         io.on(evt, callback);
     };
     
-    var _send = function (evt, data) {
-        return _emitcall(evt, data);
+    var _send = function (evt, data, ack) {
+        if (ack != 'undefined') {
+            return _emitcallack(evt, data, ack);
+        } else {
+            return _emitcall(evt, data);
+        }
     };
     
     return {
