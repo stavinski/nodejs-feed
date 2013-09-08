@@ -3,14 +3,33 @@
     <div class="tabbable tabs-left">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#feeds" data-toggle="tab">feeds</a>
+            <li><a href="#caching" data-toggle="tab">caching</a>
+            <li><a href="#import" data-toggle="tab">import</a>
         </ul>
     
         <div class="tab-content">
             <div class="tab-pane active" id="feeds">
+                <h2>feeds</h2>
                 <form class="inline-form">
                     <div class="input-append">
                         <input type="text" class="input-xxlarge" placeholder="feed url" data-bind="value : feedUrl" />
                         <button class="btn btn-primary" data-bind="click : addFeed">add</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="tab-pane" id="caching">
+                <h2>caching</h2>
+                <p>asdasdasdalkl;dkl;asd</p>
+                <p>asdasdasdalkl;dkl;asd</p>
+            </div>
+            
+            <div class="tab-pane" id="import">
+                <h2>import</h2>
+                <form class="inline-form">
+                    <div class="input-append">
+                        <input type="text" class="input-xxlarge" placeholder="opml file" />
+                        <button class="btn btn-primary">upload</button>
                     </div>
                 </form>
             </div>

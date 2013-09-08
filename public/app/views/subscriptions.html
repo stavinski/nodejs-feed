@@ -1,7 +1,5 @@
-﻿<div id="subscriptions">
-<ul id="subscriptions" class="nav nav-list" data-bind="foreach: subscriptions">
+﻿<ul id="subscriptions" class="nav nav-list" data-bind="foreach: subscriptions">
     <li data-bind="css : { active : active }">
-        <a href="#" data-bind="click: $root.makeActive"><i class="icon-rss-sign"></i> <!-- ko text: title --> <!-- /ko --> 
+        <a href="#" data-bind="click: $root.makeActive"><img height="16" width="16" onerror="this.onerror=null;this.src='http://pushfeed.local:3000/favicon.ico'" data-bind="attr: { src : favicon, alt : title }" /> <!-- ko text: title --> <!-- /ko --> 
     </li>
 </ul>
-</div>

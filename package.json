@@ -30,6 +30,7 @@
     "socket.io" : "*",
     "passport.socketio" : "*",
     "snrub" : "*",
-    "mubsub" : "*"
+    "mubsub" : "*",
+    "mongoskin" : "*"
   }
 }

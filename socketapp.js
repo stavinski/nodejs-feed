@@ -1,5 +1,6 @@
 var   config = require('./config')
     , subscriptions = require('./data/subscriptions')
+    , subscriptioninstances = require('./data/subscriptioninstances')
     , articles = require('./data/articles')
     , user = null;
 
@@ -36,6 +37,16 @@ var syncProfile = function (socket) {
         socket.emit('backend.profile', { timestamp : new Date(), profile : profile });
     });
 };
+
+var syncArticle = function (socket) {
+    socket.on('backend.syncarticle', function (data, callback) {
+        articles.get(data.id)
+            .then(function (article) {
+                callback({ timestamp: new Date(), article : article });
+            })
+            .done();
+    });
+};
     
 var start = function (sio) {
     
@@ -49,13 +60,42 @@ var start = function (sio) {
        syncSubscriptions(socket);
        syncArticles(socket);
        syncProfile(socket);
+       syncArticle(socket);
        
        socket.on('backend.addfeed', function (data, callback) {
-            var   feed = require('./feed');
+            var   feed = require('./feed')
+                , feedpush = require('./feedpush');
             
             feed.details(data.url)
                     .then(function (details) {
-                        callback({ status : 'success', details : details });
+                        subscriptions.getByUrl(details.xmlurl)
+                            .then(function (subscription) { 
+                                if (subscription == null) {
+                                    return subscriptions.insert(details);
+                                } else {
+                                    return subscription;
+                                }                                 
+                            })
+                            .then (function (subscription) {
+                                console.log('subscribing ' + subscription);
+                                if (subscription.pubsub != null) {
+                                    feedpush.subscribe(subscription.pubsub.href, subscription.xmlurl);
+                                }
+                                
+                                return subscription;
+                            })
+                            .then (function (subscription) {
+                                // insert articles
+                                
+                                return subscription;
+                            })
+                            .then (function (subscription) {
+                                console.log('instance ' + subscription);
+                                subscriptioninstances.insert(subscription, user._id);
+                            })
+                            .done();
+                            
+                        callback({ status : 'success' });
                     })
                     .fail(function (err) {
                         callback({ status : 'error' });

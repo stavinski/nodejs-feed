@@ -20,7 +20,7 @@
                     <div class="article-header well well-small">
                         <button type="button" class="btn btn-primary" data-toggle="collapse" data-bind="attr: { 'data-target' : '#article' + $index() }, click: headerClicked"><i data-bind="css: { 'icon-minus' : !collapsed(), 'icon-plus' : collapsed() }"></i></button>
                         <span class="title" data-bind="text: title, css: { muted: read }"></span>
-                        <a data-bind="attr: { href : link }, click : externalLinkClicked" target="_blank" type="button" class="btn btn-primary pull-right"><i class="icon-external-link"></i></a>            
+                        <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-link"></i></a>            
                         <button type="button" data-bind="click: starToggle" class="btn btn-primary pull-right"><i data-bind="css : { 'icon-star-empty' : !starred(), 'icon-star' : starred() }" ></i></button>            
                     </div>
                            
@@ -42,10 +42,10 @@
                         <div class="article-sub-header">
                             <i class="icon-double-angle-right"></i>
                             <em><span data-bind="text: author"></span> - 
-                            <span data-bind="date: published"></span></em>
+                            <span data-bind="text: published"></span></em>
                         </div>
                         <div>
-                            <a data-bind="click : externalLinkClicked" target="_blank" type="button" class="btn btn-primary"><i class="icon-external-link icon-2x"></i></a>
+                            <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-link icon-2x"></i></a>
                             <a type="button" data-bind="click: starToggle" class="btn btn-primary"><i class="icon-2x" data-bind="css : { 'icon-star-empty' : !starred(), 'icon-star' : starred() }"></i> </a>            
                         </div>
                     </div>

@@ -15,15 +15,9 @@
 	</div>
 	<!-- smartphone -->
 	<div class="navbar-inner visible-phone navbar-fixed-top">
-		<ul class="nav">
-			<li>
-				<a href="#/unread"><i class="icon-flag-alt icon-2x"></i><span class="badge badge-info" data-bind="text: unread"></span></a>
-			</li>
-            <li>
-				<a href="#/starred"><i class="icon-star icon-2x"></i></a>
-			</li>
-			<li>
-				<a href="#/read"><i class="icon-flag icon-2x"></i></a>
+		<ul class="nav" data-bind="foreach: router.navigationModel">
+			<li data-bind="css : { active : isActive }">
+				<a data-bind="attr: { href : hash }, text: title"></a>
 			</li>
 		</ul>
 	</div>

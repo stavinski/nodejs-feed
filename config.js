@@ -27,4 +27,7 @@ config.socketio.minify = false;
 config.background = {};
 config.background.pollMs = 30000;
 
+config.feedpush = {};
+config.feedpush.secret = 'C.IJ7-**=74/"5p';
+
 module.exports = config;

@@ -8,7 +8,12 @@ var feed = {
     details : function (feedUrl) {
         var deferred = Q.defer()
             , host = url.parse(feedUrl).hostname;
-                    
+        
+        request('http://84.246.200.245/rss/').pipe(new FeedParser())
+                    .on('error' , deferred.reject)
+                    .on('meta', deferred.resolve);
+        
+        /*
         dns.resolve(host, function (err) {
             if (err) {
                 deferred.reject(err);
@@ -18,6 +23,7 @@ var feed = {
                     .on('meta', deferred.resolve);
             }
         });
+        */
     
         return deferred.promise;
     }

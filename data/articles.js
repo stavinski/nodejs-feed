@@ -51,20 +51,15 @@ exports.getAll = function(userId, filter, since) {
             
 };
 
-exports.getArticle = function(req, res) {
-    var id = req.params.id;
-    Q.ninvoke(db, 'open')
-        .then(function (db) {
-            return db.collection('articles');
-        })
-        .then(function (articles) {
-            return Q.ninvoke(articles, 'findOne', {_id : new ObjectID(id) });
-        })
-        .then(function (article) {
-            res.json(article);
-        })
-        .fin(function () { db.close(); })
-        .done();
+exports.get = function(id) {
+    return Q.ninvoke(db, 'open')
+            .then(function (db) {
+                return db.collection('articles');
+            })
+            .then(function (articles) {
+                return Q.ninvoke(articles, 'findOne', {_id : new ObjectID(id) });
+            })
+            .fin(function () { db.close(); });
 };
 
 exports.update = function (req, res) {

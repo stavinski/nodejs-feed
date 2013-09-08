@@ -1,6 +1,7 @@
-﻿define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache'], function(router, Subscription, ko, connection, cache) {
+﻿define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery'], function(router, Subscription, ko, connection, cache, $) {
    
    var bindSubscription = function (model) {
+        var subscription = model;
         
         /*
         model.unread = ko.computed(function () {
@@ -11,8 +12,7 @@
         model.active = ko.observable(router.activeItem().subscription == model._id);
         return model;
     };
-   
-   
+      
    var ViewModel = {
         _init : false,
         subscriptions: ko.observableArray(),
@@ -60,7 +60,7 @@
                         
             router.navigate(route + self._id);
             return false;
-        }
+        }       
     };
     
     return ViewModel;

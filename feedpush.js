@@ -1,12 +1,17 @@
 var   config = require('./config')
-    , subscriber = require('snrub').createSubscriber({ host : config.app.baseUrl, prefix : '/push' });
+    , subscriber = require('snrub').createSubscriber({ host : 'http://84.246.200.245:3000', prefix : '/push', secret : config.feedpush.secret });
     
 var feedpush = {
     init : function (app) {
         app.use(subscriber.middleware());
     },
-    subscribe : subscriber.subscribe,
-    unsubscribe : subscriber.unsubscribe,
+    subscribe : function (hub, topic) { 
+        subscriber.subscribe(hub, topic, null, function success(result) {
+            console.log('success ' + result);
+        }, function error(code) {
+            console.log('error ' + code);
+        }); },
+    unsubscribe : function (hub, topic) { subscriber.unsubscribe(hub, topic); },
     subscribed : function (callback) {
         subscriber.on('subscribe', callback);
     },

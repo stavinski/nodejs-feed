@@ -61,7 +61,18 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 
 auth.init(app, io, sessionStore);
+
+// handle push feeds
 feedpush.init(app);
+feedpush.subscribed(function (topic) {
+    console.log(topic);
+});
+feedpush.updated(function (topic, content) {
+    console.log(topic);
+    console.log(content);
+});
+
+
 socketApp.start(io);
 
 server.listen(app.get('port'), function(){
