@@ -8,12 +8,7 @@ var feed = {
     details : function (feedUrl) {
         var deferred = Q.defer()
             , host = url.parse(feedUrl).hostname;
-        
-        request('http://84.246.200.245/rss/').pipe(new FeedParser())
-                    .on('error' , deferred.reject)
-                    .on('meta', deferred.resolve);
-        
-        /*
+                
         dns.resolve(host, function (err) {
             if (err) {
                 deferred.reject(err);
@@ -23,9 +18,34 @@ var feed = {
                     .on('meta', deferred.resolve);
             }
         });
-        */
-    
+        
         return deferred.promise;
+    },
+    
+    articles : function (feedUrl) {
+        var host = url.parse(feedUrl).hostname;
+                
+        return Q.ninvoke(dns, 'resolve', host)
+                .then(function () {
+                    var   deferred = Q.defer()
+                        , results = [];
+                    
+                    request(feedUrl)
+                        .on('error', deferred.reject)
+                        .pipe(new FeedParser({ addmeta : false }))
+                        .on ('error', deferred.reject)
+                        .on('readable', function () {
+                            var   stream = this
+                                , item = null;
+                                
+                            while (item = stream.read()) {
+                                results.push(item);
+                            }
+                        })
+                        .on('end', function () { deferred.resolve(results); });
+                                                
+                    return deferred.promise;
+                });    
     }
 };
 

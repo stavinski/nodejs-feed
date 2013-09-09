@@ -1,5 +1,5 @@
 var   config = require('./config')
-    , subscriber = require('snrub').createSubscriber({ host : 'http://84.246.200.245:3000', prefix : '/push', secret : config.feedpush.secret });
+    , subscriber = require('snrub').createSubscriber({ host : config.app.baseUrl, prefix : '/push', secret : config.feedpush.secret });
     
 var feedpush = {
     init : function (app) {

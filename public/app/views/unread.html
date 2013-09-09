@@ -18,10 +18,8 @@
 
                 <div class="article hidden-phone" data-bind="foreach: articlesToShow">
                     <div class="article-header well well-small">
-                        <button type="button" class="btn btn-primary" data-toggle="collapse" data-bind="attr: { 'data-target' : '#article' + $index() }, click: headerClicked"><i data-bind="css: { 'icon-minus' : !collapsed(), 'icon-plus' : collapsed() }"></i></button>
-                        <span class="title" data-bind="text: title, css: { muted: read }"></span>
-                        <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-link"></i></a>            
-                        <button type="button" data-bind="click: starToggle" class="btn btn-primary pull-right"><i data-bind="css : { 'icon-star-empty' : !starred(), 'icon-star' : starred() }" ></i></button>            
+                        <span class="title" data-bind="text: title"></span>
+                        <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-circle-arrow-right"></i></a>
                     </div>
                            
                     <div data-bind="attr: { id : 'article' + $index() }, css : { in : !collapsed }" class="collapse">

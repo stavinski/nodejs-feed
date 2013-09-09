@@ -1,6 +1,6 @@
 var   config = require('./config')
     , subscriptions = require('./data/subscriptions')
-    , subscriptioninstances = require('./data/subscriptioninstances')
+    , profile = require('./data/profile')
     , articles = require('./data/articles')
     , user = null;
 
@@ -20,9 +20,9 @@ var syncSubscriptions = function (socket) {
 
 var syncArticles = function (socket) {
     socket.on('backend.syncarticles', function (data) {
-        articles.getAll(user._id, data.filter, data.since)
+        articles.getUnread(user._id, data.since)
             .then(function (articles) {
-                socket.emit('backend.articles', { timestamp: new Date(), filter : data.filter, articles : articles });
+                socket.emit('backend.articles', { timestamp: new Date(), articles : articles });
             })
             .done();
     });
@@ -43,8 +43,77 @@ var syncArticle = function (socket) {
         articles.get(data.id)
             .then(function (article) {
                 callback({ timestamp: new Date(), article : article });
+                articles.read(user._id, article);
             })
             .done();
+    });
+};
+
+var handleStarred = function (socket) {
+    socket.on('backend.starred', function (data, callback) {
+        articles.starred(user._id, data.id)
+            .then(function () {
+                callback({ timestamp: new Date(), status : 'success' });
+            })
+            .fail(function () {
+                callback({ timestamp: new Date(), status : 'error' });
+            })
+            .done();
+    });
+};
+
+var handleUnstarred = function (socket) {
+    socket.on('backend.unstarred', function (data, callback) {
+        articles.unstarred(user._id, data.id)
+            .then(function () {
+                callback({ timestamp: new Date(), status : 'success' });
+            })
+            .fail(function () {
+                callback({ timestamp: new Date(), status : 'error' });
+            })
+            .done();
+    });
+};
+
+var handleAddFeed = function (socket) {
+    socket.on('backend.addfeed', function (data, callback) {
+            var   feed = require('./feed')
+                , feedpush = require('./feedpush');
+            
+            feed.details(data.url)
+                    .then(function (details) {
+                        subscriptions.upsert(details)
+                            .then(function (updated) { 
+                                if (updated.length == 0) return;
+                                    
+                                var subscription = updated[0];
+                                profile.subscribe(user._id, subscription);    
+                                
+                                if (subscription.pubsub != null)
+                                    feedpush.subscribe(subscription.pubsub.href, subscription.xmlurl);
+                                                                
+                                return feed.articles(data.url)
+                                        .then(function (downloaded) {
+                                            articles.upsert(subscription, downloaded);
+                                        });
+                            })
+                    })
+                    .then(function () { callback({ status : 'success' }); })
+                    .fail(function (err) {
+                        console.error(err);
+                        callback({ status : 'error' });
+                    })
+                    .done();
+       });
+};
+
+var handleUserConnected = function (socket) {
+    profile.connected(user._id);
+};
+
+var handleUserDisconnected = function (socket) {
+    socket.on('disconnect', function () {
+        profile.disconnected(user._id);
     });
 };
     
@@ -57,53 +126,15 @@ var start = function (sio) {
     // main entry point
     sio.sockets.on('connection', function (socket) {
        assignUser(socket);
+       handleUserConnected(socket);
        syncSubscriptions(socket);
        syncArticles(socket);
        syncProfile(socket);
        syncArticle(socket);
-       
-       socket.on('backend.addfeed', function (data, callback) {
-            var   feed = require('./feed')
-                , feedpush = require('./feedpush');
-            
-            feed.details(data.url)
-                    .then(function (details) {
-                        subscriptions.getByUrl(details.xmlurl)
-                            .then(function (subscription) { 
-                                if (subscription == null) {
-                                    return subscriptions.insert(details);
-                                } else {
-                                    return subscription;
-                                }                                 
-                            })
-                            .then (function (subscription) {
-                                console.log('subscribing ' + subscription);
-                                if (subscription.pubsub != null) {
-                                    feedpush.subscribe(subscription.pubsub.href, subscription.xmlurl);
-                                }
-                                
-                                return subscription;
-                            })
-                            .then (function (subscription) {
-                                // insert articles
-                                
-                                return subscription;
-                            })
-                            .then (function (subscription) {
-                                console.log('instance ' + subscription);
-                                subscriptioninstances.insert(subscription, user._id);
-                            })
-                            .done();
-                            
-                        callback({ status : 'success' });
-                    })
-                    .fail(function (err) {
-                        callback({ status : 'error' });
-                    })
-                    .done();
-       });
-       
-       
+       handleAddFeed(socket);
+       handleStarred(socket);       
+       handleUnstarred(socket);       
+       handleUserDisconnected(socket);       
     });
     
 };

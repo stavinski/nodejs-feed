@@ -16,7 +16,7 @@ var initialize = function (app) {
             var profiles = db.collection('profiles');            
             Q.ninvoke(db, 'open')
                 .then(function() {
-                    return Q.ninvoke(profiles, 'findOne', { openid : identifier })
+                    return Q.ninvoke(profiles, 'findOne', { openid : identifier }, { created : 1, settings : 1})
                             .then(function (profile) {
                             if (profile == null) {
                                 return done(null, false);

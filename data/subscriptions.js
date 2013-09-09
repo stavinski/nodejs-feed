@@ -8,13 +8,17 @@ var config = require('../config')
     , Q = require('q')
     , url = require('url');
 
-exports.getAll = function(userId, since) {
+exports.getAll = function(profile, since) {
     return Q.ninvoke(db, 'open')
-            .then(function (db) {
-                return db.collection('subscriptions');
+            .then(function (profiles) {
+                return Q.ninvoke(db.collection('profiles'), 'findOne', { _id : new ObjectID(profile) }, { _id : 0, subscriptions : 1 });
             })
-            .then(function (subscriptions) {
-                var cursor = subscriptions.find({ profile: new ObjectID(userId), created : { $gte : new Date(since) } }, { sort : [['title', 1]] });
+            .then (function (result) {
+                var filter = {
+                    created : { $gte : new Date(since) },
+                    _id : { $in : result.subscriptions }
+                };
+                var cursor = db.collection('subscriptions').find(filter, { sort : [['stitle', 1]] });
                 return Q.ninvoke(cursor, 'toArray');
             })
             .fin(function () { db.close(); });
@@ -29,16 +33,7 @@ exports.get = function(id) {
         .fin(function () { db.close(); });
 };
 
-exports.getByUrl = function (url) {
-    return Q.ninvoke(db, 'open')
-               .then(function (db) {
-                    var subscriptions = db.collection('subscriptions');
-                    return Q.ninvoke(subscriptions, 'findOne', { xmlurl : url });
-               })
-               .fin(function () { db.close(); });
-};
-
-exports.insert = function (meta) {
+exports.upsert = function (meta) {
     var parseFavicon = function (meta) {
         if (meta.favicon != null) return meta.favicon;
         
@@ -49,27 +44,26 @@ exports.insert = function (meta) {
     };
     
     var parsePubSub = function (meta) {
-        if (meta.cloud == null) return null;
+        if (Object.keys(meta.cloud).length == 0) return null;
         
         return meta.cloud;
     };
 
     return Q.ninvoke(db, 'open')
             .then(function (db) {
-                var subscriptions = db.collection('subscriptions')
-                    data = {
+                var   subscriptions = db.collection('subscriptions')
+                    , data = {
                         created : new Date(),
-                        etag : '',
-                        lastModified : '',
                         favicon : parseFavicon(meta),
                         pubsub : parsePubSub(meta),
-                        lastPoll : new Date(0),
                         htmlurl : meta.htmlurl,
                         title : meta.title,
-                        xmlurl : meta.xmlurl
-                    };
-                    
-                return Q.ninvoke(subscriptions, 'insert', data, {w:1});
+                        stitle : meta.title.toLowerCase(),
+                        xmlurl : meta.xmlurl,
+                        image : meta.image
+                      };         
+                
+                return Q.ninvoke(subscriptions, 'findAndModify', { xmlurl : meta.xmlurl }, [['xmlurl', 1]], data, {w:1, upsert : true, new : true});
             })
             .fin(function () { db.close(); });
             
