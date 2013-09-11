@@ -11,16 +11,6 @@
             });
         };
         
-        model.externalLinkClicked = function(data, evt) {
-            var self = this;
-            self.markAsRead();
-            return true;
-        };
-        
-        model.starToggle = function () {
-            return this.toggleStarred();
-        };
-        
         model.collapsed = ko.observable(true);
         model.starred = ko.observable(model.starred);
         model.read = ko.observable(model.read);
@@ -57,8 +47,13 @@
             self.loading(true);
             return connection.wait()
                     .then(function () {
+                        connection.receive('backend.articlesupdated', function (data) {
+                            var existing = cache.get('articles:unread');
+                            connection.send('backend.syncarticles', { filter: 'unread', since : existing.timestamp });
+                        });
+                        
                         connection.receive('backend.articles', function (data) {
-                            var   cacheKey = 'articles:' + data.filter
+                            var   cacheKey = 'articles:unread'
                                 , current = cache.get(cacheKey);
                             if (current) {
                                 current.articles = current.articles.concat(data.articles);

@@ -1,7 +1,8 @@
 var   config = require('./config')
     , subscriptions = require('./data/subscriptions')
-    , profile = require('./data/profile')
+    , profiles = require('./data/profiles')
     , articles = require('./data/articles')
+    , bus = require('./bus')
     , user = null;
 
 var assignUser = function (socket) {
@@ -10,7 +11,7 @@ var assignUser = function (socket) {
     
 var syncSubscriptions = function (socket) {
     socket.on('backend.syncsubscriptions', function (data) {
-        subscriptions.getAll(user._id, data.since)
+        subscriptions.getAllByProfile(user._id, data.since)
             .then(function (subscriptions) {
                 socket.emit('backend.subscriptions', { timestamp : new Date(), subscriptions : subscriptions });
             })
@@ -83,12 +84,12 @@ var handleAddFeed = function (socket) {
             feed.details(data.url)
                     .then(function (details) {
                         subscriptions.upsert(details)
-                            .then(function (updated) { 
-                                if (updated.length == 0) return;
+                            .then(function (result) {
+                                if (result.existing) return;
                                     
-                                var subscription = updated[0];
-                                profile.subscribe(user._id, subscription);    
-                                
+                                var subscription = result.subscription;
+                                profiles.subscribe(user._id, subscription);    
+                                                                
                                 if (subscription.pubsub != null)
                                     feedpush.subscribe(subscription.pubsub.href, subscription.xmlurl);
                                                                 
@@ -108,33 +109,52 @@ var handleAddFeed = function (socket) {
 };
 
 var handleUserConnected = function (socket) {
-    profile.connected(user._id);
+    profiles.connected(user._id, socket.id);
 };
 
 var handleUserDisconnected = function (socket) {
     socket.on('disconnect', function () {
-        profile.disconnected(user._id);
+        profiles.disconnected(user._id);
+    });
+};
+
+var handleArticlesUpdated = function (sio) {
+    bus.subscribe('bg.articlesupdated', function (msg) {
+        profiles.getAllConnected(msg.subscription._id)
+            .then(function (results) {
+                var   profile = results[0]
+                    , socket = sio.sockets.socket(profile.socketId);
+                
+                // just in case the socket has closed between the retrieval
+                if (socket)                    
+                    socket.emit('backend.articlesupdated', { timestamp: new Date() });
+            })
+            .done();
     });
 };
     
 var start = function (sio) {
-    
+            
     // configure socket.io
     sio.set('log level', config.socketio.loglevel);
     if (config.socketio.minify) sio.enable('browser client minification');
     
+    // handle when articles are updated in the background
+    // will find a proper home going forward
+    handleArticlesUpdated(sio);
+    
     // main entry point
     sio.sockets.on('connection', function (socket) {
-       assignUser(socket);
-       handleUserConnected(socket);
-       syncSubscriptions(socket);
-       syncArticles(socket);
-       syncProfile(socket);
-       syncArticle(socket);
-       handleAddFeed(socket);
-       handleStarred(socket);       
-       handleUnstarred(socket);       
-       handleUserDisconnected(socket);       
+        assignUser(socket);
+        handleUserConnected(socket);
+        syncSubscriptions(socket);
+        syncArticles(socket);
+        syncProfile(socket);
+        syncArticle(socket);
+        handleAddFeed(socket);
+        handleStarred(socket);       
+        handleUnstarred(socket);       
+        handleUserDisconnected(socket);       
     });
     
 };

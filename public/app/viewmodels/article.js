@@ -1,4 +1,4 @@
-﻿define(['plugins/router','knockout', 'connection', 'cache', 'Q'], function (router, ko, connection, cache, Q) {
+define(['plugins/router','knockout', 'connection', 'cache', 'Q'], function (router, ko, connection, cache, Q) {
        
     var ViewModel = {
         _init : false,
@@ -18,6 +18,10 @@
             
             connection.wait()
                     .then(function () {
+                        connection.receive('backend.articlesupdated', function (data) {
+                            console.log('articles updated');
+                        });
+                        
                         if (data == null) {
                             connection.send('backend.syncarticle', { id : id }, function (data) {
                                 cache.set(cacheKey, data);

@@ -25,12 +25,50 @@ exports.getUnread = function(profile, since) {
                                 read : { $ne : new ObjectID(profile) },
                                 starred : { $ne : new ObjectID(profile) }
                            };
-                           
             var cursor = db.collection('articles').find(filter, { sort : [['published', -1]], content : 0, summary : 0, read : 0, starred : 0, w:1 });
             return Q.ninvoke(cursor, 'toArray');
         })
         .fin(function () { db.close(); });     
 };
+
+exports.getRead = function(profile, since) {
+    return Q.ninvoke(db, 'open')
+        .then (function (db) {
+            return Q.ninvoke(db.collection('profiles'), 'findOne', { _id : new ObjectID(profile) }, { _id : 0, subscriptions : 1 });
+         })
+         .then (function (result) {
+            var   subscriptions = result.subscriptions
+                , filter = {
+                                downloaded : { $gte : new Date(since) },
+                                subscription : { $in : subscriptions },
+                                read : new ObjectID(profile),
+                                starred : { $ne : new ObjectID(profile) }
+                           };
+            var cursor = db.collection('articles').find(filter, { sort : [['published', -1]], content : 0, summary : 0, read : 0, starred : 0, w:1 });
+            return Q.ninvoke(cursor, 'toArray');
+        })
+        .fin(function () { db.close(); });     
+};
+
+exports.getStarred = function(profile, since) {
+    return Q.ninvoke(db, 'open')
+        .then (function (db) {
+            return Q.ninvoke(db.collection('profiles'), 'findOne', { _id : new ObjectID(profile) }, { _id : 0, subscriptions : 1 });
+         })
+         .then (function (result) {
+            var   subscriptions = result.subscriptions
+                , filter = {
+                                downloaded : { $gte : new Date(since) },
+                                subscription : { $in : subscriptions },
+                                read : { $ne : new ObjectID(profile) },
+                                starred : new ObjectID(profile)
+                           };
+            var cursor = db.collection('articles').find(filter, { sort : [['published', -1]], content : 0, summary : 0, read : 0, starred : 0, w:1 });
+            return Q.ninvoke(cursor, 'toArray');
+        })
+        .fin(function () { db.close(); });     
+};
+
 
 exports.get = function(id) {
     return Q.ninvoke(db, 'open')
@@ -44,41 +82,51 @@ exports.get = function(id) {
 };
 
 exports.upsert = function (subscription, articles) {
-    Q.ninvoke(db, 'open')
-        .then (function (db) {
-            var deferreds = [];
-            
-            articles.forEach(function (article) {
-                var   deferred = Q.defer()
-                    , data = {
-                        subscription : subscription._id,
-                        title : article.title,
-                        link : article.link,
-                        origlink : article.origlink,
-                        published : article.pubdate,
-                        updated : article.date,
-                        downloaded : new Date(),
-                        author : article.author,
-                        guid : article.guid,
-                        categories : article.categories,
-                        image : article.image,
-                        source : article.source,
-                        summary : article.summary,
-                        content : article.description,
-                        parent : subscription.title,
-                        read : [],
-                        starred : []
-                    };
+    return Q.ninvoke(db, 'open')
+            .then (function (db) {
+                var deferreds = [];
                 
-                deferreds.push(deferred.promise);
-                Q.ninvoke(db.collection('articles'), 'findAndModify', { guid : article.guid }, [['guid', 1]], data, {w:1, upsert : true, new : true})
-                    .fail(function (err) { console.log(err); })
-                    .then(function () { deferred.resolve(); });
-            });
-            
-            return Q.all(deferreds);
-        })
-        .fin(function () { db.close(); });
+                articles.forEach(function (article) {
+                    var   deferred = Q.defer()
+                        , data = {
+                            //$setOnInsert : { downloaded : new Date() }, not supported in the version im running 2.1 :-/
+                            subscription : subscription._id,
+                            title : article.title,
+                            link : article.link,
+                            origlink : article.origlink,
+                            published : article.pubdate,
+                            updated : article.date,
+                            author : article.author,
+                            guid : article.guid,
+                            categories : article.categories,
+                            image : article.image,
+                            source : article.source,
+                            summary : article.summary,
+                            content : article.description,
+                            parent : subscription.title
+                        };
+                    
+                    deferreds.push(deferred.promise);
+                    Q.ninvoke(db.collection('articles'), 'update', { guid : article.guid }, data, {w:1, upsert : true})
+                        .fail(function (err) { deferred.reject(err); })
+                        .then(function (results) {
+                            var   upsert = results[1]
+                                , existing = upsert.updatedExisting;
+                            
+                            // yuck! hack to get round the non support of $setOnInsert, when using newer version >= 2.4 remove this and uncomment
+                            // in above update upsert
+                            if (!existing) {
+                                Q.ninvoke(db.collection('articles'), 'update', { guid : article.guid }, { $set : { downloaded : new Date() , read : [], starred : [] } }, {w:1})
+                                    .then(function () { deferred.resolve(existing); });
+                            } else {
+                                deferred.resolve(existing);
+                            }                        
+                        });
+                });
+                
+                return Q.all(deferreds);
+            })
+            .fin(function () { db.close(); });
 };
 
 exports.read = function (profile, article) {

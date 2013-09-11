@@ -1,7 +1,6 @@
 
 var express = require('express')
   , config = require('./config')
-  , indexes = require('./db/indexes')
   , routes = require('./routes')
   , auth = require('./auth')
   , http = require('http')
@@ -22,9 +21,6 @@ var express = require('express')
                 port: config.db.port
             });
 
-// db indexes
-indexes.ensureIndexes();
-
 // all environments
 app.set('port', config.app.port);
 app.set('views', __dirname + '/views');
@@ -34,6 +30,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.session({ 
             secret : config.session.secret,
             store : sessionStore
@@ -49,8 +46,6 @@ bundleUp(app, __dirname + '/assets', {
   minifyCss: true,
   minifyJs: true
 });
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {

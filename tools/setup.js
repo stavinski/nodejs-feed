@@ -1,31 +1,25 @@
 var   config = require('../config')
     , mongodb = require('mongodb')
-    , url = require('url')
+    , mongoskin = require('mongoskin')
     , ObjectID = require('mongodb').ObjectID
     , dbServer = new mongodb.Server(config.db.host, config.db.port)
-    , db = new mongodb.Db('pushfeed', dbServer, {w:0})
+    , skinServer = new mongoskin.SkinServer(dbServer)
+    , db = skinServer.db('pushfeed', {w:0})
+    , url = require('url')
     , FeedParser = require('feedparser')
     , request = require('request')
     , dns = require('dns')
     , StringReader = require('../stringreader')
+    , bus = require('../bus')
     , Q = require('q');
     
 var execute = function () {
-    
-    
-    Q.ninvoke(db, 'open')
-        .then(function () {
-            var subscriptioninstances = db.collection('subscription_instances');
-            
-            return Q.ninvoke(subscriptions, 'find', {  });
-        })
-        .then (function (cursor) { 
-            return Q.ninvoke(cursor, 'toArray');
-        })
+    var subscription = bus.subscribe('foo', function (msg){
+        console.log(msg);
+        bus.close();
+    });
         
-        .fin(function () { console.log('close'); db.close(); })
-        .done();
-    
+    bus.publish('foo', { timestamp: new Date() });
 };
 
 execute();

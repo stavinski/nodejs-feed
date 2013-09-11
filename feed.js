@@ -21,7 +21,6 @@ var feed = {
         
         return deferred.promise;
     },
-    
     articles : function (feedUrl) {
         var host = url.parse(feedUrl).hostname;
                 

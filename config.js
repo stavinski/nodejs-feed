@@ -7,6 +7,7 @@ config.app.port = process.env.OPENSHIFT_INTERNAL_PORT || process.env.OPENSHIFT_N
 config.app.baseUrl = 'http://pushfeed.local:3000/';
 
 config.db = {};
+config.db.url = process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://mongodb:27017/';
 config.db.host = process.env.OPENSHIFT_MONGODB_DB_HOST || 'mongodb';
 config.db.port = parseInt(process.env.OPENSHIFT_MONGODB_DB_PORT) || 27017;
 
@@ -26,6 +27,7 @@ config.socketio.minify = false;
 
 config.background = {};
 config.background.pollMs = 30000;
+config.background.subscriptionPollMins = 10;
 
 config.feedpush = {};
 config.feedpush.secret = 'hububblegum';

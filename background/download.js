@@ -9,156 +9,95 @@ var   config = require('../config')
     , logger = require('../logger')
     , FeedParser = require('feedparser')
     , request = require('request')
-    , indexes = require('../db/indexes')
-    , StringReader = require('../stringreader');
-    
-var downloadFailed = function (subscription, err) {
-    if (err) {
-        logger.error('subscriptiondownload', util.format('raised requesting subscription [%s]', subscription._id), err);
-        return true;
-    }
-    
-    return false;
-}
+    , subscriptions = require('../data/subscriptions')
+    , articles = require('../data/articles')
+    , StringReader = require('../stringreader')
+    , bus = require('../bus');
 
-var statusInvalid = function (subscription, status) {
-    if (status == 304) {
-        logger.debug('subscriptiondownload', util.format('subscription [%s] has not been modified since last request', subscription._id));
-        return true;
+var handleDownload = function (subscription, results) {
+    var   response = results[0]
+        , body = results[1];
+    
+    // the feed has not been modified since last time we checked
+    if (response.statusCode == 304) {
+        return { proceed : false };
     }
-
-    if (status != 200) {
-        logger.error('subscriptiondownload', util.format('subscription [%s] returned status [%s]', subscription._id, status), null);
-        return true;
+    
+    // had an issue downloading feed so mark it as in error
+    if (response.statusCode != 200) {
+        subscriptions.setError(subscription, true)
+                     .then(function () { return { proceed : false } });
     }
-        
-    return false;
+    
+    // all is good so return the feed response and body
+    return subscriptions.setError(subscription, false)
+                        .then(function () { return { proceed : true, response : response, body : body } });
 };
 
-var processArticle = function(subscription, item) {
-    var   hash = crypto.createHash('md5').update(item.guid).digest('hex')
-        , articles = db.collection('articles', {w:1})
-        , archivedArticles = db.collection('archivedarticles', {w:1})
+var parseFeed = function (body) {
+    var   sr = new StringReader(body)
+        , results = []
         , deferred = Q.defer();
         
-     archivedArticles.findOne({ profile : new ObjectID(config.profiles.id), hash : hash }, {w:1}, function (err, result) {
-        if (err) {
-            logger.error('subscriptiondownload', 'raised retrieving archived article', err);
-            deferred.resolve();
-        }
-        
-        // check if we have already downloaded this article or not
-        if (result) {
-            //logger.debug('subscriptiondownload', util.format('article [%s] has already been downloaded for this profile [%s]', item.title, config.profiles.id));
-            deferred.resolve();
-        } else {
-           var   archivedArticle = {
-                    hash : hash,
-                    profile : new ObjectID(config.profiles.id),
-                    title : item.title,
-                    link : item.link,
-                    at : new Date()
-                  }
-               , article = {
-                        subscription : subscription._id,
-                        link : item.link,
-                        origlink : item.origlink,
-                        title : item.title,
-                        published : item.pubdate,
-                        updated : item.date,
-                        downloaded : new Date(),
-                        starred : false,
-                        read : false,
-                        content : item.description,
-                        summary : item.summary,
-                        author : item.author
-                  }
-               , insertArchivedArticle = Q.ninvoke(archivedArticles, 'insert', archivedArticle)
-               , insertArticle = Q.ninvoke(articles, 'insert', article);
-                
-            Q.all([insertArchivedArticle, insertArticle])
-                .fail(function (err) { logger.error('subscriptiondownload', 'raised when inserting article data', err); } )
-                .fin(function () { deferred.resolve(); });
-        }
-     });
-        
-    return deferred.promise;
-};    
-
-var updateUnread = function (subscription) {
-    var   subscriptions = db.collection('subscriptions')
-        , articles = db.collection('articles');
+    sr.pipe(new FeedParser())
+        .on('error', deferred.reject)
+        .on('readable', function () {
+             var   stream = this
+                 , item = null;
+             
+             while (item = stream.read()) {
+                results.push(item);
+             }
+        })
+        .on('end', function () { deferred.resolve(results); });
     
-    return Q.ninvoke(articles, 'count', { subscription : subscription._id, read: false })
-                .then(function (result) { subscriptions.update({ _id : subscription._id }, { $set : { unread : count }}) });
+    sr.resume();
+    return deferred.promise;
+};
+
+var updateSubscription = function (subscription) {
+    var opts = {
+        url : subscription.xmlurl,
+        headers : {
+            'If-Modified-Since' : subscription.lastModified,
+            'If-None-Match' : subscription.etag
+        }
+    };
+    
+    return subscriptions.setLastPoll(subscription)
+            .then(function () { return Q.nfcall(request, opts) })
+            .then(function (results) { return handleDownload(subscription, results); })
+            .then(function (results) {
+                // there was an issue
+                if (!results.proceed) return [];
+            
+                return subscriptions.setPollingData(subscription, results.response.headers['last-modified'], results.response.headers['etag'])
+                        .then(function () { return parseFeed(results.body) });
+            })
+            .then(function (downloaded) {
+                return articles.upsert(subscription, downloaded);
+            })
+            .then(function (result) {
+                // check whether there were any new articles
+                var allExisting = result.every(function (existing) { return existing == true; });
+                                
+                //if (!allExisting) {
+                    bus.publish('bg.articlesupdated', { timestamp : new Date(), subscription : subscription });
+                //}
+            })
+            .fail(function (err) { console.log(err); console.log('Could not download feed data for subscription: [%s] - [%s]', subscription.xmlurl, subscription.title); });
 };
     
 var execute = function() {
-    
-    return Q.ninvoke(db, 'open')
-        .then(function () { return db.collection('subscriptions').find({ profile : new ObjectID(config.profiles.id) }); })
-        .then(function (cursor) { return Q.ninvoke(cursor, 'toArray'); })
+    subscriptions.getForPolling()
         .then(function (subscriptions) {
-            var deferreds = [];
-            subscriptions.forEach (function (subscription) {
-                var  opts = {
-                        url : subscription.xmlurl,
-                        headers : { 
-                                    'If-Modified-Since' : subscription.lastModified,
-                                    'If-None-Match' : subscription.etag
-                                  }
-                      }
-                    , deferred = Q.defer();
-
-                 deferreds.push(deferred.promise);           
-                 
-                 request(opts, function(err, response, body) {
-                    // check if the response can be processed or not
-                    if ((downloadFailed(subscription, err)) || (statusInvalid(subscription, response.statusCode))) {
-                        deferred.resolve();
-                        return;
-                    }
-                   
-                    var   sr = new StringReader(body)
-                        , subscriptions = db.collection('subscriptions')
-                        , articleDeferreds = [];
-                                        
-                    subscriptions.update({ _id : subscription._id }, { $set : { lastModified : response.headers['last-modified'], etag : response.headers['etag'] } });
-                                                
-                    sr.pipe(new FeedParser())
-                        .on('error', function (err) { logger.error('subscriptiondownload', util.format('raised parsing subscription [%s]', subscription._id), err); })
-                        .on('readable', function () {
-                             var   stream = this
-                                 , item = null;
-                             
-                             while (item = stream.read()) {
-                                articleDeferreds.push(processArticle(subscription, item));
-                             }
-                        });
-                    
-                    Q.all(articleDeferreds)
-                        //.then(function () { return updateUnread(subscription); })
-                        .then(function () { deferred.resolve() });
-                    
-                    // tell string reader to buffer through stream
-                    sr.resume();
-                 });                 
-            });
-            return Q.all(deferreds);
+            //console.log(subscriptions.length);
+            return Q.all(subscriptions.map(updateSubscription));
         })
-        .fin(function () { db.close(); });
-        
-};
-
-var polling = function () {
-    execute()
-        .then(function () {
-            setTimeout(polling, config.background.pollMs);
-        })
+        //.fin (function () { console.log('end'); })
         .done();
 };
 
-module.exports.start = function () {
-    // kick off the polling
-    polling();
-};
+//module.exports.start = function () {
+    execute();
+//};
