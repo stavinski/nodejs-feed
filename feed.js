@@ -2,6 +2,7 @@ var   Q = require('q')
     , FeedParser = require('feedparser')
     , url = require('url')
     , dns = require('dns')
+    , StringReader = require('./stringreader')
     , request = require('request');
 
 var feed = {
@@ -45,6 +46,27 @@ var feed = {
                                                 
                     return deferred.promise;
                 });    
+    },
+    parse : function (content) {
+        var   sr = new StringReader(content)
+            , results = []
+            , deferred = Q.defer();
+        
+        sr.pipe(new FeedParser())
+            .on('error', deferred.reject)
+            .on('readable', function () {
+                 var   stream = this
+                     , item = null;
+                 
+                 while (item = stream.read()) {
+                    results.push(item);
+                 }
+            })
+            .on('end', function () { deferred.resolve(results); });
+        
+        sr.resume();
+        
+        return deferred.promise;
     }
 };
 

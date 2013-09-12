@@ -1,22 +1,118 @@
 var   config = require('./config')
-    , subscriber = require('snrub').createSubscriber({ host : config.app.baseUrl, prefix : '/push', secret : config.feedpush.secret });
+    , Q = require('Q')
+    , subscriptions = require('./data/subscriptions')
+    , articles = require('./data/articles')
+    , feed = require('./feed')
+    , request = require('request')
+
+var handleSubscriptionVerification = function (req, res, subscription) {
     
+    if (req.route.method == 'get') {
+        var   mode = req.query['hub.mode']
+            , topic = req.query['hub.topic']
+            , challenge = req.query['hub.challenge']
+            , leaseSeconds = req.query['hub.lease_seconds'] || 24 * 60 * 60; // if not provided default to a day
+        
+        if ((!mode) || (!topic) || (!challenge))
+            throw new Error('missing required parameters');
+        
+        if (subscription.xmlurl.toLowerCase() != topic.toLowerCase())
+            throw new Error('topic does not match the subscription');
+        
+        var   now = new Date()
+            , expires = now.setSeconds(now.getSeconds() + leaseSeconds);    
+        
+        if (mode == 'subscribe') {
+            subscriptions.subscribe(subscription, expires)
+                .then(function () {
+                    res.send(200, challenge);        
+                });
+        } else if (mode == 'unsubscribe') {
+            subscriptions.unsubscribe(subscription)
+                .then(function () {
+                    res.send(200, challenge);        
+                });    
+        }
+    }    
+};
+
+var handleSubscriptionContent = function (req, res, subscription) {
+    if (req.route.method == 'post') {
+        feed.parse(req.body)
+            .then(function (articles) {
+                return articles.upsert(subscription, articles);
+            })
+            .then(function () {
+                res.send(200);
+            });
+    }
+};
+
+var subscriptionRequest = function (subscription, subscribe) {
+    if (subscription.pubsub == null)
+            throw new Error('not a pubsub subscription');
+        
+    var pubsub = subscription.pubsub;
+    if (pubsub.type != 'hub')
+        throw new Error('not a pubsub subscription');
+    
+    var   opts = {
+            qs : {
+                'hub.callback' : config.app.baseUrl + 'push/' + subscription._id,
+                'hub.mode' : (subscribe) ? 'subscribe' : 'unsubscribe',
+                'hub.topic' : subscription.xmlurl,
+                'hub.lease_seconds' : config.feedpush.leaseSeconds
+            }
+          }
+        , deferred = Q.defer();
+    
+    request(pubsub.href, opts, function (err, response, body) {
+        if (err) {
+            deferred.reject(err);
+            return;
+        }
+                    
+        if (response.statusCode != 202) {
+            deferred.reject(new Error('hub responded with status: [' + response.statusCode + ']'));
+            return;
+        }
+                            
+        deferred.resolve();                                
+    });
+    
+    return deferred.promise;
+};
+
 var feedpush = {
-    init : function (app) {
-        app.use(subscriber.middleware());
+    handler : function () {
+        return function (req, res, next) {
+            var id = req.params.id;
+            
+            if (!id) {
+                res.send(404);
+                return;
+            }
+            
+            subscriptions.get(id)
+                .then(function (subscription) {
+                    if (subscription == null) {
+                        res.send(404);
+                        return;
+                    }
+                    
+                    handleSubscriptionVerification(req, res, subscription);
+                    handleSubscriptionContent(req, res, subscription);                    
+                })
+                .fail(function (err) { console.log(err); res.send(500); })
+                .done();
+        };
     },
-    subscribe : function (hub, topic) { 
-        subscriber.subscribe(hub, topic, null, function success(result) {
-            console.log('success ' + result);
-        }, function error(code) {
-            console.log('error ' + code);
-        }); },
-    unsubscribe : function (hub, topic) { subscriber.unsubscribe(hub, topic); },
-    subscribed : function (callback) {
-        subscriber.on('subscribe', callback);
+    subscribe : function (subscription) { 
+        subscriptionRequest(subscription, true);
     },
-    updated : function (callback) {
-        subscriber.on('update', callback);
+    unsubscribe : function (subscription) 
+    {  
+        subscriptionRequest(subscription, false);
     }
 };
 

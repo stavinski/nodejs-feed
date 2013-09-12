@@ -31,6 +31,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.all('/push/:id', feedpush.handler());
 app.use(express.session({ 
             secret : config.session.secret,
             store : sessionStore
@@ -56,20 +57,6 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 
 auth.init(app, io, sessionStore);
-
-// handle push feeds
-feedpush.init(app);
-
-feedpush.subscribed(function (topic) {
-    console.log(topic);
-});
-
-feedpush.updated(function (topic, content) {
-    console.log(topic);
-    console.log(content);
-});
-
-
 socketApp.start(io);
 
 server.listen(app.get('port'), function(){

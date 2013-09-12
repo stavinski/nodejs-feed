@@ -105,7 +105,7 @@ var handleAddFeed = function (socket) {
                                 profiles.subscribe(user._id, subscription);    
                                                                 
                                 if (subscription.pubsub != null)
-                                    feedpush.subscribe(subscription.pubsub.href, subscription.xmlurl);
+                                    feedpush.subscribe(subscription);
                                                                 
                                 return feed.articles(data.url)
                                         .then(function (downloaded) {

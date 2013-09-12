@@ -29,7 +29,6 @@
     "passport-google": "*",
     "socket.io" : "*",
     "passport.socketio" : "*",
-    "snrub" : "*",
     "mubsub" : "*",
     "mongoskin" : "*"
   }
