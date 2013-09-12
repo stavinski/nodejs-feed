@@ -1,14 +1,17 @@
-﻿define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery'], function(router, Subscription, ko, connection, cache, $) {
+define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator'], function(router, Subscription, ko, connection, cache, $, articleMediator) {
    
    var bindSubscription = function (model) {
-        var subscription = model;
-        
-        /*
+        var   subscription = model
+            , unreadArticles = articleMediator.getUnread().articles;
+               
         model.unread = ko.computed(function () {
-            return (model.unread() != 0) ? model.unread() : '';
+            var self = model;
+            var results = unreadArticles.filter(function (article) {
+                                return (article.subscription == self._id);        
+                            });
+            return (results.length > 0) ? results.length : '';
         });
-        */
-        
+                
         model.active = ko.observable(router.activeItem().subscription == model._id);
         return model;
     };

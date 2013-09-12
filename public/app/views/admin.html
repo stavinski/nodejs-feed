@@ -20,8 +20,19 @@
             
             <div class="tab-pane" id="caching">
                 <h2>caching</h2>
-                <p>asdasdasdalkl;dkl;asd</p>
-                <p>asdasdasdalkl;dkl;asd</p>
+                
+                <form>
+                    <div class="control-group">
+                        <label class="control-label" for="articleDetails">article details</label>
+                        <input type="text" class="input-small" name="articleDetails" data-bind="value : articleDetailsCache" placeholder="days to cache for">
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button class="btn btn-primary" data-bind="click : saveCache">save</button>
+                        </div>
+                    </div>
+                </form>
+                
             </div>
             
             <div class="tab-pane" id="import">

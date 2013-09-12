@@ -8,6 +8,9 @@
             connection.send('backend.addfeed', { url : this.feedUrl() }, function (result) {
                 console.log(result);
             }); 
+        },
+        saveCache : function () {
+            
         }
     };
     

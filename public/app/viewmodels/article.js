@@ -1,5 +1,37 @@
-define(['plugins/router','knockout', 'connection', 'cache', 'Q'], function (router, ko, connection, cache, Q) {
-       
+define(['plugins/router','knockout', 'connection', 'Q', 'articleMediator'], function (router, ko, connection, Q, articleMediator) {
+    
+    var bindArticle = function (data) {
+        var   article = data.article
+            , vm = article;
+        
+        vm.starred = ko.observable(article.starred);
+        vm.starToggle = function () {
+            var self = this;
+            
+            if (self.starred()) {
+                connection.send('backend.articleunstarred', { id : article._id } , function (result) {
+                    if (result.status == 'success') {
+                        self.starred(false);
+                        articleMediator.unstarred(data);
+                    } else {
+                        // display alert or sumthin   
+                    }
+                });          
+            } else {
+                connection.send('backend.articlestarred', { id : article._id } , function (result) {
+                    if (result.status == 'success') {
+                        self.starred(true);
+                        articleMediator.starred(data);
+                    } else {
+                        // display alert or sumthin   
+                    }
+                });      
+            }
+        };
+        
+        return vm;        
+    };
+    
     var ViewModel = {
         _init : false,
         article : null,
@@ -10,8 +42,7 @@ define(['plugins/router','knockout', 'connection', 'cache', 'Q'], function (rout
         },
         activate : function (id) {
             var   self = this
-                , cacheKey = 'article:' + id
-                , data = cache.get(cacheKey)
+                , data = articleMediator.get(id)
                 , deferred = Q.defer();
                                                     
             self.loading(true);
@@ -24,13 +55,14 @@ define(['plugins/router','knockout', 'connection', 'cache', 'Q'], function (rout
                         
                         if (data == null) {
                             connection.send('backend.syncarticle', { id : id }, function (data) {
-                                cache.set(cacheKey, data);
-                                self.article = data.article;
+                                articleMediator.read(data);
+                                self.article = bindArticle(data);
                                 self.loading(false);
                                 deferred.resolve();
                             });
                         } else {
-                            self.article = data.article;    
+                            articleMediator.read(data);
+                            self.article = bindArticle(data);    
                             self.loading(false);
                             deferred.resolve();
                         }

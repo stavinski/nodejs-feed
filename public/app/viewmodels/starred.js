@@ -1,4 +1,4 @@
-﻿define(['models/article', 'Q', 'knockout', 'connection', 'cache'], function (Article, Q, ko, connection, cache) {
+define(['models/article', 'Q', 'knockout', 'connection', 'cache'], function (Article, Q, ko, connection, cache) {
             
     var bindArticle = function (model) {
         model.headerClicked = function () {
@@ -11,16 +11,6 @@
             });
         };
         
-        model.externalLinkClicked = function(data, evt) {
-            var self = this;
-            self.markAsRead();
-            return true;
-        };
-        
-        model.starToggle = function () {
-            return this.toggleStarred();
-        };
-        
         model.collapsed = ko.observable(true);
         model.starred = ko.observable(model.starred);
         model.read = ko.observable(model.read);
@@ -29,9 +19,26 @@
         return model;
     };
     
+    var handleArticles = function (data, self) {
+        var   cacheKey = 'articles:starred'
+            , current = cache.get(cacheKey);
+        
+        if (current) {
+            current.articles = current.articles.concat(data.articles);
+            current.timestamp = data.timestamp;
+            cache.set(cacheKey, current);
+        } else {
+            cache.set(cacheKey, data);
+        }
+        
+        var updated = cache.get(cacheKey);
+        var boundArticles = updated.articles.map(bindArticle);
+        self.articles(boundArticles);
+        self.loading(false); 
+    };
+    
     var ViewModel = {
         _init : false,
-        _synced : [],
         activate : function (subscription) {
             var   self = this
                 , filter = 'starred'
@@ -49,32 +56,22 @@
                 since = data.timestamp;
             }
             
-            connection.send('backend.syncarticles', { filter: filter, since : since });                        
-            
             // is this the first time through this vm
             if (self._init) return;
-            
+                        
             self._init = true;
             self.loading(true);
-            return connection.wait()
-                    .then(function () {
-                        connection.receive('backend.articles', function (data) {
-                            var   cacheKey = 'articles:' + data.filter
-                                , current = cache.get(cacheKey);
-                            if (current) {
-                                current.articles = current.articles.concat(data.articles);
-                                current.timestamp = data.timestamp;
-                                cache.set(cacheKey, current);
-                            } else {
-                                cache.set(cacheKey, data);
-                            }
-                            
-                            var updated = cache.get(cacheKey);
-                            var boundArticles = updated.articles.map(bindArticle);
-                            self.articles(boundArticles);
-                            self.loading(false);
-                        });
-                   });
+            
+            connection.send('backend.syncstarredarticles', 
+                            { since : since }, 
+                            function (data) { handleArticles(data, self); });
+            
+            connection.receive('backend.articlesupdated', function (data) {
+                var existing = cache.get('articles:starred');
+                connection.send('backend.syncstarredarticles', 
+                                { since : existing.timestamp }, 
+                                function (data) { handleArticles(data, self); });
+            });
         },
         loading: ko.observable(false),
         articles: ko.observableArray(),
@@ -85,11 +82,6 @@
     ViewModel.articlesToShow = ko.computed(function () {
         var self = this;
         
-        var articleSort = function (first, second) {
-            return second.published - first.published;
-        };
-        
-        self.articles().sort(articleSort);
         return ko.utils.arrayFilter(self.articles(), function(article) {
             return (self.subscription == null) || (article.subscription == self.subscription);
         });

@@ -18,18 +18,9 @@
 
                 <div class="article hidden-phone" data-bind="foreach: articlesToShow">
                     <div class="article-header well well-small">
-                        <span class="title" data-bind="text: title"></span>
+                        <strong><span class="title" data-bind="text: title"></span></strong>
+                        <span data-bind="text: published"></span>
                         <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-circle-arrow-right"></i></a>
-                    </div>
-                           
-                    <div data-bind="attr: { id : 'article' + $index() }, css : { in : !collapsed }" class="collapse">
-                        <div class="article-sub-header">
-                            <i class="icon-double-angle-right"></i>
-                            <em><span data-bind="text: author"></span> - 
-                            <span data-bind="date: published"></span></em>
-                        </div>
-                        <div data-bind="html: content">
-                        </div>
                     </div>
                 </div>
 

@@ -1,4 +1,4 @@
-﻿<section id="article">
+<section id="article">
     <div class="text-center" data-bind="if: loading">
         <img src="content/images/loading.gif" alt="loading article..." />
         <p>loading article...</p>
@@ -6,6 +6,7 @@
     
     <article data-bind="with: article">
         <a href="#" data-bind="click: $root.goBack"><i class="icon-circle-arrow-left icon-4x"></i></a>
+        <a href="#" data-bind="click: starToggle"><i data-bind="css : { 'icon-star' : starred(), 'icon-star-empty' : !starred() }" class="icon-4x"></i></a>
         <h2 data-bind="text : title"></h2>
         
         <div>

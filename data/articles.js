@@ -25,7 +25,7 @@ exports.getUnread = function(profile, since) {
                                 read : { $ne : new ObjectID(profile) },
                                 starred : { $ne : new ObjectID(profile) }
                            };
-            var cursor = db.collection('articles').find(filter, { sort : [['published', -1]], content : 0, summary : 0, read : 0, starred : 0, w:1 });
+            var cursor = db.collection('articles').find(filter, { content : 0, summary : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1 });
             return Q.ninvoke(cursor, 'toArray');
         })
         .fin(function () { db.close(); });     
@@ -44,7 +44,7 @@ exports.getRead = function(profile, since) {
                                 read : new ObjectID(profile),
                                 starred : { $ne : new ObjectID(profile) }
                            };
-            var cursor = db.collection('articles').find(filter, { sort : [['published', -1]], content : 0, summary : 0, read : 0, starred : 0, w:1 });
+            var cursor = db.collection('articles').find(filter, { content : 0, summary : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1 });
             return Q.ninvoke(cursor, 'toArray');
         })
         .fin(function () { db.close(); });     
@@ -63,20 +63,33 @@ exports.getStarred = function(profile, since) {
                                 read : { $ne : new ObjectID(profile) },
                                 starred : new ObjectID(profile)
                            };
-            var cursor = db.collection('articles').find(filter, { sort : [['published', -1]], content : 0, summary : 0, read : 0, starred : 0, w:1 });
+            var cursor = db.collection('articles').find(filter, { content : 0, summary : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1 });
             return Q.ninvoke(cursor, 'toArray');
         })
         .fin(function () { db.close(); });     
 };
 
-
-exports.get = function(id) {
+exports.get = function(profile, id) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
                 return db.collection('articles');
             })
             .then(function (articles) {
-                return Q.ninvoke(articles, 'findOne', {_id : new ObjectID(id) }, { read : 0, starred : 0 });
+                // the handling of starred is a bit pants at the mo, hopefully be able to use $elemMatch 
+                // if i can ever get mongodb updated on raspberry pi to >= 2.2
+                return Q.ninvoke(articles, 'findOne', {_id : new ObjectID(id), starred : new ObjectID(profile) }, { read : 0, starred : 0 }, {w:0})
+                        .then(function (result) {
+                            if (result != null) {
+                                result.starred = true;
+                                return result;
+                            } else {
+                                return Q.ninvoke(articles, 'findOne', {_id : new ObjectID(id) }, { read : 0, starred : 0 }, {w:0})
+                                        .then(function (result) {
+                                            result.starred = false;
+                                            return result;
+                                        });
+                            }
+                        })
             })
             .fin(function () { db.close(); });
 };
@@ -90,20 +103,22 @@ exports.upsert = function (subscription, articles) {
                     var   deferred = Q.defer()
                         , data = {
                             //$setOnInsert : { downloaded : new Date() }, not supported in the version im running 2.1 :-/
-                            subscription : subscription._id,
-                            title : article.title,
-                            link : article.link,
-                            origlink : article.origlink,
-                            published : article.pubdate,
-                            updated : article.date,
-                            author : article.author,
-                            guid : article.guid,
-                            categories : article.categories,
-                            image : article.image,
-                            source : article.source,
-                            summary : article.summary,
-                            content : article.description,
-                            parent : subscription.title
+                            $set : {
+                                subscription : subscription._id,
+                                title : article.title,
+                                link : article.link,
+                                origlink : article.origlink,
+                                published : article.pubdate,
+                                updated : article.date,
+                                author : article.author,
+                                guid : article.guid,
+                                categories : article.categories,
+                                image : article.image,
+                                source : article.source,
+                                summary : article.summary,
+                                content : article.description,
+                                parent : subscription.title
+                            }
                         };
                     
                     deferreds.push(deferred.promise);
@@ -130,25 +145,25 @@ exports.upsert = function (subscription, articles) {
 };
 
 exports.read = function (profile, article) {
-    Q.ninvoke(db, 'open')
-        .then (function (db) {
-            return Q.ninvoke(db.collection('articles'), 'update', { _id : article._id }, { $addToSet : { read : new ObjectID(profile) } }, {w:1});
-        })
-        .fin(function () { db.close(); });
+    return Q.ninvoke(db, 'open')
+            .then (function (db) {
+                return Q.ninvoke(db.collection('articles'), 'update', { _id : article._id }, { $addToSet : { read : new ObjectID(profile) } }, {w:1});
+            })
+            .fin(function () { db.close(); });
 };
 
 exports.starred = function (profile, article) {
-    Q.ninvoke(db, 'open')
-        .then (function (db) {
-            return Q.ninvoke(db.collection('articles'), 'update', { _id : new ObjectID(article) }, { $addToSet : { starred : new ObjectID(profile) } }, {w:1});
-        })
-        .fin(function () { db.close(); });
+    return Q.ninvoke(db, 'open')
+            .then (function (db) {
+                return Q.ninvoke(db.collection('articles'), 'update', { _id : new ObjectID(article) }, { $addToSet : { starred : new ObjectID(profile)}, $pull : { read : new ObjectID(profile) } }, {w:1});
+            })
+            .fin(function () { db.close(); });
 };
 
 exports.unstarred = function (profile, article) {
-    Q.ninvoke(db, 'open')
-        .then (function (db) {
-            return Q.ninvoke(db.collection('articles'), 'update', { _id : new ObjectID(article) }, { $pull : { starred : new ObjectID(profile) } }, {w:1});
-        })
-        .fin(function () { db.close(); });
+    return Q.ninvoke(db, 'open')
+            .then (function (db) {
+                return Q.ninvoke(db.collection('articles'), 'update', { _id : new ObjectID(article) }, { $addToSet : { read : new ObjectID(profile) }, $pull : { starred : new ObjectID(profile) } }, {w:1});
+            })
+            .fin(function () { db.close(); });
 };

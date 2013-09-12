@@ -81,9 +81,9 @@ var updateSubscription = function (subscription) {
                 // check whether there were any new articles
                 var allExisting = result.every(function (existing) { return existing == true; });
                                 
-                //if (!allExisting) {
+                if (!allExisting) {
                     bus.publish('bg.articlesupdated', { timestamp : new Date(), subscription : subscription });
-                //}
+                }
             })
             .fail(function (err) { console.log(err); console.log('Could not download feed data for subscription: [%s] - [%s]', subscription.xmlurl, subscription.title); });
 };

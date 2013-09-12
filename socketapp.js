@@ -20,10 +20,24 @@ var syncSubscriptions = function (socket) {
 };    
 
 var syncArticles = function (socket) {
-    socket.on('backend.syncarticles', function (data) {
+    socket.on('backend.syncunreadarticles', function (data, callback) {
         articles.getUnread(user._id, data.since)
             .then(function (articles) {
-                socket.emit('backend.articles', { timestamp: new Date(), articles : articles });
+                callback({ timestamp: new Date(), articles : articles });
+            })
+            .done();
+    });
+    socket.on('backend.syncreadarticles', function (data, callback) {
+        articles.getRead(user._id, data.since)
+            .then(function (articles) {
+                callback({ timestamp: new Date(), articles : articles });
+            })
+            .done();
+    });
+    socket.on('backend.syncstarredarticles', function (data, callback) {
+        articles.getStarred(user._id, data.since)
+            .then(function (articles) {
+                callback({ timestamp: new Date(), articles : articles });
             })
             .done();
     });
@@ -41,7 +55,7 @@ var syncProfile = function (socket) {
 
 var syncArticle = function (socket) {
     socket.on('backend.syncarticle', function (data, callback) {
-        articles.get(data.id)
+        articles.get(user._id, data.id)
             .then(function (article) {
                 callback({ timestamp: new Date(), article : article });
                 articles.read(user._id, article);
@@ -51,7 +65,7 @@ var syncArticle = function (socket) {
 };
 
 var handleStarred = function (socket) {
-    socket.on('backend.starred', function (data, callback) {
+    socket.on('backend.articlestarred', function (data, callback) {
         articles.starred(user._id, data.id)
             .then(function () {
                 callback({ timestamp: new Date(), status : 'success' });
@@ -64,7 +78,7 @@ var handleStarred = function (socket) {
 };
 
 var handleUnstarred = function (socket) {
-    socket.on('backend.unstarred', function (data, callback) {
+    socket.on('backend.articleunstarred', function (data, callback) {
         articles.unstarred(user._id, data.id)
             .then(function () {
                 callback({ timestamp: new Date(), status : 'success' });

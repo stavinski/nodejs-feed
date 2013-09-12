@@ -1,4 +1,4 @@
-﻿requirejs.config({
+requirejs.config({
     paths: {
         'text': '../scripts/require/text',
         'durandal':'../scripts/durandal/js',
@@ -11,7 +11,8 @@
         'Q' : '../scripts/q',
         'moment' : '../scripts/moment',
         'socket.io' : '/socket.io/socket.io',
-        'toastr' : '../scripts/toastr'
+        'toastr' : '../scripts/toastr',
+        'moment' : '../scripts/moment'
     },
     shim: {
         'bootstrap': {
