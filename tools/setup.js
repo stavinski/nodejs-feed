@@ -1,10 +1,7 @@
 var   config = require('../config')
-    , mongodb = require('mongodb')
-    , mongoskin = require('mongoskin')
+    , mongodb = require('mongoskin')
     , ObjectID = require('mongodb').ObjectID
-    , dbServer = new mongodb.Server(config.db.host, config.db.port)
-    , skinServer = new mongoskin.SkinServer(dbServer)
-    , db = skinServer.db('pushfeed', {w:0})
+    , db = new mongodb.db(config.db.url + 'pushfeed', {safe : true})
     , url = require('url')
     , FeedParser = require('feedparser')
     , request = require('request')

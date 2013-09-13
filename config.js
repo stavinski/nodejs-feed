@@ -2,9 +2,9 @@
 config = {};
 
 config.app = {};
-config.app.ipaddress = process.env.OPENSHIFT_INTERNAL_IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-config.app.port = process.env.OPENSHIFT_INTERNAL_PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000;
-config.app.baseUrl = 'http://pushfeed.local:3000/';
+config.app.ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+config.app.port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+config.app.baseUrl = 'http://localhost:3000/';
 
 config.db = {};
 config.db.url = process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://mongodb:27017/';

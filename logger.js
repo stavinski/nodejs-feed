@@ -1,8 +1,7 @@
 
 var   config = require('./config')
-    , mongodb = require('mongodb')
-    , dbServer = new mongodb.Server(config.db.host, config.db.port)
-    , db = new mongodb.Db('ops', dbServer, {w:0})    
+    , mongodb = require('mongoskin')
+    , db = new mongodb.db(config.db.url + 'ops', {safe : true})    
     , Q = require('q');
 
 var logger = {

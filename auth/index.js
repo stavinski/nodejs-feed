@@ -6,10 +6,9 @@ var   providers = ['google']
     , passport = require('passport')
     , express = require('express')
     , passportSIO = require('passport.socketio')
-    , mongodb = require('mongodb')
+    , mongodb = require('mongoskin')
     , ObjectID = require('mongodb').ObjectID
-    , dbServer = new mongodb.Server(config.db.host, config.db.port)
-    , db = new mongodb.Db('pushfeed', dbServer, {w:0})
+    , db = new mongodb.db(config.db.url + 'pushfeed', {safe : true})
     , Q = require('q');
 
 var init = function (app, io, sessionStore) {

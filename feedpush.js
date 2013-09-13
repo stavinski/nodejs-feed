@@ -1,5 +1,5 @@
 var   config = require('./config')
-    , Q = require('Q')
+    , Q = require('q')
     , uuid = require('uuid')
     , subscriptions = require('./data/subscriptions')
     , articles = require('./data/articles')

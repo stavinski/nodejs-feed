@@ -17,13 +17,13 @@ var express = require('express')
   , io = require('socket.io').listen(server)
   , download = require('./background/download')
   , sessionStore = new MongoStore({
-                db: 'web',
-                host: config.db.host,
-                port: config.db.port
+                url: config.db.url + 'web/sessions',
+                auto_reconnect : true
             });
 
 // all environments
 app.set('port', config.app.port);
+app.set('ipaddress', config.app.ipaddress);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, 'public')));
@@ -63,6 +63,6 @@ socketApp.start(io);
 // kick off background tasks
 download.start();
 
-server.listen(app.get('port'), function(){
+server.listen(app.get('port'), app.get('ipaddress'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
