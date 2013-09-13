@@ -56,6 +56,7 @@ if ('development' == app.get('env')) {
 
 // screen routes
 app.get('/', routes.index);
+app.get('/fail', routes.fail);
 
 auth.init(app, io, sessionStore);
 socketApp.start(io);

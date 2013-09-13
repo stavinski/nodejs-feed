@@ -1,4 +1,5 @@
 var   config = require('../config')
+    , profiles = require('../data/profiles')
     , passport = require('passport')
     , GoogleStrategy = require('passport-google').Strategy
     , mongodb = require('mongoskin')
@@ -12,22 +13,22 @@ var initialize = function (app) {
             realm: config.app.baseUrl,
             profile : false
         }, function(identifier, profile, done) {
-            var profiles = db.collection('profiles');            
-            Q.ninvoke(db, 'open')
-                .then(function() {
-                    return Q.ninvoke(profiles, 'findOne', { openid : identifier }, { created : 1, settings : 1})
+            profiles.find(identifier)
+                .then (function (profile) {
+                    if (profile == null) {
+                        profiles.insert(identifier)
                             .then(function (profile) {
-                            if (profile == null) {
-                                return done(null, false);
-                            }
-                            
-                            return done(null, profile);
-                    })
-                    .fail(function (err) { done(err, null); })
+                                profile.new = true;
+                                return done(null, profile);    
+                            });
+                    } else {
+                        profile.new = false;
+                        return done(null, profile);    
+                    }                    
                 })
-                .fin(function () { db.close(); })
+                .fail(function (err) { done(err, null); })
                 .done();
-        })
+            })
     );
     
     app.get('/auth/google', passport.authenticate('google', { failureRedirect: '/fail' }),
@@ -37,8 +38,12 @@ var initialize = function (app) {
     
     app.get('/auth/google/return', passport.authenticate('google', { failureRedirect: '/fail' }),
         function(req, res) {
-            res.redirect('/');
+            if (req.user.new)
+                res.redirect('/#welcome');
+            else
+                res.redirect('/');
     });
+        
 };
 
 module.exports.initialize = initialize;

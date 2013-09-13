@@ -40,7 +40,8 @@ define(['plugins/router', 'durandal/app', 'durandal/system', 'amplify', 'models/
                                 { route : 'starred(/:subscription)', title: 'starred', moduleId : 'viewmodels/starred', hash : '#starred', nav : true },
                                 { route : 'read(/:subscription)', title: 'read', moduleId : 'viewmodels/read', hash : '#read', nav : true },
                                 { route : 'article/:id', moduleId : 'viewmodels/article', },
-                                { route : 'admin', moduleId : 'viewmodels/admin', title : 'admin', nav : true }
+                                { route : 'admin', moduleId : 'viewmodels/admin', title : 'admin', nav : true },
+                                { route : 'welcome', moduleId : 'viewmodels/welcome', title : 'welcome' }
                          ])
                          .buildNavigationModel()
                          .activate();

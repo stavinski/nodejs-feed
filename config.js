@@ -4,7 +4,7 @@ config = {};
 config.app = {};
 config.app.ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 config.app.port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
-config.app.baseUrl = 'http://localhost:3000/';
+config.app.baseUrl = 'http://pushfeed.local:3000/';
 
 config.db = {};
 config.db.url = process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://mongodb:27017/';
@@ -32,5 +32,9 @@ config.background.subscriptionPollMins = 10;
 config.feedpush = {};
 config.feedpush.leaseSeconds = 7 * 24 * 60 * 60; // a week
 
+config.auth = {};
+config.auth.twitter = {};
+config.auth.twitter.consumerKey = 'tmHcu8MZG7DTDmJej55dw';
+config.auth.twitter.consumerSecret = 'hl30WU6HcyQEyxsVNlq7EfIT9hFd44Z8JQvSzML6hG4';
 
 module.exports = config;

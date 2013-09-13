@@ -27,6 +27,8 @@
     "connect-mongo" : "*",
     "passport" : "*",
     "passport-google": "*",
+    "passport-twitter" : "*",
+    "passport-yahoo" : "*",
     "socket.io" : "*",
     "passport.socketio" : "*",
     "mubsub" : "*",

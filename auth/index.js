@@ -1,5 +1,5 @@
 
-var   providers = ['google']
+var   providers = ['google', 'twitter', 'yahoo']
     , config = require('../config')
     , passport = require('passport')
     , express = require('express')
