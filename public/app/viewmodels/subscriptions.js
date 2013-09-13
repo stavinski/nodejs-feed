@@ -1,4 +1,4 @@
-define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator'], function(router, Subscription, ko, connection, cache, $, articleMediator) {
+define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator', 'amplify'], function(router, Subscription, ko, connection, cache, $, articleMediator, amplify) {
    
    var bindSubscription = function (model) {
         var   subscription = model
@@ -15,7 +15,22 @@ define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cach
         model.active = ko.observable(router.activeItem().subscription == model._id);
         return model;
     };
-      
+    
+    var handleSubscriptions = function (data, self) {
+        var current = cache.get('subscriptions');
+        if (current) {
+            current.subscriptions.concat(data.subscriptions);
+            current.timestamp = data.timestamp;
+            cache.set('subscriptions', current);
+        } else {
+            cache.set('subscriptions', data);
+        }
+        
+        var updated = cache.get('subscriptions');
+        var boundSubscriptions = updated.subscriptions.map(bindSubscription);
+        self.subscriptions(boundSubscriptions);
+    };
+
    var ViewModel = {
         _init : false,
         subscriptions: ko.observableArray(),
@@ -37,25 +52,18 @@ define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cach
             if (self._init) return;
             
             self._init = true;
-            return connection.wait()
-                    .then(function () {
-                        connection.receive('backend.subscriptions', function (data) {
-                            var current = cache.get('subscriptions');
-                            if (current) {
-                                current.subscriptions.concat(data.subscriptions);
-                                current.timestamp = data.timestamp;
-                                cache.set('subscriptions', current);
-                            } else {
-                                cache.set('subscriptions', data);
-                            }
-                            
-                            var updated = cache.get('subscriptions');
-                            var boundSubscriptions = updated.subscriptions.map(bindSubscription);
-                            self.subscriptions(boundSubscriptions);
-                        });
-                        
-                        connection.send('backend.syncsubscriptions', { since : since });
-                    });
+            
+            amplify.subscribe('subscriptionadded', function () {
+                console.log('sub added');
+                var current = cache.get('subscriptions');
+                connection.send('backend.syncsubscriptions', 
+                            { since : current.timestamp }, 
+                            function (data) { handleSubscriptions(data, this); });
+            });
+            
+            connection.send('backend.syncsubscriptions', 
+                            { since : since }, 
+                            function (data) { handleSubscriptions(data, this); });
         },
         makeActive : function () {
             var   self = this

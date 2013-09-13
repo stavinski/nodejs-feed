@@ -30,6 +30,7 @@
     "socket.io" : "*",
     "passport.socketio" : "*",
     "mubsub" : "*",
-    "mongoskin" : "*"
+    "mongoskin" : "*",
+    "uuid" : "*"  
   }
 }

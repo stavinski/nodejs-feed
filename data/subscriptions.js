@@ -36,16 +36,20 @@ exports.get = function(id) {
 exports.upsert = function (meta) {
     var parseFavicon = function (meta) {
         if (meta.favicon != null) return meta.favicon;
+        if (meta.image.url) return meta.image.url;
+        if (meta.link) {        
+            var   feedUrl = url.parse(meta.link)
+                , host = feedUrl.protocol + "//" + feedUrl.hostname;
         
-        var   feedUrl = url.parse(meta.link)
-            , host = feedUrl.protocol + "//" + feedUrl.hostname;
+            return host + '/favicon.ico';
+        }
         
-        return host + '/favicon.ico';
+        return null;
     };
     
     var parsePubSub = function (meta) {
         if (Object.keys(meta.cloud).length == 0) return null;
-        
+    
         return meta.cloud;
     };
 
@@ -54,13 +58,15 @@ exports.upsert = function (meta) {
                 var   subscriptions = db.collection('subscriptions')
                     , data = {
                         //$setOnInsert : { created : new Date() }, not supported in the version im running 2.1 :-/
-                        favicon : parseFavicon(meta),
-                        pubsub : parsePubSub(meta),
-                        htmlurl : meta.htmlurl,
-                        title : meta.title,
-                        stitle : meta.title.toLowerCase(),
-                        xmlurl : meta.xmlurl,
-                        image : meta.image
+                        $set : { 
+                            favicon : parseFavicon(meta),
+                            pubsub : parsePubSub(meta),
+                            htmlurl : meta.htmlurl,
+                            title : meta.title,
+                            stitle : meta.title.toLowerCase(),
+                            xmlurl : meta.xmlurl,
+                            image : meta.image
+                        }
                       };         
                 
                 return Q.ninvoke(subscriptions, 'update', { xmlurl : meta.xmlurl }, data, {w:1, upsert : true })
@@ -77,7 +83,7 @@ exports.upsert = function (meta) {
                                     .then(function (updated) { deferred.resolve({existing : existing, subscription : updated[0]}); })
                                     .fail(deferred.reject);
                             } else {
-                                Q.ninvoke(subscriptions, 'findOne', { xml : meta.xmlurl }, {w:1})
+                                Q.ninvoke(subscriptions, 'findOne', { xmlurl : meta.xmlurl }, {w:1})
                                     .then(function (result) { deferred.resolve({ existing : existing, subscription : result }) })
                                     .fail(deferred.reject);
                             }
@@ -95,7 +101,7 @@ exports.getForPolling = function () {
                 var   now = new Date()
                     , pollCheck =  new Date(); //now.setMinutes(now.getMinutes() - config.background.subscriptionPollMins);
                 
-                var cursor = db.collection('subscriptions').find({ pubsub : null, lastPoll : { $lte : new Date(pollCheck) } }, { sort : [['lastPoll',1]] });
+                var cursor = db.collection('subscriptions').find({ 'pubsub.type' : { $ne : 'hub' }, lastPoll : { $lte : new Date(pollCheck) } }, { sort : [['lastPoll',1]] });
                 return Q.ninvoke(cursor, 'toArray');
             })
             .fin(function () { db.close(); });

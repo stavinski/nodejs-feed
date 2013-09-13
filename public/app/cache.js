@@ -5,8 +5,12 @@ define(['amplify'], function (amplify) {
         get : function (key) {
             return amplify.store(this._cachePrefix + key);
         },
-        set : function (key, val) {
-            amplify.store(this._cachePrefix  + key, val);
+        set : function (key, val, expires) {
+            if (expires) {
+                amplify.store(this._cachePrefix  + key, val, expires);    
+            } else {
+                amplify.store(this._cachePrefix  + key, val);
+            }
         }
     };
     

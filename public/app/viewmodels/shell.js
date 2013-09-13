@@ -1,4 +1,4 @@
-﻿define(['plugins/router', 'durandal/app', 'durandal/system', 'amplify', 'models/subscription', 'connection', 'bootstrap','knockout', 'logger', 'cache'], function (router, app, system, amplify, Subscription, connection, bootstrap, ko, logger, cache) {
+define(['plugins/router', 'durandal/app', 'durandal/system', 'amplify', 'models/subscription', 'connection', 'bootstrap','knockout', 'logger', 'cache'], function (router, app, system, amplify, Subscription, connection, bootstrap, ko, logger, cache) {
     
     var vm = {
         router: router,

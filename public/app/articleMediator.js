@@ -14,6 +14,13 @@ define(['cache'], function (cache) {
         return nextDate - prevDate;  
     };
     
+    var cacheArticle = function (article) {
+        var articleCacheKey = cacheKeys.ARTICLE + article._id
+            , expires = 7 * 24 * 60 * 60;
+        
+        cache.set(articleCacheKey, { timestamp : new Date(), article : article }, expires);
+    };
+    
     var moveArticle = function (data, fromCacheKey, toCacheKey) {
         var   article = data.article
             , fromCache = cache.get(fromCacheKey) || { timestamp : new Date(), articles : [] }
@@ -49,8 +56,7 @@ define(['cache'], function (cache) {
     };
     
     var read = function (data) {
-        var articleCacheKey = cacheKeys.ARTICLE + data.article._id;
-        cache.set(articleCacheKey, data);
+        cacheArticle(data.article);
         moveArticle(data, cacheKeys.UNREAD, cacheKeys.READ);
     };
     

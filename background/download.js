@@ -89,15 +89,18 @@ var updateSubscription = function (subscription) {
 };
     
 var execute = function() {
+    console.log('download bg task');
     subscriptions.getForPolling()
         .then(function (subscriptions) {
-            //console.log(subscriptions.length);
+            console.log(subscriptions.length);
             return Q.all(subscriptions.map(updateSubscription));
         })
         //.fin (function () { console.log('end'); })
         .done();
+    
+    setTimeout(execute, config.background.pollMs);
 };
 
-//module.exports.start = function () {
+module.exports.start = function () {
     execute();
-//};
+};

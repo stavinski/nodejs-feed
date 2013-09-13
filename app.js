@@ -15,6 +15,7 @@ var express = require('express')
   , socketApp = require('./socketapp')
   , feedpush = require('./feedpush')
   , io = require('socket.io').listen(server)
+  , download = require('./background/download')
   , sessionStore = new MongoStore({
                 db: 'web',
                 host: config.db.host,
@@ -25,19 +26,19 @@ var express = require('express')
 app.set('port', config.app.port);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.favicon(__dirname + '/public/content/images/favicon.ico'));
 app.use(express.logger('dev'));
+app.use(express.cookieParser());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.all('/push/:id', feedpush.handler());
 app.use(express.session({ 
             secret : config.session.secret,
             store : sessionStore
         }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/push', feedpush.handler());
 app.use(app.router);
 
 bundleUp(app, __dirname + '/assets', {
@@ -58,6 +59,9 @@ app.get('/', routes.index);
 
 auth.init(app, io, sessionStore);
 socketApp.start(io);
+
+// kick off background tasks
+download.start();
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

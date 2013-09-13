@@ -10,10 +10,10 @@ var assignUser = function (socket) {
 };
     
 var syncSubscriptions = function (socket) {
-    socket.on('backend.syncsubscriptions', function (data) {
+    socket.on('backend.syncsubscriptions', function (data, callback) {
         subscriptions.getAllByProfile(user._id, data.since)
             .then(function (subscriptions) {
-                socket.emit('backend.subscriptions', { timestamp : new Date(), subscriptions : subscriptions });
+                callback({ timestamp : new Date(), subscriptions : subscriptions });
             })
             .done();
     });
@@ -97,14 +97,14 @@ var handleAddFeed = function (socket) {
             
             feed.details(data.url)
                     .then(function (details) {
-                        subscriptions.upsert(details)
+                        return subscriptions.upsert(details)
                             .then(function (result) {
-                                if (result.existing) return;
-                                    
                                 var subscription = result.subscription;
                                 profiles.subscribe(user._id, subscription);    
+                                
+                                if (result.existing) return;
                                                                 
-                                if (subscription.pubsub != null)
+                                if ((subscription.pubsub != null) && (subscription.pubsub.type == 'hub'))
                                     feedpush.subscribe(subscription);
                                                                 
                                 return feed.articles(data.url)

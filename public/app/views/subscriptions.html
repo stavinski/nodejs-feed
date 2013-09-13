@@ -1,6 +1,6 @@
 <ul id="subscriptions" class="nav nav-list" data-bind="foreach: subscriptions">
     <li data-bind="css : { active : active }">
-        <a href="#" data-bind="click: $root.makeActive"><img height="16" width="16" onerror="this.onerror=null;this.src='http://pushfeed.local:3000/favicon.ico'" data-bind="attr: { src : favicon, alt : title }" /> <!-- ko text: title --> <!-- /ko --> 
-        <span class="badge badge-info" data-bind="text : unread" ></span> 
+        <a href="#" data-bind="click: $root.makeActive"><img height="24" width="24" onerror="this.onerror=null;this.src='http://pushfeed.local:3000/favicon.ico'" data-bind="attr: { src : favicon, alt : title }" /> <!-- ko text: title --> <!-- /ko --> 
+        <span class="badge badge-info pull-right" data-bind="text : unread" ></span> 
     </li>
 </ul>

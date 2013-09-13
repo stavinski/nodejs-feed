@@ -1,16 +1,19 @@
 var   config = require('./config')
     , Q = require('Q')
+    , uuid = require('uuid')
     , subscriptions = require('./data/subscriptions')
     , articles = require('./data/articles')
     , feed = require('./feed')
     , request = require('request')
+    , verifyTokens = {};
 
 var handleSubscriptionVerification = function (req, res, subscription) {
     
-    if (req.route.method == 'get') {
+    if (req.method.toLowerCase() == 'get') {
         var   mode = req.query['hub.mode']
             , topic = req.query['hub.topic']
             , challenge = req.query['hub.challenge']
+            , verifyToken = req.query['hub.verify_token']
             , leaseSeconds = req.query['hub.lease_seconds'] || 24 * 60 * 60; // if not provided default to a day
         
         if ((!mode) || (!topic) || (!challenge))
@@ -18,6 +21,9 @@ var handleSubscriptionVerification = function (req, res, subscription) {
         
         if (subscription.xmlurl.toLowerCase() != topic.toLowerCase())
             throw new Error('topic does not match the subscription');
+        
+        if (verifyTokens[subscription._id] != verifyToken)
+            throw new Error('incorrect verify token supplied');
         
         var   now = new Date()
             , expires = now.setSeconds(now.getSeconds() + leaseSeconds);    
@@ -37,7 +43,7 @@ var handleSubscriptionVerification = function (req, res, subscription) {
 };
 
 var handleSubscriptionContent = function (req, res, subscription) {
-    if (req.route.method == 'post') {
+    if (req.method.toLowerCase() == 'post') {
         feed.parse(req.body)
             .then(function (articles) {
                 return articles.upsert(subscription, articles);
@@ -57,22 +63,24 @@ var subscriptionRequest = function (subscription, subscribe) {
         throw new Error('not a pubsub subscription');
     
     var   opts = {
-            qs : {
-                'hub.callback' : config.app.baseUrl + 'push/' + subscription._id,
+            form : {
+                'hub.callback' : config.app.baseUrl + 'push/?subscription=' + subscription._id,
                 'hub.mode' : (subscribe) ? 'subscribe' : 'unsubscribe',
                 'hub.topic' : subscription.xmlurl,
+                'hub.verify' : 'sync',
+                'hub.verify_token' : verifyTokens[subscription._id] = uuid.v4(),
                 'hub.lease_seconds' : config.feedpush.leaseSeconds
             }
           }
         , deferred = Q.defer();
     
-    request(pubsub.href, opts, function (err, response, body) {
+    request.post(pubsub.href, opts, function (err, response, body) {
         if (err) {
             deferred.reject(err);
             return;
         }
                     
-        if (response.statusCode != 202) {
+        if (response.statusCode[0] != 2) {
             deferred.reject(new Error('hub responded with status: [' + response.statusCode + ']'));
             return;
         }
@@ -86,7 +94,7 @@ var subscriptionRequest = function (subscription, subscribe) {
 var feedpush = {
     handler : function () {
         return function (req, res, next) {
-            var id = req.params.id;
+            var id = req.query.subscription;
             
             if (!id) {
                 res.send(404);
@@ -104,6 +112,7 @@ var feedpush = {
                     handleSubscriptionContent(req, res, subscription);                    
                 })
                 .fail(function (err) { console.log(err); res.send(500); })
+                .fin(function () { next(); })
                 .done();
         };
     },
