@@ -115,7 +115,7 @@ exports.setError = function (subscription, inError) {
 exports.setPollingData = function (subscription, lastModified, etag) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
-                return Q.ninvoke(db.collection('subscriptions'), 'update', { _id : subscription._id }, { $set: { lastModified : lastModified }, $set : { etag : etag } }, {w:1});
+                return Q.ninvoke(db.collection('subscriptions'), 'update', { _id : subscription._id }, { $set: { lastModified : lastModified , etag : etag } }, {w:1});
             })
             .fin(function () { db.close(); });
 };
@@ -131,7 +131,7 @@ exports.setLastPoll = function (subscription) {
 exports.subscribe = function (subscription, expires) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
-                return Q.ninvoke(db.collection('subscriptions'), 'update', { _id : subscription._id }, { $set : { pubsub : { verified : new Date(), expires : expires } } }, {w:1});
+                return Q.ninvoke(db.collection('subscriptions'), 'update', { _id : subscription._id }, { $set : { 'pubsub.verified' : new Date(), 'pubsub.expires' : expires } }, {w:1});
             })
             .fin(function () { db.close(); })
 };
@@ -139,7 +139,7 @@ exports.subscribe = function (subscription, expires) {
 exports.unsubscribe = function (subscription) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
-                return Q.ninvoke(db.collection('subscriptions'), 'update', { _id : subscription._id }, { $set : { pubsub : { unsubscribed : new Date() } } }, {w:1});
+                return Q.ninvoke(db.collection('subscriptions'), 'update', { _id : subscription._id }, { $set : { 'pubsub.unsubscribed' : new Date() } }, {w:1});
             })
             .fin(function () { db.close(); })
 };

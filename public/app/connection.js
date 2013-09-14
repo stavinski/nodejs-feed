@@ -1,4 +1,4 @@
-define(['socket.io', 'Q', 'amplify'], function (sio, Q, amplify) {
+define(['socket.io', 'Q', 'amplify', 'config'], function (sio, Q, amplify, config) {
     var   io = null
         , connectionDeferred = Q.defer()
         , TOPIC_CONNECTED = 'backend.connected'
@@ -29,7 +29,7 @@ define(['socket.io', 'Q', 'amplify'], function (sio, Q, amplify) {
     };
     
     var _connect = function () {
-        io = sio.connect();
+        io = sio.connect(config.socketio.uri);
         monitorConnection();
         
         amplify.subscribe(TOPIC_CONNECTED, function () {
