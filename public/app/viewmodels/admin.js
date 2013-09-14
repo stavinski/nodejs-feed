@@ -15,6 +15,9 @@ define(['knockout', 'connection', 'amplify'], function (ko, connection, amplify)
         },
         saveCache : function () {
             
+        },
+        forgetMe : function () {
+            console.log('forget me');
         }
         
     };

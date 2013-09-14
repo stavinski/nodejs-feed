@@ -33,6 +33,13 @@ var init = function (app, io, sessionStore) {
         }
     }));
 
+    // handle sign out
+    app.get('/signout', function (req, res) {
+        req.logout();
+        res.clearCookie(config.session.key, { path: '/' });
+        res.render('signedout');
+    });
+    
     // initialize each provider
     providers.forEach(function (key) {
         var provider = require('./' + key);

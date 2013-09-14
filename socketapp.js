@@ -3,6 +3,7 @@ var   config = require('./config')
     , profiles = require('./data/profiles')
     , articles = require('./data/articles')
     , bus = require('./bus')
+    , auth = require('./auth')
     , user = null;
 
 var assignUser = function (socket) {
@@ -167,7 +168,7 @@ var start = function (sio) {
         syncArticle(socket);
         handleAddFeed(socket);
         handleStarred(socket);       
-        handleUnstarred(socket);       
+        handleUnstarred(socket);
         handleUserDisconnected(socket);       
     });
     

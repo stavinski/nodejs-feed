@@ -25,7 +25,7 @@ exports.insert = function (openid) {
                 socketId : '',
                 subscriptions : []
             };
-            return db.collection('profiles').insert(data, {w:1});
+            return Q.ninvoke(db.collection('profiles'), 'insert', data, {w:1});
         })
         .then (function () {
             return Q.ninvoke(db.collection('profiles'), 'findOne', { openid : openid }, { created : 1, settings : 1 }, {w:1});       

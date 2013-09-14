@@ -10,19 +10,20 @@ var   config = require('../config')
 var initialize = function (app) {
     passport.use(new YahooStrategy({
             returnURL: config.app.baseUrl + 'auth/yahoo/return',
-            realm: config.app.baseUrl
-        }, function(identifier, done) {
+            realm: config.app.baseUrl,
+            profile: false
+        }, function(identifier, profile, done) {
             profiles.find(identifier)
-                .then (function (profile) {
-                    if (profile == null) {
+                .then (function (found) {
+                    if (found == null) {
                         profiles.insert(identifier)
-                            .then(function (profile) {
-                                profile.new = true;
-                                return done(null, profile);    
+                            .then(function (inserted) {
+                                inserted.new = true;
+                                return done(null, inserted);    
                             });
                     } else {
-                        profile.new = false;
-                        return done(null, profile);    
+                        found.new = false;
+                        return done(null, found);    
                     }                    
                 })
                 .fail(function (err) { done(err, null); })

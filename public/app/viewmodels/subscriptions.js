@@ -28,7 +28,7 @@ define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cach
         
         var updated = cache.get('subscriptions');
         var boundSubscriptions = updated.subscriptions.map(bindSubscription);
-        self.subscriptions(boundSubscriptions);
+        ViewModel.subscriptions(boundSubscriptions);
     };
 
    var ViewModel = {
@@ -63,7 +63,7 @@ define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cach
             
             connection.send('backend.syncsubscriptions', 
                             { since : since }, 
-                            function (data) { handleSubscriptions(data, this); });
+                            function (data) { handleSubscriptions(data, ViewModel); });
         },
         makeActive : function () {
             var   self = this
