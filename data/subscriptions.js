@@ -80,7 +80,7 @@ exports.upsert = function (meta) {
                                     .then(function (updated) { deferred.resolve({existing : existing, subscription : updated[0]}); })
                                     .fail(deferred.reject);
                             } else {
-                                Q.ninvoke(subscriptions, 'findOne', { xmlurl : meta.xmlurl }, {w:1})
+                                Q.ninvoke(subscriptions, 'findOne', { xmlurl : meta.xmlurl }, {}, {w:1})
                                     .then(function (result) { deferred.resolve({ existing : existing, subscription : result }) })
                                     .fail(deferred.reject);
                             }

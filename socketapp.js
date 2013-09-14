@@ -14,7 +14,10 @@ var syncSubscriptions = function (socket) {
     socket.on('backend.syncsubscriptions', function (data, callback) {
         subscriptions.getAllByProfile(user._id, data.since)
             .then(function (subscriptions) {
-                callback({ timestamp : new Date(), subscriptions : subscriptions });
+                callback({ status : 'success', timestamp : new Date(), subscriptions : subscriptions });
+            })
+            .fail(function (err) {
+                callback({ status : 'error', timestamp : new Date() });    
             })
             .done();
     });
@@ -24,21 +27,30 @@ var syncArticles = function (socket) {
     socket.on('backend.syncunreadarticles', function (data, callback) {
         articles.getUnread(user._id, data.since)
             .then(function (articles) {
-                callback({ timestamp: new Date(), articles : articles });
+                callback({ status : 'success', timestamp: new Date(), articles : articles });
+            })
+            .fail(function (err) {
+                callback({ status : 'error', timestamp : new Date() });    
             })
             .done();
     });
     socket.on('backend.syncreadarticles', function (data, callback) {
         articles.getRead(user._id, data.since)
             .then(function (articles) {
-                callback({ timestamp: new Date(), articles : articles });
+                callback({ status : 'success', timestamp: new Date(), articles : articles });
+            })
+            .fail(function (err) {
+                callback({ status : 'error', timestamp : new Date() });    
             })
             .done();
     });
     socket.on('backend.syncstarredarticles', function (data, callback) {
         articles.getStarred(user._id, data.since)
             .then(function (articles) {
-                callback({ timestamp: new Date(), articles : articles });
+                callback({ status : 'success', timestamp: new Date(), articles : articles });
+            })
+            .fail(function (err) {
+                callback({ status : 'error', timestamp : new Date() });    
             })
             .done();
     });
@@ -58,8 +70,11 @@ var syncArticle = function (socket) {
     socket.on('backend.syncarticle', function (data, callback) {
         articles.get(user._id, data.id)
             .then(function (article) {
-                callback({ timestamp: new Date(), article : article });
+                callback({ status : 'success', timestamp: new Date(), article : article });
                 articles.read(user._id, article);
+            })
+            .fail(function (err) {
+                callback({ status : 'error', timestamp : new Date() });    
             })
             .done();
     });
@@ -91,8 +106,8 @@ var handleUnstarred = function (socket) {
     });
 };
 
-var handleAddFeed = function (socket) {
-    socket.on('backend.addfeed', function (data, callback) {
+var handleAddSubscription = function (socket) {
+    socket.on('backend.addsubscription', function (data, callback) {
             var   feed = require('./feed')
                 , feedpush = require('./feedpush');
             
@@ -103,7 +118,8 @@ var handleAddFeed = function (socket) {
                                 var subscription = result.subscription;
                                 profiles.subscribe(user._id, subscription);    
                                 
-                                if (result.existing) return;
+                                if (result.existing) 
+                                    return subscription;
                                                                 
                                 if ((subscription.pubsub != null) && (subscription.pubsub.type == 'hub'))
                                     feedpush.subscribe(subscription);
@@ -111,16 +127,31 @@ var handleAddFeed = function (socket) {
                                 return feed.articles(data.url)
                                         .then(function (downloaded) {
                                             articles.upsert(subscription, downloaded);
+                                        })
+                                        .then(function () {
+                                            return subscription; 
                                         });
-                            })
+                            });
                     })
-                    .then(function () { callback({ status : 'success' }); })
+                    .then(function (subscription) { callback({ status : 'success', timestamp : new Date(), subscription : subscription }); })
                     .fail(function (err) {
                         console.error(err);
                         callback({ status : 'error' });
                     })
                     .done();
        });
+};
+
+var handleUnsubscribe = function (socket) {
+    socket.on('backend.unsubscribe', function (data, callback) {
+        profiles.unsubscribe(user._id, data.id)
+            .then(function () { return subscriptions.get(data.id); })
+            .then(function (subscription) { callback({ status : 'success', timestamp : new Date(), subscription : subscription }); })
+            .fail(function (err) {
+                callback({ status : 'error', timestamp : new Date() });
+            })
+            .done();
+    });
 };
 
 var handleUserConnected = function (socket) {
@@ -144,6 +175,9 @@ var handleArticlesUpdated = function (sio) {
                 if (socket)                    
                     socket.emit('backend.articlesupdated', { timestamp: new Date() });
             })
+            .fail(function (err) {
+                console.error(err);
+            })
             .done();
     });
 };
@@ -166,7 +200,8 @@ var start = function (sio) {
         syncArticles(socket);
         syncProfile(socket);
         syncArticle(socket);
-        handleAddFeed(socket);
+        handleAddSubscription(socket);
+        handleUnsubscribe(socket);
         handleStarred(socket);       
         handleUnstarred(socket);
         handleUserDisconnected(socket);       

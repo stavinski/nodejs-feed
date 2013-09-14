@@ -73,7 +73,7 @@ exports.unsubscribe = function (profile, subscription) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
                 var profiles = db.collection('profiles');
-                return Q.ninvoke(profiles, 'update', { _id : new ObjectID(profile) }, { $pull : { subscriptions : subscription._id } });
+                return Q.ninvoke(profiles, 'update', { _id : new ObjectID(profile) }, { $pull : { subscriptions : new ObjectID(subscription) } });
             })
             .fin(function () { db.close(); });
 };

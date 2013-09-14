@@ -1,6 +1,6 @@
-define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator', 'amplify'], function(router, Subscription, ko, connection, cache, $, articleMediator, amplify) {
+define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator', 'subscriptionMediator'], function(router, Subscription, ko, connection, cache, $, articleMediator, subscriptionMediator) {
    
-   var bindSubscription = function (model) {
+    var bindSubscription = function (model) {
         var   subscription = model
             , unreadArticles = articleMediator.getUnread().articles;
                
@@ -17,53 +17,26 @@ define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cach
     };
     
     var handleSubscriptions = function (data, self) {
-        var current = cache.get('subscriptions');
-        if (current) {
-            current.subscriptions.concat(data.subscriptions);
-            current.timestamp = data.timestamp;
-            cache.set('subscriptions', current);
+        if (data.status == 'success') {
+            subscriptionMediator.addMultiple(data);
         } else {
-            cache.set('subscriptions', data);
+            // alert here    
         }
-        
-        var updated = cache.get('subscriptions');
-        var boundSubscriptions = updated.subscriptions.map(bindSubscription);
-        ViewModel.subscriptions(boundSubscriptions);
     };
 
-   var ViewModel = {
+    var ViewModel = {
         _init : false,
-        subscriptions: ko.observableArray(),
         router: router,
-		activate: function () {
+        activate: function () {
             var self = this;
-            self.subscriptions([]);
-            
-            var   data = cache.get('subscriptions')
-                , since = new Date(0);
-                
-            if (data) {
-                var boundSubscriptions = data.subscriptions.map(bindSubscription);
-                self.subscriptions(boundSubscriptions);
-                since = data.timestamp;
-            }
-            
+                                    
             // is this the first time through this vm 
             if (self._init) return;
             
             self._init = true;
-            
-            amplify.subscribe('subscriptionadded', function () {
-                console.log('sub added');
-                var current = cache.get('subscriptions');
-                connection.send('backend.syncsubscriptions', 
-                            { since : current.timestamp }, 
-                            function (data) { handleSubscriptions(data, this); });
-            });
-            
             connection.send('backend.syncsubscriptions', 
-                            { since : since }, 
-                            function (data) { handleSubscriptions(data, ViewModel); });
+                            { since : subscriptionMediator.lastDownload() }, 
+                            function (data) { handleSubscriptions(data, self); });
         },
         makeActive : function () {
             var   self = this
@@ -71,7 +44,11 @@ define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cach
                         
             router.navigate(route + self._id);
             return false;
-        }       
+        },
+        subscriptions: ko.computed(function () {
+            var subscriptions = subscriptionMediator.subscriptionsBinding();
+            return subscriptions.map(bindSubscription);
+        })
     };
     
     return ViewModel;

@@ -26,7 +26,7 @@ var handleSubscriptionVerification = function (req, res, subscription) {
             throw new Error('incorrect verify token supplied');
         
         var   now = new Date()
-            , expires = now.setSeconds(now.getSeconds() + leaseSeconds);    
+            , expires = new Date(now.setSeconds(now.getSeconds() + leaseSeconds));
         
         if (mode == 'subscribe') {
             subscriptions.subscribe(subscription, expires)

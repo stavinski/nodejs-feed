@@ -2,21 +2,41 @@
     <h2>admin</h2>
     <div class="tabbable tabs-left">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#feeds" data-toggle="tab">feeds</a>
+            <li class="active"><a href="#subscriptions" data-toggle="tab">subscriptions</a>
             <li><a href="#caching" data-toggle="tab">caching</a>
             <li><a href="#forgetme" data-toggle="tab">sign-in</a>
             <li><a href="#import" data-toggle="tab">import</a>
         </ul>
     
         <div class="tab-content">
-            <div class="tab-pane active" id="feeds">
-                <h2>feeds</h2>
+            <div class="tab-pane active" id="subscriptions">
+                <h2>subscriptions</h2>
+                
                 <form class="inline-form">
                     <div class="input-append">
-                        <input type="text" class="input-xxlarge" placeholder="feed url" data-bind="value : feedUrl" />
-                        <button class="btn btn-primary" data-bind="click : addFeed">add</button>
+                        <input type="text" class="input-xxlarge" placeholder="subscription url" data-bind="value : subscriptionUrl" />
+                        <button class="btn btn-primary" data-bind="click : addSubscription">add</button>
                     </div>
                 </form>
+                
+                <table data-bind="foreach: subscriptions" class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="alert alert-info" data-bind="css : { 'hide' : !confirming() }">
+                                    <h3>Confirm un-subscription</h3>
+                                    <p>Are you sure you want to unsubscribe from <!-- ko text: title --><!-- /ko -->?</p>
+                                    <button class="btn btn-danger" data-bind="click : confirmUnsubscribe">confirm</button>
+                                    <button class="btn" data-bind="click : cancelUnsubscribe">cancel</button>
+                                </div>
+                                <button class="btn btn-warning" data-bind="css : { 'hide' : confirming() }, attr : { 'title' : 'unsubscribe from ' + title }, click : unsubscribe"><i class="icon-remove-sign"></i></button>
+                            </td>
+                            <th data-bind="text: title"></th>
+                            <td data-bind="text: xmlurl"></td>
+                        </tr>
+                    </tbody>
+                </table>                
+                                
             </div>
             
             <div class="tab-pane" id="caching">
@@ -42,7 +62,7 @@
                 <div class="alert alert-info">
                     <p>Forget my sign-in on this device?</p>
                     
-                    <a href="/signout" class="btn">forget me</a>
+                    <a href="/signout" class="btn btn-primary">forget me</a>
                 </div>
             </div>
             

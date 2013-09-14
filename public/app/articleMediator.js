@@ -78,6 +78,11 @@ define(['cache'], function (cache) {
         return cache.get(cacheKeys.UNREAD) || { timestamp : new Date(), articles : [] };
     };
     
+    var removeAll = function (subscription) {
+        // remove from all caches where article is associated with subscription
+        
+    };
+    
     return {
         read : read,
         starred : starred,

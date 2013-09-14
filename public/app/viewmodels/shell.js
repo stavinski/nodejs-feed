@@ -55,7 +55,7 @@ define(['plugins/router', 'durandal/app', 'durandal/system', 'amplify', 'models/
         forceConnection : function () {
             if (this.connected()) return;
             
-            connection.connect();
+            connection.reconnect();
         }
     };
     
