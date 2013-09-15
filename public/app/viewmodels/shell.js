@@ -1,4 +1,4 @@
-define(['plugins/router', 'durandal/app', 'durandal/system', 'amplify', 'models/subscription', 'connection', 'bootstrap','knockout', 'logger', 'cache'], function (router, app, system, amplify, Subscription, connection, bootstrap, ko, logger, cache) {
+define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'models/subscription', 'connection', 'bootstrap','knockout', 'logger', 'cache'], function (router, dialog, app, system, amplify, Subscription, connection, bootstrap, ko, logger, cache) {
     
     var vm = {
         router: router,
@@ -19,10 +19,10 @@ define(['plugins/router', 'durandal/app', 'durandal/system', 'amplify', 'models/
                 })
                 .then(function () { 
                     self.connected(true);
-                    connection.receive('backend.profile', function (data) {
+                    
+                    connection.send('backend.syncprofile', function (data) {
                         cache.set('profile', data);                    
                     });
-                    connection.send('backend.syncprofile');
                                         
                     amplify.subscribe(connection.TOPIC_CONNECTED, function () {
                         self.connected(true);
@@ -49,7 +49,7 @@ define(['plugins/router', 'durandal/app', 'durandal/system', 'amplify', 'models/
         },
         attached : function () {
             if (this.unauthorized) {
-                $('#signin').modal();
+                dialog.show('viewmodels/signin');
             }
         },
         forceConnection : function () {

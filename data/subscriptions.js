@@ -32,16 +32,16 @@ exports.get = function(id) {
 
 exports.upsert = function (meta) {
     var parseFavicon = function (meta) {
-        if (meta.favicon != null) return meta.favicon;
-        if (meta.image.url) return meta.image.url;
-        if (meta.link) {        
-            var   feedUrl = url.parse(meta.link)
+        var parseUrl = function (location) {
+            var   feedUrl = url.parse(location)
                 , host = feedUrl.protocol + "//" + feedUrl.hostname;
         
             return host + '/favicon.ico';
-        }
+        };
         
-        return null;
+        if (meta.favicon != null) return meta.favicon; // use supplied as preference
+        if (meta.link) return parseUrl(meta.link); // then the website 
+        return parseUrl(meta.xmlurl); // then the feed which could be a feed provider (i.e. feedburner)
     };
     
     var parsePubSub = function (meta) {
@@ -58,7 +58,7 @@ exports.upsert = function (meta) {
                         $set : { 
                             favicon : parseFavicon(meta),
                             pubsub : parsePubSub(meta),
-                            htmlurl : meta.htmlurl,
+                            htmlurl : meta.link,
                             title : meta.title,
                             stitle : meta.title.toLowerCase(),
                             xmlurl : meta.xmlurl,
@@ -142,4 +142,16 @@ exports.unsubscribe = function (subscription) {
                 return Q.ninvoke(db.collection('subscriptions'), 'update', { _id : subscription._id }, { $set : { 'pubsub.unsubscribed' : new Date() } }, {w:1});
             })
             .fin(function () { db.close(); })
+};
+
+exports.getForPubSubRenewal = function () {
+  return Q.ninvoke(db, 'open')
+        .then(function (db) {
+            var   now = new Date()
+                , expireThreshold = new Date(now.setDate(now.getDate() + 1)) // any that are going to expire in less than a day
+                , cursor = db.collection('subscriptions').find({ 'pubsub.type' : 'hub', 'pubsub.expires' : { $lte : expireThreshold } }, { sort : [['pubsub.expires',1]] });
+            
+            return Q.ninvoke(cursor, 'toArray');
+        })
+        .fin(function () { db.close(); })
 };

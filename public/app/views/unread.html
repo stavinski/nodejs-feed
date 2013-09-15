@@ -25,17 +25,11 @@
                 </div>
 
                 <!-- smartphone -->
-                <div class="article visible-phone" data-bind="foreach: articles">
-                    <div class="well well-small">
-                        <div data-bind="text: title, css: { muted: read }"></div>
-                        <div class="article-sub-header">
-                            <i class="icon-double-angle-right"></i>
-                            <em><span data-bind="text: author"></span> - 
-                            <span data-bind="text: published"></span></em>
-                        </div>
-                        <div>
-                            <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-link icon-2x"></i></a>
-                        </div>
+                <div class="article visible-phone" data-bind="foreach: articlesToShow">
+                    <div class="well well-large">
+                        <strong><span class="title" data-bind="text: title"></span></strong>
+                        <span data-bind="text: published"></span>
+                        <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-2x icon-circle-arrow-right"></i></a>
                     </div>
                 </div>
             </div>

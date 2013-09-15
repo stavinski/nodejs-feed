@@ -57,12 +57,12 @@ var syncArticles = function (socket) {
 };
 
 var syncProfile = function (socket) {
-    socket.on('backend.syncprofile', function () {
+    socket.on('backend.syncprofile', function (data, callback) {
         var profile = {
             created : user.created,
             settings : user.settings
         };
-        socket.emit('backend.profile', { timestamp : new Date(), profile : profile });
+        callback({ timestamp : new Date(), profile : profile });
     });
 };
 
@@ -84,10 +84,10 @@ var handleStarred = function (socket) {
     socket.on('backend.articlestarred', function (data, callback) {
         articles.starred(user._id, data.id)
             .then(function () {
-                callback({ timestamp: new Date(), status : 'success' });
+                callback({ status : 'success', timestamp: new Date() });
             })
             .fail(function () {
-                callback({ timestamp: new Date(), status : 'error' });
+                callback({ status : 'error', timestamp: new Date() });
             })
             .done();
     });
@@ -97,10 +97,10 @@ var handleUnstarred = function (socket) {
     socket.on('backend.articleunstarred', function (data, callback) {
         articles.unstarred(user._id, data.id)
             .then(function () {
-                callback({ timestamp: new Date(), status : 'success' });
+                callback({ status : 'success', timestamp: new Date() });
             })
             .fail(function () {
-                callback({ timestamp: new Date(), status : 'error' });
+                callback({ status : 'error', timestamp: new Date() });
             })
             .done();
     });

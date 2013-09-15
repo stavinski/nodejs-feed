@@ -1,4 +1,4 @@
-﻿<div class="navbar">
+<div class="navbar">
     <!-- desktop/tablet -->
 	<div class="navbar-inner hidden-phone navbar-fixed-top">
 		<a class="brand" data-bind="attr: { href: router.navigationModel()[0].hash }">
@@ -9,8 +9,8 @@
 				<a data-bind="attr: { href : hash }, text: title"></a>
 			</li>
 		</ul>
-		<div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
-			<i class="icon-spinner icon-spin icon-2x"></i>
+        <div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
+            <i class="icon-spinner icon-spin icon-2x"></i>
 		</div>
 	</div>
 	<!-- smartphone -->
@@ -21,34 +21,6 @@
 			</li>
 		</ul>
 	</div>
-</div>
-
-<!-- sign-in dialog -->
-<div class="modal-backdrop hide"></div>
-<div id="signin" class="modal hide" data-backdrop="true" role="dialog">
-    <div class="modal-header">
-        <h4>Sign-in</h4>
-    </div>
-    <div class="modal-body">
-        <p>Please select from the below OpenID providers:</p>
-        
-        <div class="btn-group">
-            <a href="/auth/google" class="btn btn-primary btn-large" title="sign in with google">
-                <i class="icon-google-plus icon-2x"></i>
-            </a>
-            
-            <a href="/auth/twitter" class="btn btn-primary btn-large"  title="sign in with twitter">
-                <i class="icon-twitter icon-2x"></i>
-            </a>
-            
-            <a href="/auth/yahoo" class="btn btn-primary btn-large" style="padding-top: 28px;padding-bottom: 27px"  title="sign in with yahoo">
-                <strong style="font-size: xx-large;font-family: serif">Y!</strong>
-            </a>
-        </div>        
-    </div>
-    <div class="modal-footer">
-        <p>Having issues signing in? <a href="#">visit help</a>.
-    </div>
 </div>
 
 <div data-bind="router: {  }"></div>

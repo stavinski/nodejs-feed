@@ -8,15 +8,16 @@ var   config = require('../config')
     , dns = require('dns')
     , StringReader = require('../stringreader')
     , bus = require('../bus')
+    , pubsub = require('../background/pubsub')
+    , subscriptions = require('../data/subscriptions')
     , Q = require('q');
     
 var execute = function () {
-    var subscription = bus.subscribe('foo', function (msg){
-        console.log(msg);
-        bus.close();
-    });
-        
-    bus.publish('foo', { timestamp: new Date() });
+     subscriptions.getForPubSubRenewal()
+        .then(function (results) {
+            console.log(results);
+        })
+        .done();
 };
 
 execute();

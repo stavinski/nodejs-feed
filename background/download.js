@@ -84,22 +84,24 @@ var updateSubscription = function (subscription) {
                     bus.publish('bg.articlesupdated', { timestamp : new Date(), subscription : subscription });
                 }
             })
-            .fail(function (err) { console.log(err); console.log('Could not download feed data for subscription: [%s] - [%s]', subscription.xmlurl, subscription.title); });
+            .fail(function (err) { 
+                console.log('Could not download feed data for subscription: [%s] - [%s]', subscription.xmlurl, subscription.title); 
+            });
 };
     
 var execute = function() {
     console.log('download bg task');
-    subscriptions.getForPolling()
+    return subscriptions.getForPolling()
         .then(function (subscriptions) {
-            console.log(subscriptions.length);
+            console.log('for retrieving [%d]', subscriptions.length);
             return Q.all(subscriptions.map(updateSubscription));
         })
-        //.fin (function () { console.log('end'); })
-        .done();
-    
-    setTimeout(execute, config.background.pollMs);
+        .fin (function () { 
+            console.log('download bg task end');
+            setTimeout(execute, config.background.pollMs);
+        });
 };
 
 module.exports.start = function () {
-    execute();
+    return execute();
 };

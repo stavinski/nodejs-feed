@@ -16,6 +16,7 @@ var express = require('express')
   , feedpush = require('./feedpush')
   , io = require('socket.io').listen(server)
   , download = require('./background/download')
+  , pubsub = require('./background/pubsub')
   , sessionStore = new MongoStore({
                 url: config.db.url + 'web/sessions',
                 auto_reconnect : true
@@ -61,9 +62,9 @@ app.get('/fail', routes.fail);
 auth.init(app, io, sessionStore);
 socketApp.start(io);
 
-// kick off background tasks
-download.start();
-
 server.listen(app.get('port'), app.get('ipaddress'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+    console.log('Express server listening on port ' + app.get('port'));
+    
+    // kick off background tasks
+    download.start().then(pubsub.start);
 });
