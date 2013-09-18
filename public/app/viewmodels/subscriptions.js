@@ -1,4 +1,4 @@
-define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator', 'subscriptionMediator'], function(router, Subscription, ko, connection, cache, $, articleMediator, subscriptionMediator) {
+define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator', 'subscriptionMediator', 'uri'], function(router, Subscription, ko, connection, cache, $, articleMediator, subscriptionMediator, uri) {
    
     var bindSubscription = function (model) {
         var subscription = model;
@@ -12,6 +12,8 @@ define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cach
         });
                 
         model.active = ko.observable(router.activeItem().subscription() == model._id);
+        model.domain = uri(model.favicon).host;
+        
         return model;
     };
     

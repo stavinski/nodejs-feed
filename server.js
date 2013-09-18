@@ -66,5 +66,6 @@ server.listen(app.get('port'), app.get('ipaddress'), function(){
     console.log('Express server listening on port ' + app.get('port'));
     
     // kick off background tasks
-    download.start().then(pubsub.start);
+    download.start();
+    pubsub.start();
 });

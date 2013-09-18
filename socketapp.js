@@ -168,12 +168,13 @@ var handleArticlesUpdated = function (sio) {
     bus.subscribe('bg.articlesupdated', function (msg) {
         profiles.getAllConnected(msg.subscription._id)
             .then(function (results) {
-                var   profile = results[0]
-                    , socket = sio.sockets.socket(profile.socketId);
+                results.forEach(function (found) {
+                    var socket = sio.sockets.socket(found.socketId);
                 
-                // just in case the socket has closed between the retrieval
-                if (socket)                    
-                    socket.emit('backend.articlesupdated', { timestamp: new Date() });
+                    // just in case the socket has closed between the retrieval
+                    if (socket)                    
+                        socket.emit('backend.articlesupdated', { timestamp: new Date() });    
+                });                
             })
             .fail(function (err) {
                 console.error(err);

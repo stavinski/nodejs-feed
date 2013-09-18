@@ -1,10 +1,7 @@
-define(['knockout', 'config', 'jquery'], function (ko, config, $) {
+define(['knockout', 'config', 'jquery', 'uri'], function (ko, config, $, uri) {
     
     var mapResult = function (result) {
-        var anchor = document.createElement('a');
-        anchor.href = result.link;
-        result.domain = anchor.host;
-        
+        result.domain = uri(result.link).host;
         return result;
     };
     

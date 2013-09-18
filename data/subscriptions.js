@@ -97,9 +97,8 @@ exports.getForPolling = function () {
             .then(function (db) {
                 var   now = new Date()
                     , pollCheck = now.setMinutes(now.getMinutes() - config.background.subscriptionPollMins);
-                
-                var cursor = db.collection('subscriptions').find({ 'pubsub.type' : { $ne : 'hub' }, lastPoll : { $lte : new Date(pollCheck) } }, { sort : [['lastPoll',1]] });
-                return Q.ninvoke(cursor, 'toArray');
+
+                return Q.ninvoke(db.collection('subscriptions'), 'findOne', { 'pubsub.type' : { $ne : 'hub' }, lastPoll : { $lte : new Date(pollCheck) } }, {}, { sort : [['lastPoll',1]], limit : 1 });
             })
             .fin(function () { db.close(); });
 };

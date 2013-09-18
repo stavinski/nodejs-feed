@@ -54,54 +54,48 @@ var parseFeed = function (body) {
     return deferred.promise;
 };
 
-var updateSubscription = function (subscription) {
-    var opts = {
-        url : subscription.xmlurl,
-        headers : {
-            'If-Modified-Since' : subscription.lastModified,
-            'If-None-Match' : subscription.etag
-        }
-    };
+var execute = function() {
+    //console.log('download bg task');
     
-    return subscriptions.setLastPoll(subscription)
-            .then(function () { return Q.nfcall(request, opts) })
-            .then(function (results) { return handleDownload(subscription, results); })
-            .then(function (results) {
-                // there was an issue
-                if (!results.proceed) return [];
+    return subscriptions.getForPolling()
+        .then(function (subscription) {
+            if (subscription == null) return;
             
-                return subscriptions.setPollingData(subscription, results.response.headers['last-modified'], results.response.headers['etag'])
-                        .then(function () { return parseFeed(results.body) });
-            })
-            .then(function (downloaded) {
-                return articles.upsert(subscription, downloaded);
-            })
-            .then(function (result) {
-                // check whether there were any new articles
-                var allExisting = result.every(function (existing) { return existing == true; });
-                                
-                if (!allExisting) {
-                    bus.publish('bg.articlesupdated', { timestamp : new Date(), subscription : subscription });
+            var opts = {
+                url : subscription.xmlurl,
+                headers : {
+                    'If-Modified-Since' : subscription.lastModified,
+                    'If-None-Match' : subscription.etag
                 }
-                                
+            };
+            
+            return subscriptions.setLastPoll(subscription)
+                    .then(function () { return Q.nfcall(request, opts) })
+                    .then(function (results) { return handleDownload(subscription, results); })
+                    .then(function (results) {
+                        // there was an issue
+                        if (!results.proceed) return [];
+                    
+                        return subscriptions.setPollingData(subscription, results.response.headers['last-modified'], results.response.headers['etag'])
+                                .then(function () { return parseFeed(results.body) });
+                    })
+                    .then(function (downloaded) {
+                        return articles.upsert(subscription, downloaded);
+                    })
+                    .then(function (result) {
+                        // check whether there were any new articles
+                        var allExisting = result.every(function (existing) { return existing == true; });
+                                        
+                        if (!allExisting) {
+                            bus.publish('bg.articlesupdated', { timestamp : new Date(), subscription : subscription });
+                        }            
+                    });
             })
-            .fail(function (err) { 
-                console.log('Could not download feed data for subscription: [%s] - [%s]', subscription.xmlurl, subscription.title); 
+            .fin (function () { 
+                //console.log('download bg task end');
+                setTimeout(execute, config.background.pollMs);
             })
             .done();
-};
-    
-var execute = function() {
-    console.log('download bg task');
-    return subscriptions.getForPolling()
-        .then(function (subscriptions) {
-            console.log('for retrieving [%d]', subscriptions.length);
-            return Q.all(subscriptions.map(updateSubscription));
-        })
-        .fin (function () { 
-            console.log('download bg task end');
-            setTimeout(execute, config.background.pollMs);
-        });
 };
 
 module.exports.start = function () {

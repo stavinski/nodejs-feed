@@ -26,7 +26,7 @@ config.socketio.loglevel = 1;
 config.socketio.minify = false;
 
 config.background = {};
-config.background.pollMs = 30000;
+config.background.pollMs = 60000;
 config.background.subscriptionPollMins = 10;
 config.background.pubsubActive = false;
 
@@ -34,8 +34,13 @@ config.feedpush = {};
 config.feedpush.leaseSeconds = 7 * 24 * 60 * 60; // a week
 
 config.auth = {};
+
 config.auth.twitter = {};
 config.auth.twitter.consumerKey = 'tmHcu8MZG7DTDmJej55dw';
 config.auth.twitter.consumerSecret = 'hl30WU6HcyQEyxsVNlq7EfIT9hFd44Z8JQvSzML6hG4';
+
+config.auth.facebook = {};
+config.auth.facebook.appID = '697314400297674';
+config.auth.facebook.appSecret = '19539bd5c3bf6fbacca62d620d1884b4';
 
 module.exports = config;

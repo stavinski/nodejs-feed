@@ -29,6 +29,7 @@
     "passport-google": "*",
     "passport-twitter" : "*",
     "passport-yahoo" : "*",
+    "passport-facebook" : "*",
     "socket.io" : "*",
     "passport.socketio" : "*",
     "mubsub" : "*",
