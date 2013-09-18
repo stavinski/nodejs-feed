@@ -9,20 +9,25 @@ var mapSubscriptions = function (subscription) {
     return new ObjectID(subscription);
 };
     
-exports.getUnread = function(profile, since) {
+exports.getUnread = function(profile, since, subscription) {
     return Q.ninvoke(db, 'open')
         .then (function (db) {
-            return Q.ninvoke(db.collection('profiles'), 'findOne', { _id : new ObjectID(profile) }, { _id : 0, subscriptions : 1 });
+            if (subscription) {
+                // filtered by a particular subscription
+                return [new ObjectID(subscription)];
+            } else {
+                return Q.ninvoke(db.collection('profiles'), 'findOne', { _id : new ObjectID(profile) }, { _id : 0, subscriptions : 1 })
+                        .then(function (result) { return result.subscriptions; });
+            }        
          })
-         .then (function (result) {
-            var   subscriptions = result.subscriptions
-                , filter = {
-                                downloaded : { $gte : new Date(since) },
-                                subscription : { $in : subscriptions },
-                                read : { $ne : new ObjectID(profile) },
-                                starred : { $ne : new ObjectID(profile) }
-                           };
-            var cursor = db.collection('articles').find(filter, { content : 0, summary : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1 });
+         .then (function (subscriptions) {
+            var  filter = {
+                            downloaded : { $gte : new Date(since) },
+                            subscription : { $in : subscriptions },
+                            read : { $ne : new ObjectID(profile) },
+                            starred : { $ne : new ObjectID(profile) }
+                       };
+            var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 100 });
             return Q.ninvoke(cursor, 'toArray');
         })
         .fin(function () { db.close(); });     
@@ -41,7 +46,7 @@ exports.getRead = function(profile, since) {
                                 read : new ObjectID(profile),
                                 starred : { $ne : new ObjectID(profile) }
                            };
-            var cursor = db.collection('articles').find(filter, { content : 0, summary : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1 });
+            var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 100 });
             return Q.ninvoke(cursor, 'toArray');
         })
         .fin(function () { db.close(); });     
@@ -60,7 +65,7 @@ exports.getStarred = function(profile, since) {
                                 read : { $ne : new ObjectID(profile) },
                                 starred : new ObjectID(profile)
                            };
-            var cursor = db.collection('articles').find(filter, { content : 0, summary : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1 });
+            var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1 });
             return Q.ninvoke(cursor, 'toArray');
         })
         .fin(function () { db.close(); });     
@@ -112,7 +117,6 @@ exports.upsert = function (subscription, articles) {
                                 categories : article.categories,
                                 image : article.image,
                                 source : article.source,
-                                summary : article.summary,
                                 content : article.description,
                                 parent : subscription.title
                             }

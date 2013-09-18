@@ -83,10 +83,12 @@ var updateSubscription = function (subscription) {
                 if (!allExisting) {
                     bus.publish('bg.articlesupdated', { timestamp : new Date(), subscription : subscription });
                 }
+                                
             })
             .fail(function (err) { 
                 console.log('Could not download feed data for subscription: [%s] - [%s]', subscription.xmlurl, subscription.title); 
-            });
+            })
+            .done();
 };
     
 var execute = function() {

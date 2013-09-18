@@ -1,4 +1,4 @@
-define(['knockout', 'connection', 'amplify', 'cache', 'subscriptionMediator'], function (ko, connection, amplify, cache, subscriptionMediator) {
+define(['knockout', 'connection', 'amplify', 'cache', 'subscriptionMediator', 'articleMediator'], function (ko, connection, amplify, cache, subscriptionMediator, articleMediator) {
     
     var bindSubscription = function (model) {
         model.unsubscribe = function () {
@@ -64,6 +64,9 @@ define(['knockout', 'connection', 'amplify', 'cache', 'subscriptionMediator'], f
             connection.send('backend.syncsubscriptions', 
                             { since : subscriptionMediator.lastDownload() }, 
                             function (data) { handleSubscriptions(data, self); });
+        },
+        clearAllCache : function() {
+            cache.clearAll();
         }
     };
     

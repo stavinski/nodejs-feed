@@ -16,7 +16,14 @@ var feed = {
             } else {
                 request(feedUrl).pipe(new FeedParser())
                     .on('error' , deferred.reject)
-                    .on('meta', deferred.resolve);
+                    .on('meta', function (meta) {
+                        // some feeds do not provide the actual xml url, :-/
+                        // in which case just use the feed url provided
+                        if (meta.xmlurl == null) 
+                            meta.xmlurl = feedUrl.toLowerCase();
+                                                
+                        deferred.resolve(meta);
+                    });
             }
         });
         

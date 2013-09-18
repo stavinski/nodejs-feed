@@ -25,7 +25,7 @@ var syncSubscriptions = function (socket) {
 
 var syncArticles = function (socket) {
     socket.on('backend.syncunreadarticles', function (data, callback) {
-        articles.getUnread(user._id, data.since)
+        articles.getUnread(user._id, data.since, data.subscription)
             .then(function (articles) {
                 callback({ status : 'success', timestamp: new Date(), articles : articles });
             })

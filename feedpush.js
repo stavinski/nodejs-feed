@@ -48,6 +48,14 @@ var handleSubscriptionContent = function (req, res, subscription) {
             .then(function (articles) {
                 return articles.upsert(subscription, articles);
             })
+            .then(function (result) {
+                // check whether there were any new articles
+                var allExisting = result.every(function (existing) { return existing == true; });
+                                
+                if (!allExisting) {
+                    bus.publish('bg.articlesupdated', { timestamp : new Date(), subscription : subscription });
+                }
+            })
             .then(function () {
                 res.send(200);
             });
@@ -73,6 +81,8 @@ var subscriptionRequest = function (subscription, subscribe) {
             }
           }
         , deferred = Q.defer();
+    
+    // save request details against subscription here
     
     request.post(pubsub.href, opts, function (err, response, body) {
         if (err) {

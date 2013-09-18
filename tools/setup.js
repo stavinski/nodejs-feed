@@ -10,13 +10,12 @@ var   config = require('../config')
     , bus = require('../bus')
     , pubsub = require('../background/pubsub')
     , subscriptions = require('../data/subscriptions')
+    , feed = require('../feed')
     , Q = require('q');
     
 var execute = function () {
-     subscriptions.getForPubSubRenewal()
-        .then(function (results) {
-            console.log(results);
-        })
+    feed.details('http://massively.joystiq.com/rss.xml')
+        .then(function (details) { console.log(details); })
         .done();
 };
 

@@ -1,18 +1,17 @@
 define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator', 'subscriptionMediator'], function(router, Subscription, ko, connection, cache, $, articleMediator, subscriptionMediator) {
    
     var bindSubscription = function (model) {
-        var   subscription = model
-            , unreadArticles = articleMediator.getUnread().articles;
+        var subscription = model;
                
         model.unread = ko.computed(function () {
             var self = model;
-            var results = unreadArticles.filter(function (article) {
+            var results = articleMediator.unreadArticlesBinding().filter(function (article) {
                                 return (article.subscription == self._id);        
                             });
             return (results.length > 0) ? results.length : '';
         });
                 
-        model.active = ko.observable(router.activeItem().subscription == model._id);
+        model.active = ko.observable(router.activeItem().subscription() == model._id);
         return model;
     };
     

@@ -1,0 +1,30 @@
+<section id="add">
+    <form>
+        <div class="input-append">
+            <input type="search" class="input-medium" data-bind="value: query">
+            <button class="btn btn-primary" data-bind="click: search">search</button>
+        </div>
+    </form>
+    
+    <!-- ko if: results().length > 0 -->
+    
+    <h3>Results for '<!-- ko text: query --><!-- /ko -->'</h3>
+    
+    <ul class="media-list" data-bind="foreach: results">
+        <li class="media">
+            <div class="media-body">
+                <h4 class="media-heading" data-bind="html: title"></h4>
+                <img height="16px" width="16px" data-bind="attr : { src : 'https://www.google.com/s2/favicons?domain=' + domain }" />
+                <em data-bind="text: url"></em>
+                <p data-bind="html : contentSnippet"></p>
+                <button class="btn btn-primary">add</button>
+            </div>
+        </li>
+    </ul>
+    
+    <p>Did not find the result you were looking for? Try to narrow down the search by including more keywords you can also use the following expressions:
+    </p>
+        
+    <!-- /ko -->
+    
+</section>

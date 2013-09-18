@@ -11,6 +11,12 @@ define(['amplify'], function (amplify) {
             } else {
                 amplify.store(this._cachePrefix  + key, val);
             }
+        },
+        clearAll : function () {
+            for (var key in amplify.store()) {
+                if (key.indexOf(this._cachePrefix) == 0)
+                    amplify.store(key, null);
+            }                
         }
     };
     

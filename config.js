@@ -28,6 +28,7 @@ config.socketio.minify = false;
 config.background = {};
 config.background.pollMs = 30000;
 config.background.subscriptionPollMins = 10;
+config.background.pubsubActive = false;
 
 config.feedpush = {};
 config.feedpush.leaseSeconds = 7 * 24 * 60 * 60; // a week
