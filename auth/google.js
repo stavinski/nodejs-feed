@@ -39,9 +39,9 @@ var initialize = function (app) {
     app.get('/auth/google/return', passport.authenticate('google', { failureRedirect: '/fail' }),
         function(req, res) {
             if (req.user.new)
-                res.redirect('/#welcome');
+                res.redirect('/#/welcome');
             else
-                res.redirect('/');
+                res.redirect('/#/');
     });
         
 };

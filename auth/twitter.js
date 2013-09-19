@@ -13,8 +13,8 @@ var initialize = function (app) {
             consumerSecret : config.auth.twitter.consumerSecret
         }, function(token, tokenSecret, profile, done) {
             profiles.find(profile.id)
-                .then (function (profile) {
-                    if (profile == null) {
+                .then (function (found) {
+                    if (found == null) {
                         profiles.insert(profile.id)
                             .then(function (profile) {
                                 profile.new = true;
@@ -38,9 +38,9 @@ var initialize = function (app) {
     app.get('/auth/twitter/return', passport.authenticate('twitter', { failureRedirect: '/fail' }),
         function(req, res) {
             if (req.user.new)
-                res.redirect('/#welcome');
+                res.redirect('/#/welcome');
             else
-                res.redirect('/');
+                res.redirect('/#/');
     });
         
 };

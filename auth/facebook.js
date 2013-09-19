@@ -34,15 +34,15 @@ var initialize = function (app) {
     
     app.get('/auth/facebook', passport.authenticate('facebook', { failureRedirect: '/fail' }),
         function(req, res) {
-            res.redirect('/');
+            res.redirect('/#/');
     });
     
     app.get('/auth/facebook/return', passport.authenticate('facebook', { failureRedirect: '/fail' }),
         function(req, res) {
             if (req.user.new)
-                res.redirect('/#welcome');
+                res.redirect('/#/welcome');
             else
-                res.redirect('/');
+                res.redirect('/#/');
     });
         
 };
