@@ -1,17 +1,44 @@
-define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'models/subscription', 'connection', 'bootstrap','knockout', 'logger', 'cache'], function (router, dialog, app, system, amplify, Subscription, connection, bootstrap, ko, logger, cache) {
+define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'connection', 'knockout', 'logger', 'cache', 'contexts/articles', 'contexts/user'], function (router, dialog, app, system, amplify, connection, ko, logger, cache, articlesContext, userContext) {
+    
+    var mapRoutes = function () {
+        var instance = router
+                         .map([
+                                { route : '', title: 'summary', moduleId : 'viewmodels/summary', hash : '/#/', nav: true, auth : true },
+                                { route : 'signin', title: 'sign-in', moduleId : 'viewmodels/signin', hash : '/#/signin' },
+                                { route : 'all(/:subscription)', title: 'all', moduleId : 'viewmodels/all', hash: '/#/all', nav : true, auth : true },
+                                { route : 'starred(/:subscription)', title: 'starred', moduleId : 'viewmodels/starred', hash : '/#/starred', nav : true, auth : true },
+                                { route : 'article/:id', moduleId : 'viewmodels/article', auth : true },
+                                { route : 'add', moduleId : 'viewmodels/add', title : 'add', hash: '/#/add', nav : true, auth : true },
+                                { route : 'admin', moduleId : 'viewmodels/admin', title : 'admin', hash: '/#/admin', nav : true, auth : true },
+                                { route : 'welcome', moduleId : 'viewmodels/welcome', title : 'welcome', auth : true }
+                         ])
+                         .buildNavigationModel();
+        
+        instance.guardRoute = function (instance, instruction) {
+            if (instruction.config.auth) {
+                if (userContext.isSignedIn) {
+                    return true
+                } else {
+//                    return '/signin/?redirect=' + instruction.fragment;
+                    return '/signin/';
+                }
+            }
+            return true;
+        };
+        
+        return instance.activate();
+    };
     
     var vm = {
         router: router,
-        currentFilter: ko.observable(''),
-        unread: ko.observable(''),
         unauthorized : false,
         connected : ko.observable(false),
         activate: function () {
             var self = this;
             return connection.connect()
                 .fail(function (reason) { 
+                    // this is dealt with via the guard route                    
                     if (reason == 'handshake unauthorized') {
-                        self.unauthorized = true;
                         return;
                     }
                     
@@ -19,9 +46,10 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
                 })
                 .then(function () { 
                     self.connected(true);
+                    articlesContext.init();            
                     
                     connection.send('backend.syncprofile', null, function (data) {
-                        cache.set('profile', data);                    
+                        userContext.signIn(data);
                     });
                                         
                     amplify.subscribe(connection.TOPIC_CONNECTED, function () {
@@ -32,31 +60,13 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
                         self.connected(false);
                     });
                 })
-                .then(function () {
-                    return router
-                         .map([
-                                { route : '', title: 'unread', moduleId : 'viewmodels/unread', hash : '#/unread' },
-                                { route : 'unread(/:subscription)', title: 'unread', moduleId : 'viewmodels/unread', hash: '#/unread', nav : true },
-                                { route : 'starred(/:subscription)', title: 'starred', moduleId : 'viewmodels/starred', hash : '#/starred', nav : true },
-                                { route : 'read(/:subscription)', title: 'read', moduleId : 'viewmodels/read', hash : '#/read', nav : true },
-                                { route : 'article/:id', moduleId : 'viewmodels/article', },
-                                { route : 'add', moduleId : 'viewmodels/add', title : 'add', hash: '#/add', nav : true },
-                                { route : 'admin', moduleId : 'viewmodels/admin', title : 'admin', hash: '#/admin', nav : true },
-                                { route : 'welcome', moduleId : 'viewmodels/welcome', title : 'welcome' }
-                         ])
-                         .buildNavigationModel()
-                         .activate();
-                });
-        },
-        attached : function () {
-            if (this.unauthorized) {
-                dialog.show('viewmodels/signin');
-            }
+                .fin(mapRoutes);
         },
         forceConnection : function () {
             if (this.connected()) return;
             
-            connection.reconnect();
+            // todo: auth check like above
+            connection.connect();
         }
     };
     

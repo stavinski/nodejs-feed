@@ -36,18 +36,7 @@ define(['knockout', 'connection', 'amplify', 'cache', 'subscriptionMediator', 'a
     
     var ViewModel = {
         _init : false,    
-        subscriptionUrl : ko.observable(''),
         articleDetailsCache : ko.observable(''),
-        addSubscription : function () {
-            connection.send('backend.addsubscription', { url : this.subscriptionUrl() }, function (data) {
-                if (data.status == 'success') {
-                    console.log(data);
-                    subscriptionMediator.add(data);
-                } else {
-                    // alert here
-                }
-            }); 
-        },
         saveCache : function () {
             
         },

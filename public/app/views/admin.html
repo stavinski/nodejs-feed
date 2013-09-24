@@ -12,13 +12,6 @@
             <div class="tab-pane active" id="subscriptions">
                 <h2>subscriptions</h2>
                 
-                <form class="inline-form">
-                    <div class="input-append">
-                        <input type="text" class="input-xxlarge" placeholder="subscription url" data-bind="value : subscriptionUrl" />
-                        <button class="btn btn-primary" data-bind="click : addSubscription">add</button>
-                    </div>
-                </form>
-                
                 <table data-bind="foreach: subscriptions" class="table table-condensed">
                     <tbody>
                         <tr>

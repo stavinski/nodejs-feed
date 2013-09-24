@@ -10,14 +10,14 @@
                     <p>loading articles...</p>
                 </div>
                 
-                <!-- ko if: !loading() && articlesToShow().length <= 0 -->
+                <!-- ko if: !loading() && articles().length <= 0 -->
                 <div class="alert alert-info alert-block">
-                    <i class="icon-frown"></i><span>No <strong data-bind="text: filter"></strong> articles could be located</span>
+                    <i class="icon-frown"></i><span>There are no starred articles</span>
                 </div>
                 <!-- /ko -->
 
-                <div class="article hidden-phone" data-bind="foreach: articlesToShow">
-                    <div class="article-header well well-small">
+                <div class="article hidden-phone" data-bind="foreach: articles">
+                    <div class="article-header well well-small" data-bind="css : { muted : read }">
                         <strong><span class="title" data-bind="text: title"></span></strong>
                         <span data-bind="text: published"></span>
                         <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-circle-arrow-right"></i></a>
@@ -25,8 +25,8 @@
                 </div>
 
                 <!-- smartphone -->
-               <div class="article visible-phone" data-bind="foreach: articlesToShow">
-                    <div class="well well-large">
+               <div class="article visible-phone" data-bind="foreach: articles">
+                    <div class="well well-large" data-bind="css : { muted : read }">
                         <strong><span class="title" data-bind="text: title"></span></strong>
                         <span data-bind="text: published"></span>
                         <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-2x icon-circle-arrow-right"></i></a>

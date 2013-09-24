@@ -11,7 +11,7 @@ define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cach
             return (results.length > 0) ? results.length : '';
         });
                 
-        model.active = ko.observable(router.activeItem().subscription() == model._id);
+        //model.active = ko.observable(router.activeItem().subscription() == model._id);
         model.domain = uri(model.favicon).host;
         
         return model;

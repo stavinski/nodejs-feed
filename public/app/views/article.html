@@ -4,18 +4,19 @@
         <p>loading article...</p>
     </div>
     
-    <article data-bind="with: article">
-        <a href="#" data-bind="click: $root.goBack" style="text-decoration: none"><i class="icon-circle-arrow-left icon-4x"></i></a>
-        <a href="#" data-bind="click: starToggle" style="text-decoration: none"><i data-bind="css : { 'icon-star' : starred(), 'icon-star-empty' : !starred() }" class="icon-4x"></i></a>
-        <h2 data-bind="text : title"></h2>
+    <article>
+        <a data-bind="if : prevArticle != null, click: prev" style="text-decoration: none"><i class="icon-circle-arrow-left icon-4x"></i></a>
+        <a href="#" data-bind="click: article.starToggle" style="text-decoration: none"><i data-bind="css : { 'icon-star' : article.starred(), 'icon-star-empty' : !article.starred() }" class="icon-4x"></i></a>
+        <h2 data-bind="text : article.title"></h2>
+        <a data-bind="if : nextArticle != null, click : next" style="text-decoration: none"><i class="icon-circle-arrow-right icon-4x"></i></a>
         
         <div>
             <i class="icon-double-angle-right"></i>
-            <em><span data-bind="text: author"></span> - 
-            <span data-bind="text: published"></span></em>
+            <em><span data-bind="text: article.author"></span> - 
+            <span data-bind="text: article.published"></span></em>
         </div>
         
-        <section data-bind="html : content">
+        <section data-bind="html : article.content">
         </section>
     </article>
 </section>

@@ -5,13 +5,63 @@ var config = require('../config')
     , Q = require('q')
     , logger = require('../logger');
 
-var mapSubscriptions = function (subscription) {
-    return new ObjectID(subscription);
+var getUnread = function (db, profile, subscriptions, since) {
+    var  filter = {
+                    downloaded : { $gte : new Date(since) },
+                    subscription : { $in : subscriptions },
+                    read : { $ne : new ObjectID(profile) },
+                    starred : { $ne : new ObjectID(profile) }
+               };
+    var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 80 });
+    return Q.ninvoke(cursor, 'toArray')
+            .then(function (articles) {
+                return articles.map(function (article) {
+                    article.read = false;
+                    article.starred = false;
+                    return article;
+                });  
+            });
 };
-    
-exports.getUnread = function(profile, since, subscription) {
+
+var getRead = function (db, profile, subscriptions, since) {
+    var  filter = {
+                    downloaded : { $gte : new Date(since) },
+                    subscription : { $in : subscriptions },
+                    read : new ObjectID(profile),
+                    starred : { $ne : new ObjectID(profile) }
+               };
+    var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 50 });
+    return Q.ninvoke(cursor, 'toArray')
+            .then(function (articles) {
+                return articles.map(function (article) {
+                    article.read = true;
+                    article.starred = false;
+                    return article;
+                });  
+            });
+};
+
+var getStarred = function (db, profile, subscriptions, since) {
+    var filter = {
+                    downloaded : { $gte : new Date(since) },
+                    subscription : { $in : subscriptions },
+                    read : { $ne : new ObjectID(profile) },
+                    starred : new ObjectID(profile)
+               };
+    var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 80 });
+    return Q.ninvoke(cursor, 'toArray')
+            .then(function (articles) {
+                return articles.map(function (article) {
+                    article.read = false;
+                    article.starred = true;
+                    return article;
+                });  
+            });
+};
+
+exports.getForProfile = function(profile, since, subscription) {
     return Q.ninvoke(db, 'open')
-        .then (function (db) {
+        .then (function () {
             if (subscription) {
                 // filtered by a particular subscription
                 return [new ObjectID(subscription)];
@@ -21,77 +71,56 @@ exports.getUnread = function(profile, since, subscription) {
             }        
          })
          .then (function (subscriptions) {
-            var  filter = {
-                            downloaded : { $gte : new Date(since) },
-                            subscription : { $in : subscriptions },
-                            read : { $ne : new ObjectID(profile) },
-                            starred : { $ne : new ObjectID(profile) }
-                       };
-            var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 100 });
-            return Q.ninvoke(cursor, 'toArray');
+             return [getUnread(db, profile, subscriptions, since),
+                     getRead(db, profile, subscriptions, since),
+                     getStarred(db, profile, subscriptions, since)];
         })
-        .fin(function () { db.close(); });     
-};
-
-exports.getRead = function(profile, since) {
-    return Q.ninvoke(db, 'open')
-        .then (function (db) {
-            return Q.ninvoke(db.collection('profiles'), 'findOne', { _id : new ObjectID(profile) }, { _id : 0, subscriptions : 1 });
-         })
-         .then (function (result) {
-            var   subscriptions = result.subscriptions
-                , filter = {
-                                downloaded : { $gte : new Date(since) },
-                                subscription : { $in : subscriptions },
-                                read : new ObjectID(profile),
-                                starred : { $ne : new ObjectID(profile) }
-                           };
-            var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 100 });
-            return Q.ninvoke(cursor, 'toArray');
+        .spread(function (unread, read, starred) {
+            var articles = unread.concat(read)
+                                 .concat(starred);
+            articles.sort(function (prev, next) {
+                var prevDate = new Date(prev.published)
+                    , nextDate = new Date(next.published);
+                return nextDate - prevDate;
+            });
+            return articles;
         })
-        .fin(function () { db.close(); });     
-};
-
-exports.getStarred = function(profile, since) {
-    return Q.ninvoke(db, 'open')
-        .then (function (db) {
-            return Q.ninvoke(db.collection('profiles'), 'findOne', { _id : new ObjectID(profile) }, { _id : 0, subscriptions : 1 });
-         })
-         .then (function (result) {
-            var   subscriptions = result.subscriptions
-                , filter = {
-                                downloaded : { $gte : new Date(since) },
-                                subscription : { $in : subscriptions },
-                                read : { $ne : new ObjectID(profile) },
-                                starred : new ObjectID(profile)
-                           };
-            var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1 });
-            return Q.ninvoke(cursor, 'toArray');
-        })
-        .fin(function () { db.close(); });     
+        .fin(function () { db.close(); });    
 };
 
 exports.get = function(profile, id) {
     return Q.ninvoke(db, 'open')
-            .then(function (db) {
-                return db.collection('articles');
-            })
-            .then(function (articles) {
-                // the handling of starred is a bit pants at the mo, hopefully be able to use $elemMatch 
+            .then(function () {
+                // the handling of starred/read is a bit pants at the mo, hopefully be able to use $elemMatch 
                 // if i can ever get mongodb updated on raspberry pi to >= 2.2
-                return Q.ninvoke(articles, 'findOne', {_id : new ObjectID(id), starred : new ObjectID(profile) }, { read : 0, starred : 0 }, {w:0})
-                        .then(function (result) {
-                            if (result != null) {
-                                result.starred = true;
-                                return result;
-                            } else {
-                                return Q.ninvoke(articles, 'findOne', {_id : new ObjectID(id) }, { read : 0, starred : 0 }, {w:0})
-                                        .then(function (result) {
-                                            result.starred = false;
-                                            return result;
-                                        });
-                            }
-                        })
+                var getStarred = function () {
+                    return Q.ninvoke(db.collection('articles'), 'findOne', {_id : new ObjectID(id), starred : new ObjectID(profile) }, { read : 0, starred : 0 }, {w:1});
+                };
+                
+                var getRead = function () {
+                    return Q.ninvoke(db.collection('articles'), 'findOne', {_id : new ObjectID(id), read : new ObjectID(profile) }, { read : 0, starred : 0 }, {w:1});  
+                };
+                
+                var getUnread = function () {
+                    return Q.ninvoke(db.collection('articles'), 'findOne', {_id : new ObjectID(id), starred : { $ne : new ObjectID(profile) }, read : { $ne : new ObjectID(profile) } }, { read : 0, starred : 0 }, {w:1});  
+                };
+
+                return Q.all([getStarred(), getRead(), getUnread()]);                
+            })
+            .spread (function (starred, read, unread) {
+                if (starred != null) {
+                    starred.starred = true;
+                    starred.read = false;
+                    return starred;
+                } else if (read != null) {
+                    read.starred = false;
+                    read.read = true;
+                    return read;
+                } else {
+                    unread.starred = false;
+                    unread.read = false;
+                    return unread;
+                }
             })
             .fin(function () { db.close(); });
 };

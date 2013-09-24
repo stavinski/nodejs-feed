@@ -1,13 +1,12 @@
-define(['plugins/router','knockout', 'connection', 'Q', 'articleMediator'], function (router, ko, connection, Q, articleMediator) {
+define(['plugins/router','knockout', 'connection', 'Q', 'articleMediator', 'contexts/articles'], function (router, ko, connection, Q, articleMediator, articlesContext) {
     
-    var bindArticle = function (data) {
-        var   article = data.article
-            , vm = article;
+    var bindArticle = function (article) {
+        var vm = article;
         
         vm.starred = ko.observable(article.starred);
         vm.starToggle = function () {
             var self = this;
-            
+            /*
             if (self.starred()) {
                 connection.send('backend.articleunstarred', { id : article._id } , function (result) {
                     if (result.status == 'success') {
@@ -26,49 +25,44 @@ define(['plugins/router','knockout', 'connection', 'Q', 'articleMediator'], func
                         // display alert or sumthin   
                     }
                 });      
-            }
+            }*/
         };
         
         return vm;        
     };
     
     var ViewModel = {
-        _init : false,
-        article : null,
         loading : ko.observable(false),
+        id : '',
+        article : null,
+        nextArticle : null,
+        prevArticle : null,
         goBack : function () {
             router.navigateBack();
             return false;
         },
         activate : function (id) {
-            var   self = this
-                , data = articleMediator.get(id)
-                , deferred = Q.defer();
-                                                    
+            var self = this;
             self.loading(true);
-            
-            connection.wait()
-                    .then(function () {
-                        connection.receive('backend.articlesupdated', function (data) {
-                            console.log('articles updated');
-                        });
                         
-                        if (data == null) {
-                            connection.send('backend.syncarticle', { id : id }, function (data) {
-                                articleMediator.read(data);
-                                self.article = bindArticle(data);
-                                self.loading(false);
-                                deferred.resolve();
-                            });
-                        } else {
-                            articleMediator.read(data);
-                            self.article = bindArticle(data);    
-                            self.loading(false);
-                            deferred.resolve();
-                        }
+            return articlesContext.read(id)
+                    .then(bindArticle)
+                    .then(function (article) {
+                        self.loading(false);
+                        self.article = article;
+                        self.nextArticle = articlesContext.next(id);
+                        self.prevArticle = articlesContext.prev(id);
+                    })
+                    .fail(function (err) {
+                        self.loading(false);
+                        // display err
                     });
-                    
-            return deferred.promise;
+        },
+        prev : function () {
+            router.navigate('#/article/' + this.prevArticle._id);
+        },
+        next : function () {
+            router.navigate('#/article/' + this.nextArticle._id);
         }
     };
     

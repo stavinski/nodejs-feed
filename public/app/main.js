@@ -26,6 +26,8 @@ requirejs.config({
     }
 });
 
+require(['bootstrap'], function() {});
+
 define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/router'],
     function(app, viewLocator, system, router) {
 

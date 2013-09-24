@@ -2,6 +2,7 @@ var   config = require('./config')
     , subscriptions = require('./data/subscriptions')
     , profiles = require('./data/profiles')
     , articles = require('./data/articles')
+    , summary = require('./data/summary')
     , bus = require('./bus')
     , auth = require('./auth')
     , user = null;
@@ -9,7 +10,20 @@ var   config = require('./config')
 var assignUser = function (socket) {
     user = socket.handshake.user;
 };
-    
+
+var syncSummary = function (socket) {
+    socket.on('backend.syncsummary', function (data, callback) {
+        summary.getForProfile(user._id)
+            .then(function (result) {
+                callback({ status : 'success', timestamp : new Date(), summary : result });
+            })
+            .fail(function (err) {
+                callback({ status : 'error', timestamp : new Date() });    
+            })
+            .done();
+    });
+};
+
 var syncSubscriptions = function (socket) {
     socket.on('backend.syncsubscriptions', function (data, callback) {
         subscriptions.getAllByProfile(user._id, data.since)
@@ -24,8 +38,8 @@ var syncSubscriptions = function (socket) {
 };    
 
 var syncArticles = function (socket) {
-    socket.on('backend.syncunreadarticles', function (data, callback) {
-        articles.getUnread(user._id, data.since, data.subscription)
+    socket.on('backend.syncarticles', function (data, callback) {
+        articles.getForProfile(user._id, data.since, data.subscription)
             .then(function (articles) {
                 callback({ status : 'success', timestamp: new Date(), articles : articles });
             })
@@ -33,27 +47,7 @@ var syncArticles = function (socket) {
                 callback({ status : 'error', timestamp : new Date() });    
             })
             .done();
-    });
-    socket.on('backend.syncreadarticles', function (data, callback) {
-        articles.getRead(user._id, data.since)
-            .then(function (articles) {
-                callback({ status : 'success', timestamp: new Date(), articles : articles });
-            })
-            .fail(function (err) {
-                callback({ status : 'error', timestamp : new Date() });    
-            })
-            .done();
-    });
-    socket.on('backend.syncstarredarticles', function (data, callback) {
-        articles.getStarred(user._id, data.since)
-            .then(function (articles) {
-                callback({ status : 'success', timestamp: new Date(), articles : articles });
-            })
-            .fail(function (err) {
-                callback({ status : 'error', timestamp : new Date() });    
-            })
-            .done();
-    });
+    });    
 };
 
 var syncProfile = function (socket) {
@@ -170,7 +164,7 @@ var handleArticlesUpdated = function (sio) {
             .then(function (results) {
                 results.forEach(function (found) {
                     var socket = sio.sockets.socket(found.socketId);
-                
+                    
                     // just in case the socket has closed between the retrieval
                     if (socket)                    
                         socket.emit('backend.articlesupdated', { timestamp: new Date() });    
@@ -197,6 +191,7 @@ var start = function (sio) {
     sio.sockets.on('connection', function (socket) {
         assignUser(socket);
         handleUserConnected(socket);
+        syncSummary(socket);
         syncSubscriptions(socket);
         syncArticles(socket);
         syncProfile(socket);

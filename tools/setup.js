@@ -10,12 +10,15 @@ var   config = require('../config')
     , bus = require('../bus')
     , pubsub = require('../background/pubsub')
     , subscriptions = require('../data/subscriptions')
+    , summary = require('../data/summary')
     , feed = require('../feed')
     , Q = require('q');
     
 var execute = function () {
-    feed.details('http://massively.joystiq.com/rss.xml')
-        .then(function (details) { console.log(details); })
+    summary.getForProfile("51fcf8f50b4f238839000001")
+        .then(function (results) {
+            console.log(results);  
+        })
         .done();
 };
 
