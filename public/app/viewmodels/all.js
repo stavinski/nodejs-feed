@@ -10,7 +10,7 @@ define(['knockout', 'connection', 'cache', 'contexts/articles'], function (ko, c
         articles : ko.computed(function () {
             var self = this;
             return ko.utils.arrayFilter(articlesContext.articles(), function (article) {
-                return (!article.starred);
+                return (!article.starred());
 //                        (self.subscription() == null) || (article.subscription == self.subscription());
             });
         })

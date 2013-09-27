@@ -6,7 +6,7 @@
             <ul class="unstyled" data-bind="foreach: unreadCounts">
                 <li>
                     <div class="page-title">
-                        <h3 data-bind="text: subscription"></h3>
+                        <h3 data-bind="text: title"></h3>
                         <span data-bind="text: count"></span>
                     </div>
                 </li>
@@ -14,9 +14,17 @@
         </div>
         
         <h2>most recent</h2>
-        <div class="span8 summary-tiles" data-bind="foreach: mostRecent">
+        <div class="span8 summary-tiles">
+            <!-- ko foreach: mostRecent -->
             <div>
                 <a data-bind="attr: { href : '#/article/' + _id }, text : title"></a>
+            </div>
+            <!-- /ko -->
+            <div>
+                <a href="#/all/" data-bind="text : allCount"></a>
+            </div>
+            <div>
+                <a href="#/starred/" data-bind="text : starredCount"></a>
             </div>
         </div>
     </div>    

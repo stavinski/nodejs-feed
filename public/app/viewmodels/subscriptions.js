@@ -1,4 +1,4 @@
-define(['plugins/router', 'models/subscription', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator', 'subscriptionMediator', 'uri'], function(router, Subscription, ko, connection, cache, $, articleMediator, subscriptionMediator, uri) {
+define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator', 'subscriptionMediator', 'uri'], function(router, ko, connection, cache, $, articleMediator, subscriptionMediator, uri) {
    
     var bindSubscription = function (model) {
         var subscription = model;

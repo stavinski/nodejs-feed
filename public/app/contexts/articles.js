@@ -1,4 +1,4 @@
-define(['connection', 'cache', 'knockout', 'Q'], function (connection, cache, ko, Q) {
+define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping'], function (connection, cache, ko, Q, mapping) {
     
     var sortArticles = function (prev, next) {
         var prevDate = new Date(prev.published)
@@ -6,7 +6,12 @@ define(['connection', 'cache', 'knockout', 'Q'], function (connection, cache, ko
         
         return nextDate - prevDate;  
     };
-            
+    
+    var articleMappingOptions = {
+        observe : ['starred', 'read'],
+        copy : ['_id', 'title', 'author', 'content', 'published', 'categories', 'parent', 'favicon']
+    };
+    
     var context = {
         _cachePrefix : 'articles',
         _init : false,
@@ -18,7 +23,7 @@ define(['connection', 'cache', 'knockout', 'Q'], function (connection, cache, ko
         _setCache : function () {
             var data = {
                 timestamp : new Date(),
-                articles : this.articles()
+                articles : mapping.toJS(this.articles)
             };
             
             cache.set(this._cachePrefix, data);
@@ -31,11 +36,12 @@ define(['connection', 'cache', 'knockout', 'Q'], function (connection, cache, ko
             connection.send('backend.syncarticles', { since : cached.timestamp }, function (data) {
                 self.loading(false);
                 if (data.status == 'success') {
-                    var newArticles = ko.utils.arrayMap(data.articles, function(article) {
-                        return article;
+                    var underlyingArray = self.articles();
+                    data.articles.forEach(function (newArticle) {
+                        underlyingArray.push(mapping.fromJS(newArticle, articleMappingOptions));
                     });
-                    self.articles.push.apply(self.articles, newArticles);
-                    self.articles.sort(sortArticles);
+                    underlyingArray.sort(sortArticles);
+                    self.articles.valueHasMutated();
                     self._setCache();
                 } else {
                     // inform user we are only have local cached articles available for browsing
@@ -59,9 +65,13 @@ define(['connection', 'cache', 'knockout', 'Q'], function (connection, cache, ko
             
             if (self._init) return; // just in case it calls again
             self._init = true;
-                                    
             var cached = self._getCache();
-            self.articles(cached.articles);
+            
+            var underlyingArray = self.articles();
+            cached.articles.forEach(function (article) {
+                underlyingArray.push(mapping.fromJS(article, articleMappingOptions));
+            });
+            underlyingArray.sort(sortArticles);
             self._sync();
                         
             connection.receive('backend.articlesupdated', function (data) {
@@ -77,11 +87,12 @@ define(['connection', 'cache', 'knockout', 'Q'], function (connection, cache, ko
                 connection.send('backend.syncarticle', { id : id }, function (data) {
                     if (data.status == 'success') {
                         // store article details into cache
-                        data.article.read = true;
-                        self.articles()[found.index] = data.article;
+                        var foundArticle = self.articles()[found.index];
+                        foundArticle.read(true);
+                        foundArticle.content = data.article.content;
                         self._setCache();
-                                                
-                        deferred.resolve(data.article);
+                        self.articles.valueHasMutated();
+                        deferred.resolve(foundArticle);
                     } else {
                         deferred.reject(new Error('could not retrieve article'));   
                     }
@@ -91,6 +102,28 @@ define(['connection', 'cache', 'knockout', 'Q'], function (connection, cache, ko
             }
             
             return deferred.promise;
+        },
+        starToggle : function (id) {
+            var   self = this;
+                        
+            var found = this._locateById(id);
+            
+            if (found != null) {
+                var   isStarred = found.article.starred()
+                    , evt = (isStarred) ? 'backend.articleunstarred' : 'backend.articlestarred';
+                
+                connection.send(evt, { id : id }, function (data) {
+                    if (data.status == 'success') {
+                        // store article details into cache
+                        var foundArticle = self.articles()[found.index];
+                        foundArticle.starred(!isStarred);
+                        self._setCache();
+                        self.articles.valueHasMutated();
+                    } else {
+                        // handle err
+                    }
+                });
+            }
         },
         prev : function (id) {
             var self = this;

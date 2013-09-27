@@ -5,6 +5,7 @@ requirejs.config({
         'plugins' : '../scripts/durandal/js/plugins',
         'transitions' : '../scripts/durandal/js/transitions',
         'knockout': '../scripts/knockout/knockout-2.3.0',
+        'knockoutmapping' : '../scripts/knockout/knockout.mapping',
         'bootstrap': '../scripts/bootstrap/js/bootstrap',
         'jquery': '../scripts/jquery/jquery-1.9.1',
         'amplify' : '../scripts/amplify',
@@ -22,10 +23,14 @@ requirejs.config({
         'amplify': {
             deps: ['jquery'],
             exports: 'amplify'
+        },
+        'knockoutmapping' : {
+            deps: ['knockout']
         }
     }
 });
 
+// load require js libraries
 require(['bootstrap'], function() {});
 
 define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/router'],

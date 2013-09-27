@@ -2,30 +2,9 @@ define(['plugins/router','knockout', 'connection', 'Q', 'articleMediator', 'cont
     
     var bindArticle = function (article) {
         var vm = article;
-        
-        vm.starred = ko.observable(article.starred);
+                
         vm.starToggle = function () {
-            var self = this;
-            /*
-            if (self.starred()) {
-                connection.send('backend.articleunstarred', { id : article._id } , function (result) {
-                    if (result.status == 'success') {
-                        self.starred(false);
-                        articleMediator.unstarred(data);
-                    } else {
-                        // display alert or sumthin   
-                    }
-                });          
-            } else {
-                connection.send('backend.articlestarred', { id : article._id } , function (result) {
-                    if (result.status == 'success') {
-                        self.starred(true);
-                        articleMediator.starred(data);
-                    } else {
-                        // display alert or sumthin   
-                    }
-                });      
-            }*/
+            articlesContext.starToggle(this.article._id);
         };
         
         return vm;        
@@ -49,7 +28,7 @@ define(['plugins/router','knockout', 'connection', 'Q', 'articleMediator', 'cont
                     .then(bindArticle)
                     .then(function (article) {
                         self.loading(false);
-                        self.article = article;
+                        self.article = bindArticle(article);
                         self.nextArticle = articlesContext.next(id);
                         self.prevArticle = articlesContext.prev(id);
                     })

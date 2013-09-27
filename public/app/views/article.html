@@ -5,10 +5,14 @@
     </div>
     
     <article>
-        <a data-bind="if : prevArticle != null, click: prev" style="text-decoration: none"><i class="icon-circle-arrow-left icon-4x"></i></a>
-        <a href="#" data-bind="click: article.starToggle" style="text-decoration: none"><i data-bind="css : { 'icon-star' : article.starred(), 'icon-star-empty' : !article.starred() }" class="icon-4x"></i></a>
-        <h2 data-bind="text : article.title"></h2>
-        <a data-bind="if : nextArticle != null, click : next" style="text-decoration: none"><i class="icon-circle-arrow-right icon-4x"></i></a>
+        <div class="page-header">
+            <h4>
+                <a data-bind="if : prevArticle != null, click: prev" style="text-decoration: none"><i class="icon-circle-arrow-left icon-2x"></i></a>
+                <a href="#" data-bind="click: article.starToggle" style="text-decoration: none"><i data-bind="css : { 'icon-star' : article.starred(), 'icon-star-empty' : !article.starred() }" class="icon-2x"></i></a>
+                <!-- ko text : article.title --> <!-- /ko -->
+                <a data-bind="if : nextArticle != null, click : next" style="text-decoration: none"><i class="icon-circle-arrow-right icon-2x"></i></a>
+            </h4>
+        </div>
         
         <div>
             <i class="icon-double-angle-right"></i>
