@@ -9,7 +9,7 @@ define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping', 'contexts/sub
     
     var articleMappingOptions = {
         observe : ['starred', 'read'],
-        copy : ['_id', 'title', 'author', 'content', 'published', 'categories', 'parent', 'favicon', 'subscription']
+        copy : ['_id', 'title', 'author', 'content', 'published', 'categories', 'parent', 'favicon', 'subscription', 'image']
     };
     
     var context = {

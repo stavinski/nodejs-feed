@@ -1,6 +1,6 @@
-<ul id="subscriptions" class="nav nav-list" data-bind="foreach: subscriptions">
+<ul id="subscriptions" class="nav nav-stacked nav-pills" data-bind="foreach: subscriptions">
     <li data-bind="css : { active : active }">
         <a href="#" data-bind="click: $root.makeActive"><img data-bind="attr: { src : 'https://www.google.com/s2/favicons?alt=feed&domain=' + domain, alt : title }" /> <!-- ko text: title --> <!-- /ko --> 
-        <span class="badge badge-info pull-right" data-bind="text : unread" ></span> 
+        <span class="badge pull-right" data-bind="text : unread" ></span> 
     </li>
 </ul>

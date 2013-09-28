@@ -1,37 +1,26 @@
-<section id="dashboard">
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div id="subscriptions-container" class="span3 hidden-phone" data-bind="compose: { model: 'viewmodels/subscriptions', activate: true }" >
+<section id="all">
+    <div class="row">
+        <div id="subscriptions-container" class="col-md-3 hidden-sm hidden-xs" data-bind="compose: { model: 'viewmodels/subscriptions', activate: true }" >
+        </div>
+        
+        <div id="articles-container" class="col-md-9">
+            <div class="text-center" data-bind="if: loading">
+                <img src="content/images/loading.gif" alt="loading articles..." />
+                <p>loading articles...</p>
             </div>
             
-            <div id="articles-container" class="span9">
-                <div class="text-center" data-bind="if: loading">
-                    <img src="content/images/loading.gif" alt="loading articles..." />
-                    <p>loading articles...</p>
-                </div>
-                
-                <!-- ko if: !loading() && articles().length <= 0 -->
-                <div class="alert alert-info alert-block">
-                    <i class="icon-frown"></i><span>No articles could be located</span>
-                </div>
-                <!-- /ko -->
+            <!-- ko if: !loading() && articles().length <= 0 -->
+            <div class="alert alert-info alert-block">
+                <i class="icon-frown"></i><span>No articles could be located</span>
+            </div>
+            <!-- /ko -->
 
-                <div class="article hidden-phone" data-bind="foreach: articles">
-                    <div class="article-header well well-small" data-bind="css : { muted : read }">
-                        <strong><span class="title" data-bind="text: title"></span></strong>
-                        <span data-bind="text: published"></span>
-                        <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-circle-arrow-right"></i></a>
-                    </div>
-                </div>
-
-                <!-- smartphone -->
-                <div class="article visible-phone" data-bind="foreach: articles" data-bind="css : { muted : read }">
-                    <div class="well well-large">
-                        <strong><span class="title" data-bind="text: title"></span></strong>
-                        <span data-bind="text: published"></span>
-                        <a data-bind="attr: { href : '#/article/' + _id }" type="button" class="btn btn-primary pull-right"><i class="icon-2x icon-circle-arrow-right"></i></a>
-                    </div>
-                </div>
+            <div class="list-group" data-bind="foreach: articles">
+                <a class="list-group-item" data-bind="attr: { href : '#/article/' + _id }">
+                    <img data-bind="if: image, attr : { src : image.url }" class="pull-left" />
+                    <h4 class="list-group-item-heading" data-bind="text : title"></h4>
+                    <p class="list-group-item-text" data-bind="text: published"></p>
+                </a>
             </div>
         </div>
     </div>

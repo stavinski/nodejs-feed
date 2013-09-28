@@ -1,11 +1,24 @@
-define(['plugins/router', 'knockout', 'contexts/articles'], function (router, ko, articlesContext) {
+define(['plugins/router', 'knockout', 'contexts/articles', 'moment'], function (router, ko, articlesContext, moment) {
     
     var bindArticle = function (article) {
-        var vm = article;
+        var   vm = article
+            , published = moment.utc(article.published);
                 
         vm.starToggle = function () {
             articlesContext.starToggle(this.article._id);
         };
+        
+        vm.publishedDay = ko.computed(function () {
+            return published.date();            
+        });
+        
+        vm.publishedMonth = ko.computed(function () {
+            return published.format('MMM').toLowerCase();            
+        });
+        
+        vm.publishedYear = ko.computed(function () {
+            return published.year();
+        });
         
         return vm;        
     };

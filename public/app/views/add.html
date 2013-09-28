@@ -1,16 +1,20 @@
 <section id="add">
-    <form data-bind="submit: search">
-        <div class="input-append">
-            <input type="search" class="input-medium" data-bind="value: query, valueUpdate: 'keyup'">
-            <button class="btn btn-primary" data-bind="enable : queryEntered">search</button>
+    <form data-bind="submit: search" class="form-inline">
+        <div class="row">
+            <div class="input-group col-lg-6">
+                <input type="search" class="form-control" data-bind="value: query, valueUpdate: 'keyup'" placeholder="enter query">
+                <span class="input-group-btn">
+                    <!-- ko if: !loading() -->
+                    <button class="btn btn-primary" data-bind="enable : queryEntered">search</button>
+                    <!-- /ko -->
+                    <!-- ko if: loading() -->
+                    <button class="btn btn-primary" disabled="disabled"><i class="icon-spinner icon-spin"></i> searching</button>
+                    <!-- /ko -->
+                </span>
+            </div>
         </div>
     </form>
-    
-    <div data-bind="if: loading">
-        <img src="content/images/loading.gif" alt="loading results..." />
-        <p>loading results...</p>
-    </div>
-    
+        
     <!-- ko if: results().length > 0 -->
     
     <h3>Results for '<!-- ko text: resultQuery --><!-- /ko -->'</h3>
@@ -27,7 +31,7 @@
                 <!-- /ko -->
                 
                 <!-- ko if: subscribing() -->
-                <i class="icon-spinner icon-spin icon-2x"></i> subscribing
+                <i class="icon-spinner icon-spin"></i> subscribing
                 <!-- /ko -->
             </div>
         </li>

@@ -1,9 +1,8 @@
 <section id="summary">
-    <h2>summary</h2>
     
-    <div class="row-fluid">
-        <div class="span4 summary-unread">
-            <ul class="unstyled" data-bind="foreach: unreadCounts">
+    <div class="row">
+        <div class="col-md-3 summary-unread">
+            <ul class="list-group" data-bind="foreach: unreadCounts">
                 <li>
                     <div class="page-title">
                         <h4><!-- ko text: title --><!-- /ko--> <small data-bind="text: count"></small></h4>
@@ -12,17 +11,17 @@
             </ul>
         </div>
         
-        <h2>most recent</h2>
-        <div class="span8 summary-tiles">
+        <h2 class="hidden-sm">most recent</h2>
+        <div class="col-md-9 summary-tiles hidden-sm">
             <!-- ko foreach: mostRecent -->
-            <div>
+            <div class="tile">
                 <a data-bind="attr: { href : '#/article/' + _id }, text : title"></a>
             </div>
             <!-- /ko -->
-            <div>
+            <div class="tile">
                 <a href="#/all/" data-bind="text : allCount"></a>
             </div>
-            <div>
+            <div class="tile">
                 <a href="#/starred/" data-bind="text : starredCount"></a>
             </div>
         </div>
