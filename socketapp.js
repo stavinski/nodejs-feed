@@ -130,7 +130,7 @@ var handleAddSubscription = function (socket) {
                     .then(function (subscription) { callback({ status : 'success', timestamp : new Date(), subscription : subscription }); })
                     .fail(function (err) {
                         console.error(err);
-                        callback({ status : 'error' });
+                        callback({ status : 'error', reason : '' });
                     })
                     .done();
        });

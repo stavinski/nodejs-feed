@@ -1,43 +1,26 @@
-define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'articleMediator', 'subscriptionMediator', 'uri'], function(router, ko, connection, cache, $, articleMediator, subscriptionMediator, uri) {
+define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'contexts/subscriptions', 'contexts/articles', 'uri'], function(router, ko, connection, cache, $, subscriptionsContext, articlesContext, uri) {
    
     var bindSubscription = function (model) {
-        var subscription = model;
-               
+          
         model.unread = ko.computed(function () {
             var self = model;
-            var results = articleMediator.unreadArticlesBinding().filter(function (article) {
-                                return (article.subscription == self._id);        
+            var results = articlesContext.articles().filter(function (article) {
+                                return ((article.subscription == self._id) && (!article.read()))        
                             });
             return (results.length > 0) ? results.length : '';
         });
-                
-        //model.active = ko.observable(router.activeItem().subscription() == model._id);
-        model.domain = uri(model.favicon).host;
         
+        if (router.activeItem().subscription)        
+            model.active = ko.observable(router.activeItem().subscription() == model._id);
+        
+        model.domain = uri(model.favicon).host;
+                
         return model;
     };
     
-    var handleSubscriptions = function (data, self) {
-        if (data.status == 'success') {
-            subscriptionMediator.addMultiple(data);
-        } else {
-            // alert here    
-        }
-    };
-
     var ViewModel = {
-        _init : false,
-        router: router,
         activate: function () {
-            var self = this;
-                                    
-            // is this the first time through this vm 
-            if (self._init) return;
             
-            self._init = true;
-            connection.send('backend.syncsubscriptions', 
-                            { since : subscriptionMediator.lastDownload() }, 
-                            function (data) { handleSubscriptions(data, self); });
         },
         makeActive : function () {
             var   self = this
@@ -47,8 +30,7 @@ define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'articleM
             return false;
         },
         subscriptions: ko.computed(function () {
-            var subscriptions = subscriptionMediator.subscriptionsBinding();
-            return subscriptions.map(bindSubscription);
+            return subscriptionsContext.subscriptions().map(bindSubscription);
         })
     };
     

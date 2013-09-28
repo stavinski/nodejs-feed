@@ -6,6 +6,7 @@ requirejs.config({
         'transitions' : '../scripts/durandal/js/transitions',
         'knockout': '../scripts/knockout/knockout-2.3.0',
         'knockoutmapping' : '../scripts/knockout/knockout.mapping',
+        'knockoutbetterobservablearray' : '../scripts/knockout/knockout.betterobservablearray',
         'bootstrap': '../scripts/bootstrap/js/bootstrap',
         'jquery': '../scripts/jquery/jquery-1.9.1',
         'amplify' : '../scripts/amplify',
@@ -26,12 +27,17 @@ requirejs.config({
         },
         'knockoutmapping' : {
             deps: ['knockout']
+        },
+        'knockoutbetterobservablearray' : {
+            deps: ['knockout']
         }
     }
 });
 
 // load require js libraries
 require(['bootstrap'], function() {});
+require(['knockout'], function(ko){ window.ko = ko; });
+require(['knockoutbetterobservablearray'], function() {});
 
 define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/router'],
     function(app, viewLocator, system, router) {

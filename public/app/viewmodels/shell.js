@@ -1,4 +1,4 @@
-define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'connection', 'knockout', 'logger', 'cache', 'contexts/articles', 'contexts/user'], function (router, dialog, app, system, amplify, connection, ko, logger, cache, articlesContext, userContext) {
+define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'connection', 'knockout', 'logger', 'cache', 'contexts/articles', 'contexts/user', 'contexts/subscriptions'], function (router, dialog, app, system, amplify, connection, ko, logger, cache, articlesContext, userContext, subscriptionsContext) {
     
     var mapRoutes = function () {
         var instance = router
@@ -46,8 +46,9 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
                 })
                 .then(function () { 
                     self.connected(true);
-                    articlesContext.init();            
-                    
+                    articlesContext.init();
+                    subscriptionsContext.init();
+                                    
                     connection.send('backend.syncprofile', null, function (data) {
                         userContext.signIn(data);
                     });
@@ -60,6 +61,7 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
                         self.connected(false);
                     });
                 })
+                .fail(function (err) { throw err; })
                 .fin(mapRoutes);
         },
         forceConnection : function () {

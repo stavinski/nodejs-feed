@@ -7,6 +7,7 @@ define(['knockout', 'connection', 'cache', 'contexts/articles'], function (ko, c
         },
         loading: articlesContext.loading,
         subscription : ko.observable(''),
+        filter : 'starred',
         articles : ko.computed(function () {
             var self = this;
             return ko.utils.arrayFilter(articlesContext.articles(), function (article) {

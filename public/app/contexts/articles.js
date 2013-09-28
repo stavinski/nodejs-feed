@@ -1,4 +1,4 @@
-define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping'], function (connection, cache, ko, Q, mapping) {
+define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping', 'contexts/subscriptions'], function (connection, cache, ko, Q, mapping, subscriptionsContext) {
     
     var sortArticles = function (prev, next) {
         var prevDate = new Date(prev.published)
@@ -9,7 +9,7 @@ define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping'], function (co
     
     var articleMappingOptions = {
         observe : ['starred', 'read'],
-        copy : ['_id', 'title', 'author', 'content', 'published', 'categories', 'parent', 'favicon']
+        copy : ['_id', 'title', 'author', 'content', 'published', 'categories', 'parent', 'favicon', 'subscription']
     };
     
     var context = {
@@ -60,6 +60,33 @@ define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping'], function (co
             
             return null;
         },
+        _handleAddedSubscription : function (subscription) {
+            var   self = this
+                , cached = self._getCache();
+            
+            self.loading(true);
+            connection.send('backend.syncarticles', { since : new Date(0), subscription : subscription._id }, function (data) {
+                self.loading(false);
+                if (data.status == 'success') {
+                    var underlyingArray = self.articles();
+                    data.articles.forEach(function (newArticle) {
+                        underlyingArray.push(mapping.fromJS(newArticle, articleMappingOptions));
+                    });
+                    underlyingArray.sort(sortArticles);
+                    self.articles.valueHasMutated();
+                    self._setCache();
+                } else {
+                    // inform user we are only have local cached articles available for browsing
+                }
+            });
+        },
+        _handleRemovedSubscription : function (subscription) {
+            var self = this;
+            self.articles.remove(function (article) {
+                return subscription._id == article.subscription;    
+            });
+            self._setCache();
+        },
         init : function () {
             var self = this;
             
@@ -77,6 +104,10 @@ define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping'], function (co
             connection.receive('backend.articlesupdated', function (data) {
                 self._sync();    
             });
+            
+            // handle when subscriptions are added/removed
+            subscriptionsContext.subscriptions.subscribe(self._handleAddedSubscription, this, 'add');
+            subscriptionsContext.subscriptions.subscribe(self._handleRemovedSubscription, this, 'remove');
         },
         read : function (id) {
             var   self = this

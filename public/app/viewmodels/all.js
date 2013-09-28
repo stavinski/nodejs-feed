@@ -7,14 +7,16 @@ define(['knockout', 'connection', 'cache', 'contexts/articles'], function (ko, c
         },
         loading: articlesContext.loading,
         subscription : ko.observable(''),
-        articles : ko.computed(function () {
+        filter : 'all',
+    };
+    
+    ViewModel.articles = ko.computed(function () {
             var self = this;
             return ko.utils.arrayFilter(articlesContext.articles(), function (article) {
-                return (!article.starred());
-//                        (self.subscription() == null) || (article.subscription == self.subscription());
+                return (!article.starred()) &&
+                        (self.subscription() == null) || (article.subscription == self.subscription());
             });
-        })
-    };
+        }, ViewModel);
 
     return ViewModel;
 });

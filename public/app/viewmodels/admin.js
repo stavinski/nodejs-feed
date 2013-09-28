@@ -1,4 +1,4 @@
-define(['knockout', 'connection', 'amplify', 'cache', 'subscriptionMediator', 'articleMediator'], function (ko, connection, amplify, cache, subscriptionMediator, articleMediator) {
+define(['knockout', 'connection', 'amplify', 'cache', 'contexts/articles', 'contexts/subscriptions'], function (ko, connection, amplify, cache, articlesContext, subscriptionsContext) {
     
     var bindSubscription = function (model) {
         model.unsubscribe = function () {
@@ -11,10 +11,11 @@ define(['knockout', 'connection', 'amplify', 'cache', 'subscriptionMediator', 'a
         
         model.confirmUnsubscribe = function () {
             var self = this;
-            connection.send('backend.unsubscribe', { id : self._id }, function (data) {
+            subscriptionsContext.unsubscribe(self._id, function (data) {
                 model.confirming(false);
-                if (data.status == 'success') {
-                    subscriptionMediator.remove(data);                            
+                
+                if (data.removed) {
+                    // success alert info
                 } else {
                     // alert here
                 }
@@ -26,33 +27,12 @@ define(['knockout', 'connection', 'amplify', 'cache', 'subscriptionMediator', 'a
         return model;
     };
     
-    var handleSubscriptions = function (data, self) {
-        if (data.status == 'success') {
-            subscriptionMediator.addMultiple(data);
-        } else {
-            // alert here    
-        }
-    };
-    
     var ViewModel = {
-        _init : false,    
         articleDetailsCache : ko.observable(''),
-        saveCache : function () {
-            
-        },
         subscriptions : ko.computed(function () {
-            var subscriptions = subscriptionMediator.subscriptionsBinding();
-            return subscriptions.map(bindSubscription);
+            return subscriptionsContext.subscriptions().map(bindSubscription);
         }),
         activate : function () {
-            var self = this;
-            
-            if (self._init) return;
-            
-            self._init = true;
-            connection.send('backend.syncsubscriptions', 
-                            { since : subscriptionMediator.lastDownload() }, 
-                            function (data) { handleSubscriptions(data, self); });
         },
         clearAllCache : function() {
             cache.clearAll();
