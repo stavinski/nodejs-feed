@@ -120,7 +120,7 @@ var handleAddSubscription = function (socket) {
                                                                 
                                 return feed.articles(data.url)
                                         .then(function (downloaded) {
-                                            articles.upsert(subscription, downloaded);
+                                            return articles.upsert(subscription, downloaded);
                                         })
                                         .then(function () {
                                             return subscription; 

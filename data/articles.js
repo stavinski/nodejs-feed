@@ -5,6 +5,10 @@ var config = require('../config')
     , Q = require('q')
     , logger = require('../logger');
 
+var closeConnection = function () {
+    db.close();  
+};
+
 var getUnread = function (db, profile, subscriptions, since) {
     var  filter = {
                     downloaded : { $gte : new Date(since) },
@@ -126,52 +130,50 @@ exports.get = function(profile, id) {
 };
 
 exports.upsert = function (subscription, articles) {
-    return Q.ninvoke(db, 'open')
-            .then (function (db) {
-                var deferreds = [];
+    var articleUpsert = function (db, article) {
+        var data = {
+                //$setOnInsert : { downloaded : new Date() }, not supported in the version im running 2.1 :-/
+                $set : {
+                    subscription : subscription._id,
+                    title : article.title,
+                    link : article.link,
+                    origlink : article.origlink,
+                    published : article.pubdate,
+                    updated : article.date,
+                    author : article.author,
+                    guid : article.guid,
+                    categories : article.categories,
+                    image : article.image,
+                    source : article.source,
+                    content : article.description,
+                    parent : subscription.title
+                }
+            };
                 
-                articles.forEach(function (article) {
-                    var   deferred = Q.defer()
-                        , data = {
-                            //$setOnInsert : { downloaded : new Date() }, not supported in the version im running 2.1 :-/
-                            $set : {
-                                subscription : subscription._id,
-                                title : article.title,
-                                link : article.link,
-                                origlink : article.origlink,
-                                published : article.pubdate,
-                                updated : article.date,
-                                author : article.author,
-                                guid : article.guid,
-                                categories : article.categories,
-                                image : article.image,
-                                source : article.source,
-                                content : article.description,
-                                parent : subscription.title
-                            }
-                        };
+        return Q.ninvoke(db.collection('articles'), 'update', { guid : article.guid }, data, {w:1, upsert : true})
+                .fail(function (err) { deferred.reject(err); })
+                .then(function (results) {
+                    var   upsert = results[1]
+                        , existing = upsert.updatedExisting;
                     
-                    deferreds.push(deferred.promise);
-                    Q.ninvoke(db.collection('articles'), 'update', { guid : article.guid }, data, {w:1, upsert : true})
-                        .fail(function (err) { deferred.reject(err); })
-                        .then(function (results) {
-                            var   upsert = results[1]
-                                , existing = upsert.updatedExisting;
-                            
-                            // yuck! hack to get round the non support of $setOnInsert, when using newer version >= 2.4 remove this and uncomment
-                            // in above update upsert
-                            if (!existing) {
-                                Q.ninvoke(db.collection('articles'), 'update', { guid : article.guid }, { $set : { downloaded : new Date() , read : [], starred : [] } }, {w:1})
-                                    .then(function () { deferred.resolve(existing); });
-                            } else {
-                                deferred.resolve(existing);
-                            }                        
-                        });
+                    // yuck! hack to get round the non support of $setOnInsert, when using newer version >= 2.4 remove this and uncomment
+                    // in above update upsert
+                    if (!existing) {
+                        return Q.ninvoke(db.collection('articles'), 'update', { guid : article.guid }, { $set : { downloaded : new Date() , read : [], starred : [] } }, {w:1})
+                                .then(function () { return existing; });
+                    } else {
+                        return existing;
+                    }                        
                 });
-                
-                return Q.all(deferreds);
+    };
+    
+    return Q.ninvoke(db, 'open')
+            .then(function () {
+                return Q.all(articles.map(function (article) {
+                    return articleUpsert(db, article);   
+                }));
             })
-            .fin(function () { db.close(); });
+            .then(closeConnection, closeConnection);
 };
 
 exports.read = function (profile, article) {

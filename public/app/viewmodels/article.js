@@ -1,4 +1,4 @@
-define(['plugins/router','knockout', 'connection', 'Q', 'articleMediator', 'contexts/articles'], function (router, ko, connection, Q, articleMediator, articlesContext) {
+define(['plugins/router', 'knockout', 'contexts/articles'], function (router, ko, articlesContext) {
     
     var bindArticle = function (article) {
         var vm = article;
@@ -16,10 +16,6 @@ define(['plugins/router','knockout', 'connection', 'Q', 'articleMediator', 'cont
         article : null,
         nextArticle : null,
         prevArticle : null,
-        goBack : function () {
-            router.navigateBack();
-            return false;
-        },
         activate : function (id) {
             var self = this;
             self.loading(true);

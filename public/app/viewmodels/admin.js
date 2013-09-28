@@ -1,4 +1,4 @@
-define(['knockout', 'connection', 'amplify', 'cache', 'contexts/articles', 'contexts/subscriptions'], function (ko, connection, amplify, cache, articlesContext, subscriptionsContext) {
+define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache'], function (ko, articlesContext, subscriptionsContext, cache) {
     
     var bindSubscription = function (model) {
         model.unsubscribe = function () {

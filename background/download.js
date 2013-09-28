@@ -99,5 +99,7 @@ var execute = function() {
 };
 
 module.exports.start = function () {
-    return execute();
+    if (config.background.pollActive)
+        return execute();
+    
 };

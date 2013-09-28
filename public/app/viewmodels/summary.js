@@ -1,26 +1,20 @@
-define(['knockout', 'connection', 'contexts/articles'], function (ko, connection, articlesContext) {
+define(['knockout', 'connection', 'contexts/articles', 'contexts/subscriptions'], function (ko, connection, articlesContext, subscriptionsContext) {
        
     var ViewModel = {
         activate : function () {
             
         },
         unreadCounts : ko.computed(function () {
-            var   articles = articlesContext.articles()
-                , len = articles.length
-                , subscriptions = [];
-            
-            for (var i = 0; i < len; i++) {
-                var subscription = articles[i].parent;
-                if (subscriptions.indexOf(subscription) == -1)
-                    subscriptions.push(subscription);
-            }
+            var   subscriptions = subscriptionsContext.subscriptions()
+                , articles = articlesContext.articles();
             
             return subscriptions.map(function (subscription) {
-                var matched = articles.filter(function (article) {
-                                return ((!article.read()) && (article.parent === subscription));
-                            });
+                 var found = articles.filter(function (article) {
+                     return ((article.subscription == subscription._id) &&
+                            (!article.read()))
                             
-                return { title : subscription, count : matched.length };
+                 });
+                 return { title : subscription.title, count : found.length };
             });
         }),
         allCount : ko.computed(function () {

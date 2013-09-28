@@ -1,4 +1,4 @@
-define(['knockout', 'connection', 'cache', 'contexts/articles'], function (ko, connection, cache, articlesContext) {
+define(['knockout', 'contexts/articles'], function (ko, articlesContext) {
         
     var ViewModel = {
         activate : function (subscription) {

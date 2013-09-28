@@ -1,4 +1,4 @@
-define(['knockout', 'config', 'jquery', 'uri', 'contexts/subscriptions'], function (ko, config, $, uri, subscriptionsContext) {
+define(['knockout', 'jquery', 'uri', 'contexts/subscriptions'], function (ko, $, uri, subscriptionsContext) {
     
     var mapResult = function (result) {
         result.domain = uri(result.link).host;

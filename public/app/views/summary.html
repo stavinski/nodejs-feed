@@ -6,8 +6,7 @@
             <ul class="unstyled" data-bind="foreach: unreadCounts">
                 <li>
                     <div class="page-title">
-                        <h3 data-bind="text: title"></h3>
-                        <span data-bind="text: count"></span>
+                        <h4><!-- ko text: title --><!-- /ko--> <small data-bind="text: count"></small></h4>
                     </div>
                 </li>
             </ul>
