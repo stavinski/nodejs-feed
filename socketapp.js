@@ -2,26 +2,12 @@ var   config = require('./config')
     , subscriptions = require('./data/subscriptions')
     , profiles = require('./data/profiles')
     , articles = require('./data/articles')
-    , summary = require('./data/summary')
     , bus = require('./bus')
     , auth = require('./auth')
     , user = null;
 
 var assignUser = function (socket) {
     user = socket.handshake.user;
-};
-
-var syncSummary = function (socket) {
-    socket.on('backend.syncsummary', function (data, callback) {
-        summary.getForProfile(user._id)
-            .then(function (result) {
-                callback({ status : 'success', timestamp : new Date(), summary : result });
-            })
-            .fail(function (err) {
-                callback({ status : 'error', timestamp : new Date() });    
-            })
-            .done();
-    });
 };
 
 var syncSubscriptions = function (socket) {
@@ -191,7 +177,6 @@ var start = function (sio) {
     sio.sockets.on('connection', function (socket) {
         assignUser(socket);
         handleUserConnected(socket);
-        syncSummary(socket);
         syncSubscriptions(socket);
         syncArticles(socket);
         syncProfile(socket);

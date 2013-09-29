@@ -151,7 +151,6 @@ exports.upsert = function (subscription, articles) {
             };
                 
         return Q.ninvoke(db.collection('articles'), 'update', { guid : article.guid }, data, {w:1, upsert : true})
-                .fail(function (err) { deferred.reject(err); })
                 .then(function (results) {
                     var   upsert = results[1]
                         , existing = upsert.updatedExisting;
@@ -173,7 +172,11 @@ exports.upsert = function (subscription, articles) {
                     return articleUpsert(db, article);   
                 }));
             })
-            .then(closeConnection, closeConnection);
+            .then(function (result) {
+                db.close();
+                return result;
+            })
+            .fail(closeConnection);
 };
 
 exports.read = function (profile, article) {
