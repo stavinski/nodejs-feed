@@ -1,4 +1,4 @@
-define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'contexts/subscriptions', 'contexts/articles', 'uri'], function(router, ko, connection, cache, $, subscriptionsContext, articlesContext, uri) {
+define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'contexts/subscriptions', 'contexts/articles', 'uri', 'fastclick'], function(router, ko, connection, cache, $, subscriptionsContext, articlesContext, uri, fastclick) {
    
     var bindSubscription = function (model) {
           
@@ -31,7 +31,10 @@ define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'contexts
         },
         subscriptions: ko.computed(function () {
             return subscriptionsContext.subscriptions().map(bindSubscription);
-        })
+        }),
+        attached : function () {
+            fastclick.attach(document.body);
+        }
     };
     
     return ViewModel;

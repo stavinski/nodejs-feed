@@ -1,4 +1,4 @@
-define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'connection', 'knockout', 'logger', 'cache', 'contexts/articles', 'contexts/user', 'contexts/subscriptions'], function (router, dialog, app, system, amplify, connection, ko, logger, cache, articlesContext, userContext, subscriptionsContext) {
+define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'connection', 'knockout', 'logger', 'cache', 'contexts/articles', 'contexts/user', 'contexts/subscriptions', 'fastclick'], function (router, dialog, app, system, amplify, connection, ko, logger, cache, articlesContext, userContext, subscriptionsContext, fastclick) {
     
     var mapRoutes = function () {
         var instance = router
@@ -50,7 +50,7 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
                     subscriptionsContext.init();
                                     
                     connection.send('backend.syncprofile', null, function (data) {
-                        userContext.signIn(data);
+                        userContext.signIn(data.profile);
                     });
                                         
                     amplify.subscribe(connection.TOPIC_CONNECTED, function () {
@@ -69,6 +69,9 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
             
             // todo: auth check like above
             connection.connect();
+        },
+        attached : function () {
+            fastclick.attach(document.body);
         }
     };
     

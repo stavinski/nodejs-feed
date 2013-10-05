@@ -1,11 +1,11 @@
-define(['knockout', 'contexts/articles'], function (ko, articlesContext) {
+define(['knockout', 'contexts/articles', 'fastclick'], function (ko, articlesContext, fastclick) {
         
     var ViewModel = {
         activate : function (subscription) {
             var self = this;
             self.subscription(subscription);
         },
-        loading: articlesContext.loading,
+        loading: ko.computed(function () { return articlesContext.loading(); }),
         subscription : ko.observable(''),
         filter : 'starred',
         articles : ko.computed(function () {
@@ -14,7 +14,10 @@ define(['knockout', 'contexts/articles'], function (ko, articlesContext) {
                 return (article.starred());
 //                        (self.subscription() == null) || (article.subscription == self.subscription());
             });
-        })
+        }),
+        attached : function () {
+            fastclick.attach(document.body);
+        }
     };
         
     return ViewModel;

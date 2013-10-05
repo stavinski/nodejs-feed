@@ -1,4 +1,4 @@
-define(['knockout', 'jquery', 'uri', 'contexts/subscriptions'], function (ko, $, uri, subscriptionsContext) {
+define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], function (ko, $, uri, subscriptionsContext, fastclick) {
     
     var mapResult = function (result) {
         result.domain = uri(result.link).host;
@@ -35,9 +35,13 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions'], function (ko, $,
         activate : function () {
             
         },
+        attached : function () {
+            fastclick.attach(document.body);
+        },
         deactivate : function () {
             this.results.removeAll();
             this.query('');
+            this.resultQuery('');
         },
         query : ko.observable(''),
         results : ko.observableArray(),

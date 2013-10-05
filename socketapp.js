@@ -40,7 +40,8 @@ var syncProfile = function (socket) {
     socket.on('backend.syncprofile', function (data, callback) {
         var profile = {
             created : user.created,
-            settings : user.settings
+            settings : user.settings,
+            categories : user.categories
         };
         callback({ timestamp : new Date(), profile : profile });
     });
@@ -89,14 +90,15 @@ var handleUnstarred = function (socket) {
 var handleAddSubscription = function (socket) {
     socket.on('backend.addsubscription', function (data, callback) {
             var   feed = require('./feed')
-                , feedpush = require('./feedpush');
-            
+                , feedpush = require('./feedpush')
+                , additional = data.additional || {};
+                    
             feed.details(data.url)
                     .then(function (details) {
                         return subscriptions.upsert(details)
                             .then(function (result) {
                                 var subscription = result.subscription;
-                                profiles.subscribe(user._id, subscription);    
+                                profiles.subscribe(user._id, subscription, additional);    
                                 
                                 if (result.existing) 
                                     return subscription;
@@ -162,6 +164,19 @@ var handleArticlesUpdated = function (sio) {
             .done();
     });
 };
+
+var handleExport = function (socket) {
+    socket.on('backend.export', function (data, callback) {
+        subscriptions.getAllByProfile(user._id, new Date(0))
+            .then(function (subscriptions) {
+                callback({ status : 'success', timestamp : new Date() });
+            })
+            .fail(function (err) {
+                callback({ status : 'error', timestamp : new Date() });
+            })
+            .done();
+    });
+};
     
 var start = function (sio) {
             
@@ -185,6 +200,7 @@ var start = function (sio) {
         handleUnsubscribe(socket);
         handleStarred(socket);       
         handleUnstarred(socket);
+        handleExport(socket);
         handleUserDisconnected(socket);       
     });
     

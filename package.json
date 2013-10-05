@@ -5,11 +5,11 @@
   "scripts": {
     "start": "node server.js"
   },
-  "author" : {
-    "name" : "Michael Cromwell",
-    "email" : "info@pushfeed.net"
+  "author": {
+    "name": "Michael Cromwell",
+    "email": "info@pushfeed.net"
   },
-  "repository" : {
+  "repository": {
     "type": "git",
     "url": "https://github.com/stavinski/nodejs-feed.git"
   },
@@ -18,22 +18,23 @@
     "jade": "*",
     "forever": "*",
     "bundle-up": "*",
-    "nodemon" : "*",
-    "feedparser" : "*",
-    "moment" : "*",
-    "q" : "*",
-    "mongodb" : "*",
-    "request" : "*",
-    "connect-mongo" : "*",
-    "passport" : "*",
+    "nodemon": "*",
+    "feedparser": "*",
+    "moment": "*",
+    "q": "*",
+    "mongodb": "*",
+    "request": "*",
+    "connect-mongo": "*",
+    "passport": "*",
     "passport-google": "*",
-    "passport-twitter" : "*",
-    "passport-yahoo" : "*",
-    "passport-facebook" : "*",
-    "socket.io" : "*",
-    "passport.socketio" : "*",
-    "mubsub" : "*",
-    "mongoskin" : "*",
-    "uuid" : "*"  
+    "passport-twitter": "*",
+    "passport-yahoo": "*",
+    "passport-facebook": "*",
+    "socket.io": "*",
+    "passport.socketio": "*",
+    "mubsub": "*",
+    "mongoskin": "*",
+    "uuid": "*",
+    "xml": "0.0.8"
   }
 }

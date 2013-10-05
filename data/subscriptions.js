@@ -5,6 +5,10 @@ var config = require('../config')
     , Q = require('q')
     , url = require('url');
 
+var mapSubscriptionIds = function (subscription) {
+    return subscription._id;  
+};
+
 exports.getAllByProfile = function(profile, since) {
     return Q.ninvoke(db, 'open')
             .then(function (profiles) {
@@ -13,10 +17,23 @@ exports.getAllByProfile = function(profile, since) {
             .then (function (result) {
                 var filter = {
                     created : { $gte : new Date(since) },
-                    _id : { $in : result.subscriptions }
+                    _id : { $in : result.subscriptions.map(mapSubscriptionIds) }
                 };
                 var cursor = db.collection('subscriptions').find(filter, { sort : [['stitle', 1]] });
-                return Q.ninvoke(cursor, 'toArray');
+                return Q.ninvoke(cursor, 'toArray')
+                        .then(function (results) {
+                            return { subscriptions : results, additionals : result.subscriptions };    
+                        });
+            })
+            .then(function (results) {
+                return results.subscriptions.map(function (subscription) {
+                    var found = results.additionals.filter(function (additional) { return additional._id.equals(subscription._id); })[0];
+                    subscription.title = found.title;
+                    subscription.stitle = found.stitle;
+                    subscription.category = found.category;
+                    
+                    return subscription;
+                });
             })
             .fin(function () { db.close(); });
 };

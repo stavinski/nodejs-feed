@@ -1,4 +1,4 @@
-define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache'], function (ko, articlesContext, subscriptionsContext, cache) {
+define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'contexts/user', 'cache', 'fastclick'], function (ko, articlesContext, subscriptionsContext, userContext, cache, fastclick) {
     
     var bindSubscription = function (model) {
         model.unsubscribe = function () {
@@ -32,10 +32,16 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache'], fun
         subscriptions : ko.computed(function () {
             return subscriptionsContext.subscriptions().map(bindSubscription);
         }),
+        categories : ko.computed (function () {
+            return userContext.details.categories;
+        }),
         activate : function () {
         },
         clearAllCache : function() {
             cache.clearAll();
+        },
+         attached : function () {
+            fastclick.attach(document.body);
         }
     };
     

@@ -14,7 +14,8 @@ requirejs.config({
         'moment' : '../scripts/moment',
         'socket.io' : '/socket.io/socket.io',
         'toastr' : '../scripts/toastr',
-        'moment' : '../scripts/moment'
+        'moment' : '../scripts/moment',
+        'fastclick' : '../scripts/fastclick'
     },
     shim: {
         'bootstrap': {

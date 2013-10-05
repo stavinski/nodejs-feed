@@ -7,7 +7,7 @@ var config = require('../config')
 exports.find = function (openid) {
     return Q.ninvoke(db, 'open')
         .then(function (db) {
-            return Q.ninvoke(db.collection('profiles'), 'findOne', { openid : openid }, { created : 1, settings : 1 }, {w:1});
+            return Q.ninvoke(db.collection('profiles'), 'findOne', { openid : openid }, { created : 1, settings : 1, categories: 1 }, {w:1});
         })
         .fin(function () { db.close(); });
 };
@@ -23,12 +23,13 @@ exports.insert = function (openid) {
                     articleDetailsCache : 5
                 },
                 socketId : '',
-                subscriptions : []
+                subscriptions : [],
+                categories : ['main']
             };
             return Q.ninvoke(db.collection('profiles'), 'insert', data, {w:1});
         })
         .then (function () {
-            return Q.ninvoke(db.collection('profiles'), 'findOne', { openid : openid }, { created : 1, settings : 1 }, {w:1});       
+            return Q.ninvoke(db.collection('profiles'), 'findOne', { openid : openid }, { created : 1, settings : 1, subscriptions: 1, categories : 1 }, {w:1});       
         })
         .fin(function () { db.close(); });
 };
@@ -60,11 +61,28 @@ exports.getAllConnected = function (subscription) {
             .fin(function () { db.close(); });
 };
     
-exports.subscribe = function (profile, subscription) {
+exports.subscribe = function (profile, subscription, additional) {
     return Q.ninvoke(db, 'open')
-            .then(function (db) {
-                var profiles = db.collection('profiles');
-                return Q.ninvoke(profiles, 'update', { _id : new ObjectID(profile) }, { $addToSet : { subscriptions : subscription._id } });
+            .then(function () {
+                var   title = additional.title || subscription.title
+                    , stitle = title.toLowerCase()
+                    , category = additional.category || 'main' // boring but tried and tested
+                    , data = {
+                        $push : {
+                                subscriptions : {
+                                    _id : subscription._id,
+                                    title : title,
+                                    stitle : stitle,
+                                    subscribed : new Date(),
+                                    category : category   
+                                }                    
+                        },
+                        $addToSet : {
+                            categories : category  
+                        }
+                    };
+                
+                return Q.ninvoke(db.collection('profiles'), 'update', { _id : new ObjectID(profile) },  data);
             })
             .fin(function () { db.close(); });
 };
@@ -77,3 +95,4 @@ exports.unsubscribe = function (profile, subscription) {
             })
             .fin(function () { db.close(); });
 };
+

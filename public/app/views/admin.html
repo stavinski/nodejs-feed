@@ -4,6 +4,7 @@
             <li class="active"><a href="#subscriptions" data-toggle="tab">subscriptions</a>
             <li><a href="#caching" data-toggle="tab">caching</a>
             <li><a href="#forgetme" data-toggle="tab">sign-in</a>
+            <li><a href="#export" data-toggle="tab">export</a>
         </ul>
     
         <div class="tab-content">
@@ -22,12 +23,23 @@
                                 </div>
                                 <button class="btn btn-warning" data-bind="css : { 'hide' : confirming() }, attr : { 'title' : 'unsubscribe from ' + title }, click : unsubscribe"><i class="icon-remove-sign"></i></button>
                             </td>
+                            <td>
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    <!-- ko text: category --> <!-- /ko --> <span class="caret"></span>
+                                  </button>
+                                  <ul class="dropdown-menu" role="menu" data-bind="foreach : $root.categories">
+                                    <li data-bind="if : $data != $parent.category"><a href="#" data-bind="text : $data"></a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">add new</a></li>  
+                                  </ul>
+                                </div>
+                            </td>
                             <th data-bind="text: title"></th>
                             <td data-bind="text: xmlurl" class="hidden-phone"></td>
                         </tr>
                     </tbody>
-                </table>                
-                                
+                </table>            
             </div>
             
             <div class="tab-pane" id="caching">
@@ -45,6 +57,12 @@
                     
                     <a href="/signout" class="btn btn-primary">forget me</a>
                 </div>
+            </div>
+            
+            <div class="tab-pane" id="export">
+                <h2>export</h2>
+                
+                <a class="btn btn-primary" href="export/" target="_blank">export</a>
             </div>
         </div>
     </div>

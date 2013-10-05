@@ -57,6 +57,8 @@ if ('development' == app.get('env')) {
 // screen routes
 app.get('/', routes.index);
 app.get('/fail', routes.fail);
+app.get('/export', routes.export);
+app.get('/subscribe/:url', routes.subscribe);
 
 auth.init(app, io, sessionStore);
 socketApp.start(io);

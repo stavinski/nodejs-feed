@@ -42,4 +42,10 @@
         
     <!-- /ko -->
     
+    <!-- ko if : results().length <= 0 && resultQuery().length > 0 -->
+    <div class="alert alert-info">
+        <p>No results found for search criteria</p>    
+    </div>
+    <!-- /ko -->
+    
 </section>

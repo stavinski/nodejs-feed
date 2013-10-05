@@ -1,4 +1,4 @@
-define(['plugins/router', 'knockout', 'contexts/articles', 'moment'], function (router, ko, articlesContext, moment) {
+define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'], function (router, ko, articlesContext, moment, fastclick) {
     
     var bindArticle = function (article) {
         var   vm = article
@@ -51,6 +51,9 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment'], function (
         },
         next : function () {
             router.navigate('#/article/' + this.nextArticle._id);
+        },
+        attached : function () {
+            fastclick.attach(document.body);
         }
     };
     

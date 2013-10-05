@@ -9,6 +9,10 @@ var closeConnection = function () {
     db.close();  
 };
 
+var mapSubscriptionIds = function (subscription) {
+    return subscription._id;  
+};
+
 var getUnread = function (db, profile, subscriptions, since) {
     var  filter = {
                     downloaded : { $gte : new Date(since) },
@@ -71,7 +75,7 @@ exports.getForProfile = function(profile, since, subscription) {
                 return [new ObjectID(subscription)];
             } else {
                 return Q.ninvoke(db.collection('profiles'), 'findOne', { _id : new ObjectID(profile) }, { _id : 0, subscriptions : 1 })
-                        .then(function (result) { return result.subscriptions; });
+                        .then(function (result) { return result.subscriptions.map(mapSubscriptionIds); });
             }        
          })
          .then (function (subscriptions) {

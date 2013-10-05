@@ -6,6 +6,13 @@
                 <li>
                     <div class="page-title">
                         <h4><!-- ko text: title --><!-- /ko--> <small data-bind="text: count"></small></h4>
+                        <ul class="list-group" data-bind="foreach : subscriptions">
+                            <li>
+                                <div class="page-title">
+                                    <h5><!-- ko text: title --><!-- /ko--> <small data-bind="text: count"></small></h5>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </li>
             </ul>
