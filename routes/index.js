@@ -1,4 +1,5 @@
-var   subscriptions = require('../data/subscriptions')
+var   array = require('array-extended')
+    , subscriptions = require('../data/subscriptions')
     , profiles = require('../data/profiles')
     , feed = require('../feed')
     , feedpush = require('../feedpush')
@@ -25,8 +26,12 @@ exports.export = function (req, res) {
     
     subscriptions.getAllByProfile(req.user._id, new Date(0))
         .then(function (subscriptions) {
+            var allCategories = subscriptions.map(function (subscription) {
+                return subscription.category; 
+            });
+            
             var data = {
-                categories : req.user.categories,
+                categories : array(allCategories).unique(),
                 subscriptions : subscriptions
             };
             

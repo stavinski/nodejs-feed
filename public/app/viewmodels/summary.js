@@ -1,15 +1,13 @@
-define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'contexts/user', 'fastclick'], function (ko, articlesContext, subscriptionsContext, userContext, fastclick) {
+define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'fastclick'], function (ko, articlesContext, subscriptionsContext, fastclick) {
        
     var ViewModel = {
         activate : function () {
             
         },
         unreadCounts : ko.computed(function () {
-            if (!userContext.isSignedIn) return;
-            
             var   subscriptions = subscriptionsContext.subscriptions()
                 , articles = articlesContext.articles()
-                , categories = userContext.details.categories;
+                , categories = subscriptionsContext.categories();
             
             return categories.map(function (category) {
                 var matchedSubscriptions = subscriptions.filter(function (subscription) {

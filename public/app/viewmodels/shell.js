@@ -17,7 +17,7 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
         instance.guardRoute = function (instance, instruction) {
             if (instruction.config.auth) {
                 if (userContext.isSignedIn) {
-                    return true
+                    return true;
                 } else {
 //                    return '/signin/?redirect=' + instruction.fragment;
                     return '/signin/';

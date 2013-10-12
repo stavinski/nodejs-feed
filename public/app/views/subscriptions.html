@@ -1,6 +1,16 @@
-<ul id="subscriptions" class="nav nav-stacked nav-pills" data-bind="foreach: subscriptions">
-    <li data-bind="css : { active : active }">
-        <a href="#" data-bind="click: $root.makeActive"><img data-bind="attr: { src : 'https://www.google.com/s2/favicons?alt=feed&domain=' + domain, alt : title }" /> <!-- ko text: title --> <!-- /ko --> 
-        <span class="badge pull-right" data-bind="text : unread" ></span> 
-    </li>
-</ul>
+<section id="subscriptions">
+    <div id="accordion" data-bind="foreach: categories">
+        <h3 class="panel-title">
+            <span class="caret"></span> <a class="accordion-toggle" data-toggle="collapse" data-bind="attr: { href: '#' + title }, text : title"></a>
+        </h3>
+        <div data-bind="attr : { id : title }" class="panel-collapse collapse in">
+           <ul class="nav nav-stacked nav-pills" data-bind="foreach: subscriptions">
+                <li data-bind="css : { active : active }">
+                    <a href="#" data-bind="click: $root.makeActive"><!-- ko text: title --> <!-- /ko --> 
+                        <span class="badge pull-right" data-bind="text : unread" ></span>
+                    </a>    
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>

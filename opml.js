@@ -24,10 +24,14 @@ var opmlParser = {
     },
     write : function (data) {
         // based off the opml export format from google reader, rip :(
-        
+                
         var mapCategories = function (category) {
             var returnValue = {
-                outline : data.subscriptions.map(mapSubscriptions)
+                outline : data.subscriptions
+                              .filter(function (subscription) {
+                                  return (subscription.category === category);
+                              })
+                              .map(mapSubscriptions)
             };
             
             // add the attributes

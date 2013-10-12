@@ -26,12 +26,21 @@
                             <td>
                                 <div class="btn-group">
                                   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    <!-- ko text: category --> <!-- /ko --> <span class="caret"></span>
+                                    <!-- ko text: currentCategory --> <!-- /ko --> <span class="caret"></span>
                                   </button>
-                                  <ul class="dropdown-menu" role="menu" data-bind="foreach : $root.categories">
-                                    <li data-bind="if : $data != $parent.category"><a href="#" data-bind="text : $data"></a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">add new</a></li>  
+                                  <ul class="dropdown-menu" role="menu">
+                                    <!-- ko foreach : $root.categories -->   
+                                    <li data-bind="if : $data != $parent.currentCategory()"><a href="#" data-bind="text : $data, click : $parent.changeCategory.bind($parent)"></a></li>
+                                    <!-- /ko -->
+                                    <li class="divider"></li>  
+                                    <li>
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <input type="text" class="input-sm newCategory" data-bind="value : newCategory, valueUpdate : 'keyup'" placeholder="new category" />
+                                                <button class="btn btn-primary btn-sm" data-bind="enable : newCategoryValid, click : changeCategory"><i class="icon-plus"></i></button>
+                                            </span>
+                                        </div>
+                                    </li>  
                                   </ul>
                                 </div>
                             </td>
@@ -62,7 +71,11 @@
             <div class="tab-pane" id="export">
                 <h2>export</h2>
                 
-                <a class="btn btn-primary" href="export/" target="_blank">export</a>
+                <div class="alert alert-info">
+                    <p>I'm taking my subscriptions and I'm outta here!</p>
+                
+                    <a class="btn btn-primary" href="export/" target="_blank">export</a>
+                </div>
             </div>
         </div>
     </div>

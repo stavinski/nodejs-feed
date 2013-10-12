@@ -1,4 +1,4 @@
-define(['knockout', 'contexts/articles', 'fastclick'], function (ko, articlesContext, fastclick) {
+define(['knockout', 'contexts/articles', 'fastclick', 'jquery.lazy'], function (ko, articlesContext, fastclick, jqueryLazy) {
         
     var ViewModel = {
         activate : function (subscription) {
@@ -10,6 +10,13 @@ define(['knockout', 'contexts/articles', 'fastclick'], function (ko, articlesCon
         filter : 'all',
         attached : function () {
             fastclick.attach(document.body);
+            /*
+            $('img.lazy').lazy({
+                onError : function (elm) {
+                    console.log(elm);   
+                }
+            });
+            */
         },
     };
     

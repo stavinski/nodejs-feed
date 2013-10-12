@@ -23,7 +23,7 @@ config.session.secret = '@>i5[3q@Xs+*/X9';
 
 config.socketio = {};
 config.socketio.loglevel = 1;
-config.socketio.minify = false;
+config.socketio.minify = true;
 
 config.background = {};
 config.background.pollMs = 60000;

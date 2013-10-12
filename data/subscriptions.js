@@ -27,13 +27,17 @@ exports.getAllByProfile = function(profile, since) {
             })
             .then(function (results) {
                 return results.subscriptions.map(function (subscription) {
-                    var found = results.additionals.filter(function (additional) { return additional._id.equals(subscription._id); })[0];
-                    subscription.title = found.title;
-                    subscription.stitle = found.stitle;
-                    subscription.category = found.category;
+                    var matches = results.additionals.filter(function (additional) {
+                        return subscription._id.equals(additional._id);
+                    });
+                    
+                    var match = matches[0];
+                    subscription.title = match.title;
+                    subscription.stitle = match.stitle;
+                    subscription.category = match.category;
                     
                     return subscription;
-                });
+                });                
             })
             .fin(function () { db.close(); });
 };

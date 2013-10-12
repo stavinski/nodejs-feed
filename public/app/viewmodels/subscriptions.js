@@ -29,12 +29,22 @@ define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'contexts
             router.navigate(route + self._id);
             return false;
         },
-        subscriptions: ko.computed(function () {
-            return subscriptionsContext.subscriptions().map(bindSubscription);
-        }),
         attached : function () {
             fastclick.attach(document.body);
-        }
+        },
+        categories : ko.computed(function () {
+            var categories = subscriptionsContext.categories();
+            return categories.map(function (category) {
+                return {
+                    title : category,
+                    subscriptions : subscriptionsContext.subscriptions()
+                                        .filter(function (subscription) {
+                                            return subscription.category == category;
+                                        })
+                                        .map(bindSubscription)
+                };
+            });
+        })
     };
     
     return ViewModel;

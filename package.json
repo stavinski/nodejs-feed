@@ -35,6 +35,7 @@
     "mubsub": "*",
     "mongoskin": "*",
     "uuid": "*",
-    "xml": "0.0.8"
+    "xml": "0.0.8",
+    "array-extended": "0.0.9"
   }
 }

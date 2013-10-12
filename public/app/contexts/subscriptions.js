@@ -1,4 +1,4 @@
-define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping'], function (connection, cache, ko, Q, mapping) {
+define(['connection', 'cache', 'knockout', 'knockoutmapping'], function (connection, cache, ko, mapping) {
     
     
     var sortSubscriptions = function (prev, next) {
@@ -57,10 +57,11 @@ define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping'], function (co
             
             self._sync();        
         },
-        subscribe : function (url, callback) {
-            var self = this;
+        subscribe : function (url, category, callback) {
+            var   self = this
+                , additional = { category : category };
             
-            connection.send('backend.addsubscription', { url : url }, function (data) {
+            connection.send('backend.addsubscription', { url : url, additional : additional }, function (data) {
                 if (data.status == 'success') {
                     self.subscriptions.push(data.subscription);
                     self.subscriptions.sort(sortSubscriptions);
@@ -89,9 +90,39 @@ define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping'], function (co
                 }
             });
         },
+        update : function (meta, callback) {
+            var self = this;
+            connection.send('backend.updatesubscription', { meta : meta }, function (data) {
+                if (data.status == 'success') {
+                    var subscription = ko.utils.arrayFirst(self.subscriptions(), function (subscription) {
+                        return (subscription._id === meta.subscription);
+                    });
+                    
+                    if (meta.category)
+                        subscription.category = meta.category;
+                    
+                    self.subscriptions.valueHasMutated();
+                    self._setCache();    
+                    callback({ updated : true }); 
+                } else {
+                    callback({ updated : false }); 
+                }
+            });
+        },
         loading : ko.observable(false),
-        subscriptions : ko.betterObservableArray()
+        subscriptions : ko.betterObservableArray(),
     };
+    
+    context.categories = ko.computed(function () {
+            // categories are linked to subscriptions
+            var   self = this
+                , allCategories = ko.utils.arrayMap(self.subscriptions(), function (subscription) {
+                    return subscription.category;    
+                });
+            
+            return ko.utils.arrayGetDistinctValues(allCategories)
+                            .sort();
+        }, context);
     
     return context;
 });

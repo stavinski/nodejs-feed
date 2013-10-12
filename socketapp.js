@@ -92,13 +92,16 @@ var handleAddSubscription = function (socket) {
             var   feed = require('./feed')
                 , feedpush = require('./feedpush')
                 , additional = data.additional || {};
-                    
+                
             feed.details(data.url)
                     .then(function (details) {
                         return subscriptions.upsert(details)
                             .then(function (result) {
-                                var subscription = result.subscription;
-                                profiles.subscribe(user._id, subscription, additional);    
+                                var   subscription = result.subscription                    
+                                    , category = additional.category || 'main';
+                                
+                                subscription.category = category;
+                                profiles.subscribe(user._id, subscription);    
                                 
                                 if (result.existing) 
                                     return subscription;
@@ -165,11 +168,11 @@ var handleArticlesUpdated = function (sio) {
     });
 };
 
-var handleExport = function (socket) {
-    socket.on('backend.export', function (data, callback) {
-        subscriptions.getAllByProfile(user._id, new Date(0))
-            .then(function (subscriptions) {
-                callback({ status : 'success', timestamp : new Date() });
+var handleSubscriptionUpdated = function (socket) {
+    socket.on('backend.updatesubscription', function (data, callback) {
+        profiles.subscriptionUpdate(user._id, data.meta)
+            .then(function (subscription) { 
+                callback({ status : 'success', timestamp : new Date() }); 
             })
             .fail(function (err) {
                 callback({ status : 'error', timestamp : new Date() });
@@ -198,9 +201,9 @@ var start = function (sio) {
         syncArticle(socket);
         handleAddSubscription(socket);
         handleUnsubscribe(socket);
+        handleSubscriptionUpdated(socket);
         handleStarred(socket);       
         handleUnstarred(socket);
-        handleExport(socket);
         handleUserDisconnected(socket);       
     });
     

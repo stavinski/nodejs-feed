@@ -7,15 +7,16 @@ requirejs.config({
         'knockout': '../scripts/knockout/knockout-2.3.0',
         'knockoutmapping' : '../scripts/knockout/knockout.mapping',
         'knockoutbetterobservablearray' : '../scripts/knockout/knockout.betterobservablearray',
-        'bootstrap': '../scripts/bootstrap/js/bootstrap',
-        'jquery': '../scripts/jquery/jquery-1.9.1',
+        'bootstrap': '../scripts/bootstrap/js/bootstrap.min',
+        'jquery': '../scripts/jquery/jquery-1.9.1.min',
         'amplify' : '../scripts/amplify',
         'Q' : '../scripts/q',
         'moment' : '../scripts/moment',
         'socket.io' : '/socket.io/socket.io',
         'toastr' : '../scripts/toastr',
         'moment' : '../scripts/moment',
-        'fastclick' : '../scripts/fastclick'
+        'fastclick' : '../scripts/fastclick',
+        'jquery.lazy' : '../scripts/jquery/jquery.lazy.min'
     },
     shim: {
         'bootstrap': {
@@ -31,6 +32,9 @@ requirejs.config({
         },
         'knockoutbetterobservablearray' : {
             deps: ['knockout']
+        },
+        'jquery.lazy' : {
+            deps : ['jquery']    
         }
     }
 });

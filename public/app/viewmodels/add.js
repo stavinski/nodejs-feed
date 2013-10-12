@@ -9,10 +9,12 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
             });
         });
         
-        result.subscribe = function() {
-            var self = this;
+        result.subscribe = function(category) {
+            var   self = this
+                , selectedCategory = (self.newCategory().length > 0) ? self.newCategory() : category;
+                        
             self.subscribing(true);
-            
+            self.newCategory('');
             var handleSubscription = function (result) {
                 if (result.added) {
                     // display success info        
@@ -23,11 +25,20 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
                 self.subscribing(false);
             };
             
-            subscriptionsContext.subscribe(self.url, handleSubscription);
+            subscriptionsContext.subscribe(self.url, selectedCategory, handleSubscription);
         };
         
         result.subscribing = ko.observable(false);
+        result.newCategory = ko.observable('');
         
+        result.newCategoryValid = ko.computed(function () {
+            var self = this;
+            return (self.newCategory().length > 0) &&
+                    (subscriptionsContext.categories().every(function (category) {
+                        return category.toLowerCase() != self.newCategory().toLowerCase();
+                    }));
+        }, result);
+                
         return result;
     };
     
@@ -36,12 +47,19 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
             
         },
         attached : function () {
-            fastclick.attach(document.body);
+            // prevent clicking the textbox from closing the menu
+            $('#add').on('click', '.dropdown-menu input', function (evt) {
+                evt.stopPropagation();
+            });
+            
+            fastclick.attach(document.body);        
         },
         deactivate : function () {
             this.results.removeAll();
             this.query('');
             this.resultQuery('');
+            
+            return false;
         },
         query : ko.observable(''),
         results : ko.observableArray(),
@@ -64,7 +82,6 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
                 .done(function (data) {
                     if (data.responseStatus == 200) {
                         var mapped = data.responseData.entries.map(mapResult);
-                        console.log(mapped);
                         self.results(mapped);    
                     } else {
                         // handle err
@@ -74,7 +91,10 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
             } else {
                 // display alert
             }        
-        }
+        },
+        categories : ko.computed(function () {
+            subscriptionsContext.categories
+        })
     };
     
     ViewModel.queryEntered = ko.computed(function () {

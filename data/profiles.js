@@ -23,13 +23,12 @@ exports.insert = function (openid) {
                     articleDetailsCache : 5
                 },
                 socketId : '',
-                subscriptions : [],
-                categories : ['main']
+                subscriptions : []
             };
             return Q.ninvoke(db.collection('profiles'), 'insert', data, {w:1});
         })
         .then (function () {
-            return Q.ninvoke(db.collection('profiles'), 'findOne', { openid : openid }, { created : 1, settings : 1, subscriptions: 1, categories : 1 }, {w:1});       
+            return Q.ninvoke(db.collection('profiles'), 'findOne', { openid : openid }, { created : 1, settings : 1, subscriptions: 1 }, {w:1});       
         })
         .fin(function () { db.close(); });
 };
@@ -61,12 +60,12 @@ exports.getAllConnected = function (subscription) {
             .fin(function () { db.close(); });
 };
     
-exports.subscribe = function (profile, subscription, additional) {
+exports.subscribe = function (profile, subscription) {
     return Q.ninvoke(db, 'open')
             .then(function () {
-                var   title = additional.title || subscription.title
+                var   title = subscription.title
                     , stitle = title.toLowerCase()
-                    , category = additional.category || 'main' // boring but tried and tested
+                    , category = subscription.category
                     , data = {
                         $push : {
                                 subscriptions : {
@@ -76,9 +75,6 @@ exports.subscribe = function (profile, subscription, additional) {
                                     subscribed : new Date(),
                                     category : category   
                                 }                    
-                        },
-                        $addToSet : {
-                            categories : category  
                         }
                     };
                 
@@ -91,8 +87,21 @@ exports.unsubscribe = function (profile, subscription) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
                 var profiles = db.collection('profiles');
-                return Q.ninvoke(profiles, 'update', { _id : new ObjectID(profile) }, { $pull : { subscriptions : new ObjectID(subscription) } });
+                return Q.ninvoke(profiles, 'update', { _id : new ObjectID(profile) }, { $pull : { subscriptions : { _id : new ObjectID(subscription) } } });
             })
             .fin(function () { db.close(); });
 };
+
+exports.subscriptionUpdate = function (profile, meta) {
+    return Q.ninvoke(db, 'open')
+            .then(function () {
+                var update = { $set : {} };
+                if (meta.category)
+                    update.$set['subscriptions.$.category'] = meta.category;
+                                
+                return Q.ninvoke(db.collection('profiles'), 'update', { _id : new ObjectID(profile), 'subscriptions._id' : new ObjectID(meta.subscription) }, update, {w:1});
+            })
+            .fin(function () { db.close(); })
+};
+
 
