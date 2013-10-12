@@ -91,6 +91,9 @@ var execute = function() {
                         }            
                     });
             })
+            .fail(function (err) {
+                console.log(err);  
+            })
             .fin (function () { 
                 //console.log('download bg task end');
                 setTimeout(execute, config.background.pollMs);

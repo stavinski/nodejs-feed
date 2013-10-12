@@ -36,17 +36,16 @@ exports.insert = function (openid) {
 exports.connected = function (profile, socketId) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
-                var profiles = db.collection('profiles');
-                return Q.ninvoke(profiles, 'update', { _id : new ObjectID(profile) }, { $set : { connected : true, socketId : socketId } });
+                return Q.ninvoke(db.collection('profiles'), 'update', { _id : new ObjectID(profile) }, { $addToSet : { connections : socketId } });
             })
             .fin(function () { db.close(); });
 };
 
-exports.disconnected = function (profile) {
+exports.disconnected = function (profile, socketId) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
                 var profiles = db.collection('profiles');
-                return Q.ninvoke(profiles, 'update', { _id : new ObjectID(profile) }, { $set : { connected : false } });
+                return Q.ninvoke(profiles, 'update', { _id : new ObjectID(profile) }, { $pull : { connections : String(socketId) } });
             })
             .fin(function () { db.close(); });
 };
@@ -54,7 +53,7 @@ exports.disconnected = function (profile) {
 exports.getAllConnected = function (subscription) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
-                var cursor = db.collection('profiles').find({ connected : true, subscriptions : subscription });
+                var cursor = db.collection('profiles').find({ connections : { $not : { $size : 0 } }, 'subscriptions._id' : subscription });
                 return Q.ninvoke(cursor, 'toArray');
             })
             .fin(function () { db.close(); });
@@ -65,7 +64,7 @@ exports.subscribe = function (profile, subscription) {
             .then(function () {
                 var   title = subscription.title
                     , stitle = title.toLowerCase()
-                    , category = subscription.category
+                    , category = subscription.category || 'main'
                     , data = {
                         $push : {
                                 subscriptions : {

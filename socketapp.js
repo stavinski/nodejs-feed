@@ -145,7 +145,7 @@ var handleUserConnected = function (socket) {
 
 var handleUserDisconnected = function (socket) {
     socket.on('disconnect', function () {
-        profiles.disconnected(user._id);
+        profiles.disconnected(user._id, socket.id);
     });
 };
 
@@ -154,11 +154,12 @@ var handleArticlesUpdated = function (sio) {
         profiles.getAllConnected(msg.subscription._id)
             .then(function (results) {
                 results.forEach(function (found) {
-                    var socket = sio.sockets.socket(found.socketId);
-                    
-                    // just in case the socket has closed between the retrieval
-                    if (socket)                    
-                        socket.emit('backend.articlesupdated', { timestamp: new Date() });    
+                    found.connections.forEach(function (socketId) {
+                        var socket = sio.sockets.socket(socketId);
+                                            
+                        if (socket)                    
+                            socket.emit('backend.articlesupdated', { timestamp: new Date() });            
+                        });
                 });                
             })
             .fail(function (err) {
@@ -182,7 +183,6 @@ var handleSubscriptionUpdated = function (socket) {
 };
     
 var start = function (sio) {
-            
     // configure socket.io
     sio.set('log level', config.socketio.loglevel);
     if (config.socketio.minify) sio.enable('browser client minification');

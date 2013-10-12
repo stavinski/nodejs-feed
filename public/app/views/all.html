@@ -11,13 +11,12 @@
             
             <!-- ko if: !loading() && articles().length <= 0 -->
             <div class="alert alert-info alert-block">
-                <i class="icon-frown"></i><span>No articles could be located</span>
+                <span>No articles could be located</span>
             </div>
             <!-- /ko -->
 
             <div class="list-group" data-bind="foreach: articles">
                 <a class="list-group-item" data-bind="attr: { href : '#/article/' + _id }">
-                    <img height="60" width="60" src="" data-src="content/images/loading.gif" class="pull-left lazy" />
                     <h4 class="list-group-item-heading" data-bind="text : title"></h4>
                     <p class="list-group-item-text" data-bind="text: published"></p>
                 </a>

@@ -93,7 +93,7 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
             }        
         },
         categories : ko.computed(function () {
-            subscriptionsContext.categories
+            return subscriptionsContext.categories();
         })
     };
     

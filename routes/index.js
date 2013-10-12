@@ -3,6 +3,7 @@ var   array = require('array-extended')
     , profiles = require('../data/profiles')
     , feed = require('../feed')
     , feedpush = require('../feedpush')
+    , articles = require('../data/articles')
     , opml = require('../opml');
 
 exports.index = function(req, res){
