@@ -11,6 +11,10 @@ a:link {
 -webkit-tap-highlight-color: rgba(229,59,44,0.4);
 }
 
+img {
+    height: auto;
+    max-width: 100%;
+}
 
 header {
 	background:#e74c3c;
@@ -191,6 +195,11 @@ section h3 {
 	border-bottom: .07em solid #e5e5e5;
 	margin-bottom:.5em;
 }
+section h3 a {
+    text-decoration: none;
+    color: #000;    
+}
+
 section p {
 	font-size: 1.25em;
 	line-height: 1.35em;
@@ -280,6 +289,32 @@ input[type="search"]:focus {
 
 .pivot-headers {
     overflow: hidden;
-    white-space:nowrap;
+    white-space: nowrap;
     margin-bottom: 2em !important;
+}
+
+/* Article */
+
+#external {
+    position: absolute;
+    top: 0;
+    left 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    width: 100%;
+    height:100%;
+    z-index: 99999;
+    background: #eee;
+}
+
+#external a {
+    text-decoration: none;
+    float: right;
+}
+
+#external iframe {
+    height: 100%;
+    width: 100%;
+    margin-top: 50px;
 }

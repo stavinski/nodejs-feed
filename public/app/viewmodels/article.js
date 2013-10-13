@@ -14,6 +14,23 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
                     published.year();
         });
         
+        vm.content = ko.computed(function () {
+            console.log(this);
+            var articleContent = $('<body></body>')
+                                    .html(this.content);
+            articleContent.find('a')
+                .each(function () {
+                    var href = $(this).attr('href');
+                    $(this).attr('href','javascript:externalLink("' + href + '");');
+                });
+            
+            return articleContent.html();
+        }, article);
+        
+        vm.showExternal = function () {
+            externalLink(this.article.link);
+        };
+        
         return vm;        
     };
    
@@ -46,18 +63,36 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
             return deferred.promise;
         },
         prev : function () {
-            router.navigate('#/article/' + this.prevArticle._id);
+            if (this.prevArticle != null)
+                router.navigate('#/article/' + this.prevArticle._id);
         },
         next : function () {
-            router.navigate('#/article/' + this.nextArticle._id);
+            if (this.nextArticle != null)
+                router.navigate('#/article/' + this.nextArticle._id);
+        },
+        closeExternal : function () {
+            $('#external iframe').attr('src', '');
+            $('#external').hide();
+            $('#article').show();
         },
         attached : function () {
+            var self = this;
             fastclick.attach(document.body);
+            
+            // allow swipe navigation
+            $(document).hammer().on('swipeleft', function () { self.next(); });
+            $(document).hammer().on('swiperight', function () { self.prev(); });
             
             $(".navicon-button").click(function(){
                 $(this).toggleClass("open");
                 $(".cat-menu").toggleClass("open");
             });
+            
+            window.externalLink = function (src) {
+                $('#external iframe').attr('src', src);
+                $('#external').show();
+                $('#article').hide();
+            };
         }
     };
     

@@ -25,7 +25,11 @@
         
         <!-- ko with : article -->
         <div class="row">
-            <h3 data-bind="text : title"></h3>
+            <h3>
+                <a data-bind="attr: { href : 'javascript:externalLink(\'' + link + '\');' }">
+                    <!-- ko text : title --><!-- /ko --> <i class="icon-external-link"></i>
+                </a>
+            </h3>
             <div class="col-md-1">
                 <div class="date">
                     <i class="icon-calendar"></i> <!-- ko text : publishedFormatted --><!-- /ko -->
@@ -36,5 +40,16 @@
         </div>
         <!-- /ko -->    
     </section>
+    
+    <div id="external">
+        <header>
+            <div class="nav-bar">    
+                <a href="#" data-bind="click : closeExternal">
+                    <i class="icon-remove"></i>
+                </a>
+            </div>
+        </header>
+        <iframe src="" />
+    </div>
     
 </div>
