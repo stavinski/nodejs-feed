@@ -94,7 +94,10 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
         },
         categories : ko.computed(function () {
             return subscriptionsContext.categories();
-        })
+        }),
+        navItems : [
+            { hash : '/#/admin', icon : 'icon-cogs' }   
+        ]
     };
     
     ViewModel.queryEntered = ko.computed(function () {

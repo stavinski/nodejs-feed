@@ -101,36 +101,43 @@ exports.get = function(profile, id) {
             .then(function () {
                 // the handling of starred/read is a bit pants at the mo, hopefully be able to use $elemMatch 
                 // if i can ever get mongodb updated on raspberry pi to >= 2.2
-                var getStarred = function () {
-                    return Q.ninvoke(db.collection('articles'), 'findOne', {_id : new ObjectID(id), starred : new ObjectID(profile) }, { read : 0, starred : 0 }, {w:1});
-                };
                 
-                var getRead = function () {
-                    return Q.ninvoke(db.collection('articles'), 'findOne', {_id : new ObjectID(id), read : new ObjectID(profile) }, { read : 0, starred : 0 }, {w:1});  
-                };
+                var deferred = Q.defer();
+                db.collection('articles').findOne({_id : new ObjectID(id), starred : new ObjectID(profile) }, { read : 0, starred : 0 }, {w:1}, function (err, starred) {
+                    if (err) throw err;
+                    
+                    if (starred != null) {
+                        starred.starred = true;
+                        starred.read = false;
+                        deferred.resolve(starred);                            
+                    }
+                });
+                          
+                db.collection('articles').findOne({_id : new ObjectID(id), read : new ObjectID(profile) }, { read : 0, starred : 0 }, {w:1}, function (err, read) {
+                    if (err) throw err;
+                    
+                    if (read != null) {
+                        read.starred = false;
+                        read.read = true;
+                        deferred.resolve(read);                            
+                    }
+                });
+                db.collection('articles').findOne({_id : new ObjectID(id), starred : { $ne : new ObjectID(profile) }, read : { $ne : new ObjectID(profile) } }, { read : 0, starred : 0 }, {w:1}, function (err, unread) {
+                    if (err) throw err;
+                    
+                    if (unread != null) {
+                        unread.starred = false;
+                        unread.read = false;
+                        deferred.resolve(unread);                            
+                    }
+                });
                 
-                var getUnread = function () {
-                    return Q.ninvoke(db.collection('articles'), 'findOne', {_id : new ObjectID(id), starred : { $ne : new ObjectID(profile) }, read : { $ne : new ObjectID(profile) } }, { read : 0, starred : 0 }, {w:1});  
-                };
-
-                return Q.all([getStarred(), getRead(), getUnread()]);                
+                return deferred.promise;                
             })
-            .spread (function (starred, read, unread) {
-                if (starred != null) {
-                    starred.starred = true;
-                    starred.read = false;
-                    return starred;
-                } else if (read != null) {
-                    read.starred = false;
-                    read.read = true;
-                    return read;
-                } else {
-                    unread.starred = false;
-                    unread.read = false;
-                    return unread;
-                }
-            })
-            .fin(function () { db.close(); });
+            .then(function (result) { 
+                db.close(); 
+                return result; 
+            });
 };
 
 exports.upsert = function (subscription, articles) {

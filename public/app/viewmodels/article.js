@@ -1,4 +1,4 @@
-define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'], function (router, ko, articlesContext, moment, fastclick) {
+define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick', 'Q'], function (router, ko, articlesContext, moment, fastclick, Q) {
     
     var bindArticle = function (article) {
         var   vm = article
@@ -8,21 +8,15 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
             articlesContext.starToggle(this.article._id);
         };
         
-        vm.publishedDay = ko.computed(function () {
-            return published.date();            
-        });
-        
-        vm.publishedMonth = ko.computed(function () {
-            return published.format('MMM').toLowerCase();            
-        });
-        
-        vm.publishedYear = ko.computed(function () {
-            return published.year();
+        vm.publishedFormatted = ko.computed(function () {
+            return published.date() + ' ' +
+                    published.format('MMM').toLowerCase() + ' ' +
+                    published.year();
         });
         
         return vm;        
     };
-    
+   
     var ViewModel = {
         loading : ko.observable(false),
         id : '',
@@ -30,21 +24,26 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
         nextArticle : null,
         prevArticle : null,
         activate : function (id) {
-            var self = this;
+            var   self = this
+                , deferred = Q.defer();
+            
             self.loading(true);
                         
-            return articlesContext.read(id)
-                    .then(bindArticle)
-                    .then(function (article) {
-                        self.loading(false);
-                        self.article = bindArticle(article);
-                        self.nextArticle = articlesContext.next(id);
-                        self.prevArticle = articlesContext.prev(id);
-                    })
-                    .fail(function (err) {
-                        self.loading(false);
-                        // display err
-                    });
+            articlesContext.read(id, function (data) {
+                self.loading(false);
+                
+                if (data.status == 'success') {
+                    self.article = bindArticle(data.article);
+                    self.nextArticle = articlesContext.next(id);
+                    self.prevArticle = articlesContext.prev(id);
+                } else { 
+                    // handle err    
+                }
+                
+                deferred.resolve();
+            });
+            
+            return deferred.promise;
         },
         prev : function () {
             router.navigate('#/article/' + this.prevArticle._id);
@@ -54,6 +53,11 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
         },
         attached : function () {
             fastclick.attach(document.body);
+            
+            $(".navicon-button").click(function(){
+                $(this).toggleClass("open");
+                $(".cat-menu").toggleClass("open");
+            });
         }
     };
     

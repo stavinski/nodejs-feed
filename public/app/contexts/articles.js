@@ -109,9 +109,8 @@ define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping', 'contexts/sub
             subscriptionsContext.subscriptions.subscribe(self._handleAddedSubscription, this, 'add');
             subscriptionsContext.subscriptions.subscribe(self._handleRemovedSubscription, this, 'remove');
         },
-        read : function (id) {
-            var   self = this
-                , deferred = Q.defer();
+        read : function (id, callback) {
+            var self = this;
                         
             var found = this._locateById(id);
             if (found != null) {
@@ -123,16 +122,14 @@ define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping', 'contexts/sub
                         foundArticle.content = data.article.content;
                         self._setCache();
                         self.articles.valueHasMutated();
-                        deferred.resolve(foundArticle);
+                        callback({ status : 'success', article : foundArticle });
                     } else {
-                        deferred.reject(new Error('could not retrieve article'));   
+                        callback({ status : 'error' });
                     }
                 });
             } else {
-                deferred.resolve(null);
+                callback({ status : 'error', reason: 'could not find article' });
             }
-            
-            return deferred.promise;
         },
         starToggle : function (id) {
             var   self = this;

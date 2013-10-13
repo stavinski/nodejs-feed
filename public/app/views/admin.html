@@ -1,82 +1,85 @@
-<section id="admin">
-    <div class="tabs-left">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#subscriptions" data-toggle="tab">subscriptions</a>
-            <li><a href="#caching" data-toggle="tab">caching</a>
-            <li><a href="#forgetme" data-toggle="tab">sign-in</a>
-            <li><a href="#export" data-toggle="tab">export</a>
-        </ul>
-    
-        <div class="tab-content">
-            <div class="tab-pane active" id="subscriptions">
-                <h2>subscriptions</h2>
-                
-                <table data-bind="foreach: subscriptions" class="table table-condensed">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="alert alert-info" data-bind="css : { 'hide' : !confirming() }">
-                                    <h3>Confirm un-subscription</h3>
-                                    <p>Are you sure you want to unsubscribe from <!-- ko text: title --><!-- /ko -->?</p>
-                                    <button class="btn btn-danger" data-bind="click : confirmUnsubscribe">confirm</button>
-                                    <button class="btn" data-bind="click : cancelUnsubscribe">cancel</button>
-                                </div>
-                                <button class="btn btn-warning" data-bind="css : { 'hide' : confirming() }, attr : { 'title' : 'unsubscribe from ' + title }, click : unsubscribe"><i class="icon-remove-sign"></i></button>
-                            </td>
-                            <td>
-                                <div class="btn-group">
-                                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    <!-- ko text: currentCategory --> <!-- /ko --> <span class="caret"></span>
-                                  </button>
-                                  <ul class="dropdown-menu" role="menu">
-                                    <!-- ko foreach : $root.categories -->   
-                                    <li data-bind="if : $data != $parent.currentCategory()"><a href="#" data-bind="text : $data, click : $parent.changeCategory.bind($parent)"></a></li>
-                                    <!-- /ko -->
-                                    <li class="divider"></li>  
-                                    <li>
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <input type="text" class="input-sm newCategory" data-bind="value : newCategory, valueUpdate : 'keyup'" placeholder="new category" />
-                                                <button class="btn btn-primary btn-sm" data-bind="enable : newCategoryValid, click : changeCategory"><i class="icon-plus"></i></button>
-                                            </span>
-                                        </div>
-                                    </li>  
-                                  </ul>
-                                </div>
-                            </td>
-                            <th data-bind="text: title"></th>
-                            <td data-bind="text: xmlurl" class="hidden-phone"></td>
-                        </tr>
-                    </tbody>
-                </table>            
-            </div>
-            
-            <div class="tab-pane" id="caching">
-                <h2>caching</h2>
-                
-                <button class="btn btn-primary" data-bind="click : clearAllCache">clear all</button>
-                                
-            </div>
-            
-            <div class="tab-pane" id="forgetme">
-                <h2>sign-in</h2>
-                
-                <div class="alert alert-info">
-                    <p>Forget my sign-in on this device?</p>
+<div>
+    <!-- ko navbar : { items: navItems } --><!-- /ko -->
+    <section id="admin">
+        <div class="tabs-left">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#subscriptions" data-toggle="tab">subscriptions</a>
+                <li><a href="#caching" data-toggle="tab">caching</a>
+                <li><a href="#forgetme" data-toggle="tab">sign-in</a>
+                <li><a href="#export" data-toggle="tab">export</a>
+            </ul>
+        
+            <div class="tab-content">
+                <div class="tab-pane active" id="subscriptions">
+                    <h2>subscriptions</h2>
                     
-                    <a href="/signout" class="btn btn-primary">forget me</a>
+                    <table data-bind="foreach: subscriptions" class="table table-condensed">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="alert alert-info" data-bind="css : { 'hide' : !confirming() }">
+                                        <h3>Confirm un-subscription</h3>
+                                        <p>Are you sure you want to unsubscribe from <!-- ko text: title --><!-- /ko -->?</p>
+                                        <button class="btn btn-danger" data-bind="click : confirmUnsubscribe">confirm</button>
+                                        <button class="btn" data-bind="click : cancelUnsubscribe">cancel</button>
+                                    </div>
+                                    <button class="btn btn-warning" data-bind="css : { 'hide' : confirming() }, attr : { 'title' : 'unsubscribe from ' + title }, click : unsubscribe"><i class="icon-remove-sign"></i></button>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        <!-- ko text: currentCategory --> <!-- /ko --> <span class="caret"></span>
+                                      </button>
+                                      <ul class="dropdown-menu" role="menu">
+                                        <!-- ko foreach : $root.categories -->   
+                                        <li data-bind="if : $data != $parent.currentCategory()"><a href="#" data-bind="text : $data, click : $parent.changeCategory.bind($parent)"></a></li>
+                                        <!-- /ko -->
+                                        <li class="divider"></li>  
+                                        <li>
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <input type="text" class="input-sm newCategory" data-bind="value : newCategory, valueUpdate : 'keyup'" placeholder="new category" />
+                                                    <button class="btn btn-primary btn-sm" data-bind="enable : newCategoryValid, click : changeCategory"><i class="icon-plus"></i></button>
+                                                </span>
+                                            </div>
+                                        </li>  
+                                      </ul>
+                                    </div>
+                                </td>
+                                <th data-bind="text: title"></th>
+                                <td data-bind="text: xmlurl" class="hidden-phone"></td>
+                            </tr>
+                        </tbody>
+                    </table>            
                 </div>
-            </div>
-            
-            <div class="tab-pane" id="export">
-                <h2>export</h2>
                 
-                <div class="alert alert-info">
-                    <p>I'm taking my subscriptions and I'm outta here!</p>
+                <div class="tab-pane" id="caching">
+                    <h2>caching</h2>
+                    
+                    <button class="btn btn-primary" data-bind="click : clearAllCache">clear all</button>
+                                    
+                </div>
                 
-                    <a class="btn btn-primary" href="export/" target="_blank">export</a>
+                <div class="tab-pane" id="forgetme">
+                    <h2>sign-in</h2>
+                    
+                    <div class="alert alert-info">
+                        <p>Forget my sign-in on this device?</p>
+                        
+                        <a href="/signout" class="btn btn-primary">forget me</a>
+                    </div>
+                </div>
+                
+                <div class="tab-pane" id="export">
+                    <h2>export</h2>
+                    
+                    <div class="alert alert-info">
+                        <p>I'm taking my subscriptions and I'm outta here!</p>
+                    
+                        <a class="btn btn-primary" href="export/" target="_blank">export</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>

@@ -77,7 +77,10 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
                 evt.stopPropagation();
             });
             fastclick.attach(document.body);
-        }
+        },
+        navItems : [
+            { hash : '/#/add', icon : 'icon-plus' }    
+        ]
     };
     
     return ViewModel;

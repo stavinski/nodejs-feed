@@ -1,28 +1,40 @@
-<section id="article">
-    <!-- ko if: loading -->
-    <div class="text-center">
-        <img src="content/images/loading.gif" alt="loading article..." />
-        <p>loading article...</p>
-    </div>
-    <!-- /ko -->
-    <div class="page-header">
-        <h4>
-            <a data-bind="if : prevArticle != null, click: prev" style="text-decoration: none"><i class="icon-circle-arrow-left icon-2x"></i></a>
-            <!-- ko text : article.title --> <!-- /ko -->
-            <a href="#" data-bind="click: article.starToggle" style="text-decoration: none"><i data-bind="css : { 'icon-star' : article.starred(), 'icon-star-empty' : !article.starred() }" class="icon-2x"></i></a>
-            <a data-bind="if : nextArticle != null, click : next" style="text-decoration: none"><i class="icon-circle-arrow-right icon-2x"></i></a>
-        </h4>
-    </div>
+<div>
     
-    <div class="row">
-        <div class="col-md-1">
-            <h3>
-                <!-- ko text: article.publishedDay --><!-- /ko --><br/>
-                <!-- ko text: article.publishedMonth --><!-- /ko --><br/>
-                <!-- ko text: article.publishedYear --><!-- /ko --><br/>
-            </h3>
+    <header>
+        <h1 class="Logo">pushfeed</h1>
+        <div class="nav-bar">
+            <!-- ko if: !loading() -->
+            <a data-bind="if : prevArticle != null, click: prev">
+                <i class="icon-chevron-left"></i>
+            </a>
+            <a data-bind="click: article.starToggle">
+                <i data-bind="css : { 'icon-star' : article.starred(), 'icon-star-empty' : !article.starred() }"></i>
+            </a>
+            <a data-bind="if : nextArticle != null, click: next">
+                <i class="icon-chevron-right"></i>
+            </a>
+            <!-- /ko -->
         </div>
-        <article class="col-md-10" data-bind="html : article.content">
-        </article>
-    </div>
-</section>
+    </header>
+    <section id="article">
+        <!-- ko if: loading() -->
+        <div class="text-center">
+            <p>loading article...</p>
+        </div>
+        <!-- /ko -->
+        
+        <!-- ko with : article -->
+        <div class="row">
+            <h3 data-bind="text : title"></h3>
+            <div class="col-md-1">
+                <div class="date">
+                    <i class="icon-calendar"></i> <!-- ko text : publishedFormatted --><!-- /ko -->
+                </div>
+            </div>
+            <article class="col-md-10" data-bind="html : content">
+            </article>
+        </div>
+        <!-- /ko -->    
+    </section>
+    
+</div>

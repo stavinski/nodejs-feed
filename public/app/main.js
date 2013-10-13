@@ -55,7 +55,10 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/rout
         
         app.configurePlugins({
             router: true,
-            dialog: true
+            dialog: true,
+            widget: {
+                kinds : ['navbar']    
+            }
         });
         
         app.start().then(function() {

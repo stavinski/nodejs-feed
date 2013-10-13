@@ -5,10 +5,9 @@ html
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-status-bar-style', content='black')
     link(rel='apple-touch-icon', href='/favicon.ico')
+    link(href='http://fonts.googleapis.com/css?family=Ubuntu:400,500,700', rel='stylesheet', type='text/css')
     
     !=renderStyles()
-    style(type='text/css').
-        body { padding-top: 70px; }
     title= title
   body
     block content
