@@ -9,6 +9,7 @@ requirejs.config({
         'knockoutbetterobservablearray' : '../scripts/knockout/knockout.betterobservablearray',
         'bootstrap': '../scripts/bootstrap/js/bootstrap.min',
         'jquery': '../scripts/jquery/jquery-1.9.1.min',
+        'jquery.ui' : '../scripts/jquery/jquery-ui-1.9.2.custom.min',
         'amplify' : '../scripts/amplify',
         'Q' : '../scripts/q',
         'moment' : '../scripts/moment',
@@ -16,7 +17,10 @@ requirejs.config({
         'toastr' : '../scripts/toastr',
         'moment' : '../scripts/moment',
         'fastclick' : '../scripts/fastclick',
-        'jquery.lazy' : '../scripts/jquery/jquery.lazy.min'
+        'jquery.lazy' : '../scripts/jquery/jquery.lazy.min',
+        'jquery.pivot' : '../scripts/jquery/jquery.pivot',
+        'jquery.hammer' : '../scripts/jquery/jquery.hammer.min',
+        'hammer' : '../scripts/hammer.min'
     },
     shim: {
         'bootstrap': {
@@ -35,6 +39,15 @@ requirejs.config({
         },
         'jquery.lazy' : {
             deps : ['jquery']    
+        },
+        'jquery.pivot' : {
+            deps : ['jquery', 'jquery.ui', 'jquery.hammer']    
+        },
+        'jquery.ui' : {
+            deps : ['jquery']    
+        },
+        'jquery.hammer' : {
+            deps : ['jquery', 'hammer']
         }
     }
 });
@@ -43,6 +56,7 @@ requirejs.config({
 require(['bootstrap'], function() {});
 require(['knockout'], function(ko){ window.ko = ko; });
 require(['knockoutbetterobservablearray'], function() {});
+require(['jquery.pivot'], function() {});
 
 define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/router'],
     function(app, viewLocator, system, router) {

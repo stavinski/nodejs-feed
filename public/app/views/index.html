@@ -1,0 +1,20 @@
+<div>
+    <!-- ko navbar : { items: navItems } --><!-- /ko -->
+    
+    <div class="ui-pivot">
+        <div class="ui-pivot-items">
+            <div class="ui-pivot-item current">
+                <h2>summary</h2>
+                <!-- ko compose : 'viewmodels/summary' --><!-- /ko -->                                
+            </div>
+            <div class="ui-pivot-item">
+                <h2>all</h2>    
+                <!-- ko compose : 'viewmodels/all' --><!-- /ko -->
+            </div>
+            <div class="ui-pivot-item">
+                <h2>starred</h2>
+                <!-- ko compose : 'viewmodels/starred' --><!-- /ko -->
+            </div>
+        </div>
+    </div>
+</div>

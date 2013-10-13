@@ -14,12 +14,11 @@ a:link {
 
 header {
 	background:#e74c3c;
-	
 	-webkit-box-shadow: 0 1px 3px rgba(34,25,25,0.2);
 	-ms-box-shadow: 0 1px 3px rgba(34,25,25,0.2);
 	box-shadow: 0 1px 3px rgba(34,25,25,0.2);
 	border-bottom: 1px solid #bfbfbf;
-	padding-left: 10px;
+    padding-left: 10px;
 	position: relative;
 	height: 49px;
 	z-index: 50;
@@ -269,4 +268,18 @@ input[type="search"]:focus {
 	border-color: rgba(82,168,236,0.8);
 	outline: 0;
 	outline: thin dotted \9;
+}
+
+/* Pivots */
+
+.ui-pivot .ui-pivot-headers { white-space: nowrap; height: 60px; display: block; clear: both; }
+.ui-pivot .ui-pivot-headers .ui-pivot-header { font-size: 250%; font-weight: normal; display: inline-block; vertical-align: top; padding: 0; cursor: pointer; margin: 0 5px; }
+.ui-pivot .ui-pivot-headers .ui-pivot-header.current { }
+.ui-pivot .ui-pivot-items { position: relative; }
+.ui-pivot .ui-pivot-items .ui-pivot-item { position:absolute; top:0; left:0; padding:10px;}
+
+.pivot-headers {
+    overflow: hidden;
+    white-space:nowrap;
+    margin-bottom: 2em !important;
 }

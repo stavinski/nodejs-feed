@@ -1,60 +1,63 @@
 <div>
     <!-- ko navbar : { items: navItems } --><!-- /ko -->
     <section id="add">
-        <form data-bind="submit: search" class="form-inline">
-            <div class="row">
+        <h2>add</h2>
+                
+        <div class="row">
+            <form class="form-inline" data-bind="submit: search">
                 <div class="input-group col-lg-6">
                     <input type="search" class="form-control" data-bind="value: query, valueUpdate: 'keyup'" placeholder="enter query">
                     <span class="input-group-btn">
                         <!-- ko if: !loading() -->
                         <button class="btn btn-primary" data-bind="enable : queryEntered"><i class="icon-search"></i> search</button>
-                        <button type="reset" class="btn btn-warning" data-bind="click : deactivate"><i class="icon-remove"></i> reset</button>
                         <!-- /ko -->
                         <!-- ko if: loading() -->
                         <button class="btn btn-primary" disabled="disabled"><i class="icon-spinner icon-spin"></i> searching</button>
                         <!-- /ko -->
                     </span>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+        
             
         <!-- ko if: results().length > 0 -->
         
         <h3>Results for '<!-- ko text: resultQuery --><!-- /ko -->'</h3>
         
-        <div class="list-group" data-bind="foreach: results">
-            <h4 data-bind="html: title"></h4>
-            <img height="16px" width="16px" data-bind="attr : { src : 'https://www.google.com/s2/favicons?domain=' + domain }" />
-            <em data-bind="text: url"></em>
-            <p data-bind="html : contentSnippet"></p>
-            <!-- ko if: !subscribing() -->
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-bind="enable: canSubscribe" data-toggle="dropdown">
-                subscribe <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <!-- ko foreach : $root.categories -->  
-                <li><a href="#" data-bind="text : $data, click : $parent.subscribe.bind($parent)"></a></li>
-                <!-- /ko -->
-                  
-                <li class="divider"></li>
-                <li>
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <input type="text" class="input-sm newCategory" data-bind="value : newCategory, valueUpdate : 'keyup'" placeholder="new category" />
-                            <button class="btn btn-primary btn-sm" data-bind="enable : newCategoryValid, click : subscribe"><i class="icon-plus"></i></button>
-                        </span>
+        <ul class="media-list" data-bind="foreach: results">
+            <li class="media">
+                <div class="media-body">
+                    <h4 class="media-heading" data-bind="html: title"></h4>        
+                    <p data-bind="html : contentSnippet"></p>
+                    <!-- ko if: !subscribing() -->
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-bind="enable: canSubscribe" data-toggle="dropdown">
+                        <i class="icon-rss"></i> subscribe <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <!-- ko foreach : $root.categories -->  
+                        <li><a href="#" data-bind="text : $data, click : $parent.subscribe.bind($parent)"></a></li>
+                        <!-- /ko -->
+                          
+                        <li class="divider"></li>
+                        <li>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <input type="text" class="input-sm newCategory" data-bind="value : newCategory, valueUpdate : 'keyup'" placeholder="new category" />
+                                    <button class="btn btn-primary btn-sm" data-bind="enable : newCategoryValid, click : subscribe"><i class="icon-plus"></i></button>
+                                </span>
+                            </div>
+                        </li>      
+                      </ul>
                     </div>
-                </li>      
-              </ul>
-            </div>
-            <!-- /ko -->
-            
-            <!-- ko if: subscribing() -->
-            <i class="icon-spinner icon-spin"></i> subscribing
-            <!-- /ko -->
-        </div>
-        
+                    <!-- /ko -->
+                    <!-- ko if: subscribing() -->
+                    <i class="icon-spinner icon-spin"></i> subscribing
+                    <!-- /ko -->
+                </div>
+            </li>
+        </ul>
+              
         <p>Did not find the result you were looking for? Try to narrow down the search by including more keywords you can also use the following expressions:
         </p>
             

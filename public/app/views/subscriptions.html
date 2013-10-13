@@ -1,4 +1,4 @@
-<section id="subscriptions">
+<div id="subscriptions">
     <div id="accordion" data-bind="foreach: categories">
         <h3>
             <a class="accordion-toggle" data-toggle="collapse" data-bind="click : toggleCollapse, attr: { href: '#' + id }">
@@ -9,7 +9,7 @@
         </h3>
         <div data-bind="attr : { id : id }" class="panel-collapse collapse">
            <ul class="nav nav-stacked nav-pills" data-bind="foreach: subscriptions">
-                <li data-bind="css : { active : active }">
+                <li>
                     <a href="#" data-bind="click: $root.makeActive"><!-- ko text: title --> <!-- /ko --> 
                         <span class="badge pull-right" data-bind="text : unread" ></span>
                     </a>    
@@ -17,4 +17,4 @@
             </ul>
         </div>
     </div>
-</section>
+</div>

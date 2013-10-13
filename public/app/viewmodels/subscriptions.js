@@ -47,10 +47,7 @@ define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'contexts
                             });
             return (results.length > 0) ? results.length : '';
         });
-        
-        if (router.activeItem().subscription)        
-            model.active = ko.observable(router.activeItem().subscription() == model._id);
-                        
+                                
         return model;
     };
     

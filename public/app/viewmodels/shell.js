@@ -3,7 +3,7 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
     var mapRoutes = function () {
         var instance = router
                          .map([
-                                { route : '', title: 'summary', moduleId : 'viewmodels/summary', hash : '/#/', nav: true, auth : true },
+                                { route : '', title: 'summary', moduleId : 'viewmodels/index', hash : '/#/', nav: true, auth : true },
                                 { route : 'signin', title: 'sign-in', moduleId : 'viewmodels/signin', hash : '/#/signin' },
                                 { route : 'all(/:subscription)', title: 'all', moduleId : 'viewmodels/all', hash: '/#/all', nav : true, auth : true },
                                 { route : 'starred(/:subscription)', title: 'starred', moduleId : 'viewmodels/starred', hash : '/#/starred', nav : true, auth : true },
