@@ -7,10 +7,16 @@ define(['fastclick'], function (fastclick) {
         attached : function () {
             fastclick.attach(document.body);
             $('.ui-pivot').metroPivot();
+            
+            $(".navicon-button").click(function(){
+                alert('asdasd');
+                $(this).toggleClass("open");
+                $(".cat-menu").toggleClass("open");
+            });
         },
         navItems : [
-            { hash : '/#/add', icon : 'icon-plus' },
-            { hash : '/#/admin', icon : 'icon-cogs' }
+            { hash : '/#/add', icon : 'icon-plus', text: 'add' },
+            { hash : '/#/admin', icon : 'icon-cog', text: 'settings' }
         ]
     };
     

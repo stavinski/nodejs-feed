@@ -27,23 +27,19 @@ header {
 	height: 49px;
 	z-index: 50;
 }
-
-header h1.Logo {
-	background-image: url('../images/mobile-logo.png');
-	background-repeat: no-repeat;
-	background-size: contain;
-	width: 43px;
-	height: 30px;
-	float: left;
-	text-indent: -9999px;
-	font-size: 2px;
-	position:relative;
-	top:10px;
-	left:10px;
+.nav-bar #home-icon .mobile {
+    display: none;
 }
-.nav-bar {
+@media (max-width: 480px) {
+    .nav-bar #home-icon .mobile {
+        display: inline;
+    }
+    .nav-bar #home-icon .full {
+        display: none;
+    }
+}
+.nav-bar > div {
 	float: right;
-	width:270px;
 	text-align: right;
 }
 .nav-bar a {
@@ -59,6 +55,23 @@ header h1.Logo {
 }
 .nav-bar a i {
 	font-size: 32px;
+}
+
+.nav-bar a span {
+    text-align:center;
+    display: block;
+}
+
+@media (max-width: 480px) {
+    .nav-bar a span {
+        display: none;
+    }
+}
+
+@media (min-width: 480px) {
+    header {
+        height: 65px;   
+    }
 }
 
 /* Navicon */
@@ -86,7 +99,7 @@ header h1.Logo {
 
 .navicon {
   position: relative;
-  width: 2.5em;
+  width: 2.2em;
   height: .3125rem;
   background: #e7e6dd;
   transition: 0.5s;
@@ -95,7 +108,7 @@ header h1.Logo {
     display: block;
     content: "";
     height: .3125rem;
-    width: 2.5rem;
+    width: 2.2rem;
     background: #e7e6dd;
     position: absolute;
     z-index: -1;
@@ -279,6 +292,27 @@ input[type="search"]:focus {
 	outline: thin dotted \9;
 }
 
+/* Signin */
+
+#signin {
+    text-align: center;
+}
+#signin h2 {
+    margin: 1em 0;   
+}
+#signin .signin-row {
+    white-space: nowrap;
+}
+#signin .signin-row img {
+    margin: 3px;
+}
+@media (max-width: 480px) {
+    #signin .signin-row img {
+        width: 50%;
+    }
+}
+
+
 /* Pivots */
 
 .ui-pivot .ui-pivot-headers { white-space: nowrap; height: 60px; display: block; clear: both; }
@@ -287,10 +321,10 @@ input[type="search"]:focus {
 .ui-pivot .ui-pivot-items { position: relative; }
 .ui-pivot .ui-pivot-items .ui-pivot-item { position:absolute; top:0; left:0; padding:10px;}
 
-.pivot-headers {
+.ui-pivot-headers {
     overflow: hidden;
+    overflow-x: hidden;
     white-space: nowrap;
-    margin-bottom: 2em !important;
 }
 
 /* Article */

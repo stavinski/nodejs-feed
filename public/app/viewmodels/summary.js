@@ -47,11 +47,7 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'fastclick'],
         }),
         attached : function () {
             fastclick.attach(document.body);
-        },
-        navItems : [
-            { hash : '/#/add', icon : 'icon-plus' },
-            { hash : '/#/admin', icon : 'icon-cogs' }
-        ]
+        }
     };
     
     return ViewModel;

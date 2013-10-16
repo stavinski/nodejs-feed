@@ -79,7 +79,7 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
             fastclick.attach(document.body);
         },
         navItems : [
-            { hash : '/#/add', icon : 'icon-plus' }    
+            { hash : '/#/add', icon : 'icon-plus', text: 'add' }    
         ]
     };
     

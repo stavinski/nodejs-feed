@@ -96,7 +96,7 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
             return subscriptionsContext.categories();
         }),
         navItems : [
-            { hash : '/#/admin', icon : 'icon-cogs' }   
+            { hash : '/#/admin', icon : 'icon-cogs', text: 'settings' }   
         ]
     };
     
