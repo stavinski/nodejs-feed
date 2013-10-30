@@ -20,12 +20,13 @@ var getUnread = function (db, profile, subscriptions, since) {
                     read : { $ne : new ObjectID(profile) },
                     starred : { $ne : new ObjectID(profile) }
                };
-    var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 80 });
+    var cursor = db.collection('articles').find(filter, { read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 80 });
     return Q.ninvoke(cursor, 'toArray')
             .then(function (articles) {
                 return articles.map(function (article) {
                     article.read = false;
                     article.starred = false;
+                    article.summary = article.content.substring(0, 100) + '...';
                     return article;
                 });  
             });
@@ -38,12 +39,13 @@ var getRead = function (db, profile, subscriptions, since) {
                     read : new ObjectID(profile),
                     starred : { $ne : new ObjectID(profile) }
                };
-    var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 50 });
+    var cursor = db.collection('articles').find(filter, { read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 50 });
     return Q.ninvoke(cursor, 'toArray')
             .then(function (articles) {
                 return articles.map(function (article) {
                     article.read = true;
                     article.starred = false;
+                    article.summary = article.content.substring(0, 100) + '...';
                     return article;
                 });  
             });
@@ -56,12 +58,13 @@ var getStarred = function (db, profile, subscriptions, since) {
                     read : { $ne : new ObjectID(profile) },
                     starred : new ObjectID(profile)
                };
-    var cursor = db.collection('articles').find(filter, { content : 0, read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 80 });
+    var cursor = db.collection('articles').find(filter, { read : 0, starred : 0 }, { sort : [['published', -1]], w:1, limit : 80 });
     return Q.ninvoke(cursor, 'toArray')
             .then(function (articles) {
                 return articles.map(function (article) {
                     article.read = false;
                     article.starred = true;
+                    article.summary = article.content.substring(0, 100) + '...';
                     return article;
                 });  
             });

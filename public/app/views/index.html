@@ -1,29 +1,45 @@
-<div>
+<div id="index">
     <!-- ko navbar : { items: navItems } --><!-- /ko -->
     
-    <div class="cat-menu">
-        <ul>
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
-        </ul>
+    <div class="corner-loading" data-bind="css : { 'animate' : loading }" title="loading...">
     </div>
-    
-    <div class="ui-pivot">
-        <div class="ui-pivot-items">
-            <div class="ui-pivot-item current">
-                <h2>summary</h2>
-                <!-- ko compose : 'viewmodels/summary' --><!-- /ko -->                                
+    <div class="main">
+        <div id="filter-container" data-bind="compose: { model: 'viewmodels/filters', activate: true }" >
+        </div>
+        
+        <div id="articles-container">
+            <!-- ko if: !loading() && articles().length <= 0 -->
+            <div class="alert alert-info alert-block">
+                <span>No articles could be located</span>
             </div>
-            <div class="ui-pivot-item">
-                <h2>all</h2>    
-                <!-- ko compose : 'viewmodels/all' --><!-- /ko -->
+            <!-- /ko -->
+            
+            <!-- ko foreach: articles -->
+            <div class="article">
+                <div class="details" data-bind="click: $root.view, css : { 'hide' : $data._id == $root.activeArticle() }">
+                    <h3 data-bind="text : title"></h3>
+                    <div>
+                        <i class="icon icon-calendar"></i>
+                        <span data-bind="text: published"></span>
+                        <span data-bind="text: parent"></span>
+                    </div>
+                </div>
+                <div class="actions" data-bind="css : { 'show' : $data._id == $root.activeArticle() }">
+                    <div class="star">
+                        <i class="icon-2x" data-bind="css : { 'icon-star' : starred(), 'icon-star-empty' : !starred() }"></i>
+                    </div>
+                    <div class="read">
+                        <i class="icon-2x" data-bind="css : { 'icon-check' : read(), 'icon-check-empty' : !read() }"></i>
+                    </div>
+                    <div class="facebook">
+                        <i class="icon-2x icon-facebook"></i>
+                    </div>
+                    <div class="twitter">
+                        <i class="icon-2x icon-twitter"></i>
+                    </div>
+                </div>
             </div>
-            <div class="ui-pivot-item">
-                <h2>starred</h2>
-                <!-- ko compose : 'viewmodels/starred' --><!-- /ko -->
-            </div>
+            <!-- /ko -->
         </div>
     </div>
 </div>

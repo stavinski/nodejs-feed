@@ -15,7 +15,6 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
         });
         
         vm.content = ko.computed(function () {
-            console.log(this);
             var articleContent = $('<body></body>')
                                     .html(this.content);
             articleContent.find('a')
@@ -85,7 +84,7 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
             
             $(".navicon-button").click(function(){
                 $(this).toggleClass("open");
-                $(".cat-menu").toggleClass("open");
+                $("#filter").toggleClass("open");
             });
             
             window.externalLink = function (src) {

@@ -1,17 +1,19 @@
-<div id="subscriptions">
+<div id="filter">
     <div id="accordion" data-bind="foreach: categories">
         <h3>
             <a class="accordion-toggle" data-toggle="collapse" data-bind="click : toggleCollapse, attr: { href: '#' + id }">
-                <i class="icon" data-bind="css : { 'icon-chevron-sign-right' : collapsed(), 'icon-chevron-sign-down' : !collapsed() }"></i>
+                <i class="icon" data-bind="css : { 'icon-chevron-right' : collapsed(), 'icon-chevron-down' : !collapsed() }"></i>
             </a>
-            <span data-bind="text : title"></span>
-            <span class="badge pull-right" data-bind="text : unread" ></span>
+            <a href="#">
+                <span data-bind="text : title"></span>
+            </a>
+            <small data-bind="text : unread" ></small>
         </h3>
         <div data-bind="attr : { id : id }" class="panel-collapse collapse">
            <ul class="nav nav-stacked nav-pills" data-bind="foreach: subscriptions">
                 <li>
                     <a href="#" data-bind="click: $root.makeActive"><!-- ko text: title --> <!-- /ko --> 
-                        <span class="badge pull-right" data-bind="text : unread" ></span>
+                        <small data-bind="text : unread" ></small>
                     </a>    
                 </li>
             </ul>

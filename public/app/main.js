@@ -18,9 +18,9 @@ requirejs.config({
         'moment' : '../scripts/moment',
         'fastclick' : '../scripts/fastclick',
         'jquery.lazy' : '../scripts/jquery/jquery.lazy.min',
-        'jquery.pivot' : '../scripts/jquery/jquery.pivot',
         'jquery.hammer' : '../scripts/jquery/jquery.hammer.min',
-        'hammer' : '../scripts/hammer.min'
+        'hammer' : '../scripts/hammer.min',
+        'stashy' : '../scripts/stashy'
     },
     shim: {
         'bootstrap': {
@@ -40,15 +40,16 @@ requirejs.config({
         'jquery.lazy' : {
             deps : ['jquery']    
         },
-        'jquery.pivot' : {
-            deps : ['jquery', 'jquery.ui', 'jquery.hammer']    
-        },
         'jquery.ui' : {
             deps : ['jquery']    
         },
         'jquery.hammer' : {
             deps : ['jquery', 'hammer']
+        },
+        'stashy' : {
+            deps: ['jquery.hammer']   
         }
+        
     }
 });
 
@@ -56,7 +57,7 @@ requirejs.config({
 require(['bootstrap'], function() {});
 require(['knockout'], function(ko){ window.ko = ko; });
 require(['knockoutbetterobservablearray'], function() {});
-require(['jquery.pivot'], function() {});
+require(['stashy'], function() {});
 
 define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/router'],
     function(app, viewLocator, system, router) {

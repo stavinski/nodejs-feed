@@ -1,23 +1,19 @@
 <div>
-    
     <header>
         <div class="nav-bar">
             <a href="/#/" id="home-icon">
-                <img height="30" width="43" src="/content/images/mobile-logo.png" alt="pushfeed" />
+                <img height="30" width="43" src="/content/images/mobile-logo-reverse.png" alt="pushfeed" />
             </a>
             <div>
                 <!-- ko if: !loading() -->
                 <a data-bind="if : prevArticle != null, click: prev">
                     <i class="icon-chevron-left"></i>
-                    <span>previous</span>
                 </a>
                 <a data-bind="click: article.starToggle">
                     <i data-bind="css : { 'icon-star' : article.starred(), 'icon-star-empty' : !article.starred() }"></i>
-                    <span data-bind="text: (article.starred()) ? 'star' : 'unstar'"></span>
                 </a>
                 <a data-bind="if : nextArticle != null, click: next">
                     <i class="icon-chevron-right"></i>
-                    <span>next</span>
                 </a>
                 <a class="navicon-button x">
                     <div class="navicon"></div>
@@ -27,50 +23,41 @@
         </div>
     </header>
     
-    <div class="cat-menu">
-        <ul>
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
-        </ul>
+    <div class="corner-loading" data-bind="css : { 'animate' : loading }" title="loading...">
     </div>
     
-    <section id="article">
-        <!-- ko if: loading() -->
-        <div class="text-center">
-            <p>loading article...</p>
-        </div>
-        <!-- /ko -->
-        
-        <!-- ko if: !loading() -->
-        <div class="row" data-bind="with : article">
-            <h3>
-                <a data-bind="attr: { href : 'javascript:externalLink(\'' + link + '\');' }">
-                    <!-- ko text : title --><!-- /ko --> <i class="icon-external-link"></i>
-                </a>
-            </h3>
-            <div class="col-md-1">
-                <div class="date">
-                    <i class="icon-calendar"></i> <!-- ko text : publishedFormatted --><!-- /ko -->
+    <div class="main">
+        <section id="article">
+                        
+            <!-- ko if: !loading() -->
+            <div class="row" data-bind="with : article">
+                <h3>
+                    <a data-bind="attr: { href : 'javascript:externalLink(\'' + link + '\');' }">
+                        <!-- ko text : title --><!-- /ko --> <i class="icon-external-link"></i>
+                    </a>
+                </h3>
+                <div class="col-md-1">
+                    <div class="date">
+                        <i class="icon-calendar"></i> <!-- ko text : publishedFormatted --><!-- /ko -->
+                    </div>
                 </div>
+                <article class="col-md-10" data-bind="html : content">
+                </article>
             </div>
-            <article class="col-md-10" data-bind="html : content">
-            </article>
-        </div>
-        <!-- /ko -->
-    </section>
+            <!-- /ko -->
+        </section>
+        
+    </div>
     
     <div id="external">
         <header>
             <div class="nav-bar">    
                 <a href="#" data-bind="click : closeExternal">
                     <i class="icon-remove"></i>
-                    <span>close</span>
                 </a>
             </div>
         </header>
         <iframe src="" />
     </div>
-    
+            
 </div>

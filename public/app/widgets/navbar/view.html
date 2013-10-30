@@ -2,13 +2,11 @@
     <div class="nav-bar">
         <a href="/#/" id="home-icon">
             <img height="30" width="43" src="/content/images/mobile-logo.png" alt="pushfeed" class="mobile" />
-            <img height="60" width="338" src="/content/images/full-logo.png" alt="pushfeed" class="full" />
         </a>
         <div>
             <!-- ko foreach: settings.items -->
             <a data-bind="attr: { href : hash }">
                 <i class="icon" data-bind="css : icon" ></i>
-                <span data-bind="text: text"></span>
             </a>
             <!-- /ko -->
             <a class="navicon-button x">

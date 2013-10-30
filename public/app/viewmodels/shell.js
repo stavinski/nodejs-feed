@@ -5,8 +5,6 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
                          .map([
                                 { route : '', title: 'summary', moduleId : 'viewmodels/index', hash : '/#/', nav: true, auth : true },
                                 { route : 'signin', title: 'sign-in', moduleId : 'viewmodels/signin', hash : '/#/signin' },
-                                { route : 'all(/:subscription)', title: 'all', moduleId : 'viewmodels/all', hash: '/#/all', nav : true, auth : true },
-                                { route : 'starred(/:subscription)', title: 'starred', moduleId : 'viewmodels/starred', hash : '/#/starred', nav : true, auth : true },
                                 { route : 'article/:id', moduleId : 'viewmodels/article', title : 'article', auth : true },
                                 { route : 'add', moduleId : 'viewmodels/add', title : 'add', hash: '/#/add', nav : true, auth : true },
                                 { route : 'admin', moduleId : 'viewmodels/admin', title : 'admin', hash: '/#/admin', nav : true, auth : true },
