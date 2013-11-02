@@ -1,4 +1,4 @@
-define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'connection', 'knockout', 'logger', 'cache', 'contexts/articles', 'contexts/user', 'contexts/subscriptions', 'fastclick'], function (router, dialog, app, system, amplify, connection, ko, logger, cache, articlesContext, userContext, subscriptionsContext, fastclick) {
+define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'connection', 'knockout', 'cache', 'contexts/articles', 'contexts/user', 'contexts/subscriptions', 'fastclick'], function (router, dialog, app, system, amplify, connection, ko, cache, articlesContext, userContext, subscriptionsContext, fastclick) {
     
     var mapRoutes = function () {
         var instance = router
@@ -40,7 +40,7 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
                         return;
                     }
                     
-                    logger.logError('could not connect to backend', reason, system.getModuleId(this), true);
+                    //logger.logError('could not connect to backend', reason, system.getModuleId(this), true);
                 })
                 .then(function () { 
                     self.connected(true);

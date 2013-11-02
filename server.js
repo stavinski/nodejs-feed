@@ -46,7 +46,7 @@ bundleUp(app, __dirname + '/assets', {
   staticRoot: __dirname + '/public/',
   staticUrlRoot:'/',
   bundle: false,
-  minifyCss: true
+  minifyCss: false
 });
 
 // development only

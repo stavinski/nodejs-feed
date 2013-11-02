@@ -1,9 +1,11 @@
 <div id="index">
     <!-- ko navbar : { items: navItems } --><!-- /ko -->
-    
+             
     <div class="corner-loading" data-bind="css : { 'animate' : loading }" title="loading...">
     </div>
     <div class="main">
+        <div class="current-filter">&raquo; charlie brookers - guardian</div>
+        
         <div id="filter-container" data-bind="compose: { model: 'viewmodels/filters', activate: true }" >
         </div>
         

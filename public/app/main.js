@@ -1,61 +1,56 @@
 requirejs.config({
-    paths: {
-        'text': '../scripts/require/text',
-        'durandal':'../scripts/durandal/js',
-        'plugins' : '../scripts/durandal/js/plugins',
-        'transitions' : '../scripts/durandal/js/transitions',
-        'knockout': '../scripts/knockout/knockout-2.3.0',
-        'knockoutmapping' : '../scripts/knockout/knockout.mapping',
-        'knockoutbetterobservablearray' : '../scripts/knockout/knockout.betterobservablearray',
-        'bootstrap': '../scripts/bootstrap/js/bootstrap.min',
-        'jquery': '../scripts/jquery/jquery-1.9.1.min',
-        'jquery.ui' : '../scripts/jquery/jquery-ui-1.9.2.custom.min',
-        'amplify' : '../scripts/amplify',
-        'Q' : '../scripts/q',
-        'moment' : '../scripts/moment',
-        'socket.io' : '/socket.io/socket.io',
-        'toastr' : '../scripts/toastr',
-        'moment' : '../scripts/moment',
-        'fastclick' : '../scripts/fastclick',
-        'jquery.lazy' : '../scripts/jquery/jquery.lazy.min',
-        'jquery.hammer' : '../scripts/jquery/jquery.hammer.min',
-        'hammer' : '../scripts/hammer.min',
-        'stashy' : '../scripts/stashy'
+    "paths" : {
+        "text": "../scripts/require/text",
+        "durandal":"../scripts/durandal/js",
+        "plugins" : "../scripts/durandal/js/plugins",
+        'knockout' : '../scripts/knockout/knockout-3.0.0',
+        "knockoutmapping" : "../scripts/knockout/knockout.mapping",
+        "knockoutbetterobservablearray" : "../scripts/knockout/knockout.betterobservablearray",
+        "bootstrap": "../scripts/bootstrap/js/bootstrap.min",
+        "jquery": "../scripts/jquery/jquery-1.9.1.min",
+        "jquery.ui" : "../scripts/jquery/jquery-ui-1.9.2.custom.min",
+        "amplify" : "../scripts/amplify",
+        "Q" : "../scripts/q",
+        "moment" : "../scripts/moment",
+        "socket.io" : "/socket.io/socket.io",
+        "fastclick" : "../scripts/fastclick",
+        "jquery.lazy" : "../scripts/jquery/jquery.lazy.min",
+        "jquery.hammer" : "../scripts/jquery/jquery.hammer.min",
+        "hammer" : "../scripts/hammer.min",
+        "stashy" : "../scripts/stashy"
     },
-    shim: {
-        'bootstrap': {
-            deps: ['jquery'],
-            exports: 'jQuery'
+    "shim" : {
+        "bootstrap": {
+            deps: ["jquery"],
+            exports: "jQuery"
         },
-        'amplify': {
-            deps: ['jquery'],
-            exports: 'amplify'
+        "amplify": {
+            deps: ["jquery"],
+            exports: "amplify"
         },
-        'knockoutmapping' : {
-            deps: ['knockout']
+        "knockoutmapping" : {
+            deps: ["knockout"]
         },
-        'knockoutbetterobservablearray' : {
-            deps: ['knockout']
+        "knockoutbetterobservablearray" : {
+            deps: ["knockout"]
         },
-        'jquery.lazy' : {
-            deps : ['jquery']    
+        "jquery.lazy" : {
+            deps : ["jquery"]    
         },
-        'jquery.ui' : {
-            deps : ['jquery']    
+        "jquery.ui" : {
+            deps : ["jquery"]    
         },
-        'jquery.hammer' : {
-            deps : ['jquery', 'hammer']
+        "jquery.hammer" : {
+            deps : ["jquery", "hammer"]
         },
-        'stashy' : {
-            deps: ['jquery.hammer']   
+        "stashy" : {
+            deps: ["jquery.hammer"]   
         }
-        
     }
 });
 
 // load require js libraries
 require(['bootstrap'], function() {});
-require(['knockout'], function(ko){ window.ko = ko; });
 require(['knockoutbetterobservablearray'], function() {});
 require(['stashy'], function() {});
 
@@ -84,3 +79,4 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/rout
             app.setRoot('viewmodels/shell');
         });
     });
+    
