@@ -1,14 +1,28 @@
-define(['plugins/router', 'knockout', 'contexts/articles', 'fastclick', 'jquery.lazy', 'moment'], function (router, ko, articlesContext, fastclick, jqueryLazy, moment) {
+define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick', 'jquery.lazy', 'moment'], function (config, router, ko, articlesContext, fastclick, jqueryLazy, moment) {
     
     var mapArticle = function (article) {
-        
         article.starToggle = function () {
             articlesContext.starToggle(this._id);            
-        }
+        };
         
         article.readToggle = function () {
             articlesContext.readToggle(this._id);
-        }
+        };
+        
+        article.facebookShareLink = ko.computed(function () {
+            var url = 'https://www.facebook.com/sharer/sharer.php?et=' + article.title +
+                '&u=' + article.link;
+            return url;
+        });
+        
+        article.twitterShareLink = ko.computed(function () {
+            var url = 'https://twitter.com/intent/tweet?original_referer=' + config.baseUri +
+                '&related=pushfeednet' +
+                '&text=' + article.title +
+                '&url=' + article.link +
+                '&via=pushfeednet';
+            return url;
+        });
         
         return article;      
     };

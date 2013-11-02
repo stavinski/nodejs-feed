@@ -1,6 +1,9 @@
 define(function() {
     
     config = {};
+    
+    config.baseUri = 'http://pushfeed.local:3000/'
+    
     config.api = {};
     config.api.baseUri = '/api/';
     

@@ -262,11 +262,13 @@ h2 {
     vertical-align: middle;
     line-height: 80px;    
 }
-.article .actions div {
+.article .actions div, .article .actions a {
     float: left;
     margin: 0;
     width: 25%;
     text-align: center;
+    display: block;
+    color: #fff;
 }
 @media (min-width: 768px) {
     #articles-container {

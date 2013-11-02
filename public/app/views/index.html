@@ -31,12 +31,12 @@
                     <div class="read" data-bind="click : readToggle">
                         <i class="icon-2x" data-bind="css : { 'icon-check' : read(), 'icon-check-empty' : !read() }"></i>
                     </div>
-                    <div class="facebook">
+                    <a class="facebook" data-bind="attr : { href : facebookShareLink }" target="_blank">
                         <i class="icon-2x icon-facebook"></i>
-                    </div>
-                    <div class="twitter">
+                    </a>
+                    <a class="twitter" data-bind="attr : { href : twitterShareLink }" target="_blank">
                         <i class="icon-2x icon-twitter"></i>
-                    </div>
+                    </a>
                 </div>
             </div>
             <!-- /ko -->
