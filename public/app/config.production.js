@@ -1,6 +1,9 @@
 define(function() {
     
     config = {};
+    
+    config.baseUri = 'http://app-pushfeed.rhcloud.com/'
+    
     config.api = {};
     config.api.baseUri = '/api/';
     
