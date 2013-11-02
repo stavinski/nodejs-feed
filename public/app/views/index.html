@@ -4,8 +4,6 @@
     <div class="corner-loading" data-bind="css : { 'animate' : loading }" title="loading...">
     </div>
     <div class="main">
-        <div class="current-filter">&raquo; charlie brookers - guardian</div>
-        
         <div id="filter-container" data-bind="compose: { model: 'viewmodels/filters', activate: true }" >
         </div>
         
@@ -27,10 +25,10 @@
                     </div>
                 </div>
                 <div class="actions" data-bind="css : { 'show' : $data._id == $root.activeArticle() }">
-                    <div class="star">
+                    <div class="star" data-bind="click : starToggle">
                         <i class="icon-2x" data-bind="css : { 'icon-star' : starred(), 'icon-star-empty' : !starred() }"></i>
                     </div>
-                    <div class="read">
+                    <div class="read" data-bind="click : readToggle">
                         <i class="icon-2x" data-bind="css : { 'icon-check' : read(), 'icon-check-empty' : !read() }"></i>
                     </div>
                     <div class="facebook">

@@ -1,5 +1,18 @@
 define(['plugins/router', 'knockout', 'contexts/articles', 'fastclick', 'jquery.lazy', 'moment'], function (router, ko, articlesContext, fastclick, jqueryLazy, moment) {
     
+    var mapArticle = function (article) {
+        
+        article.starToggle = function () {
+            articlesContext.starToggle(this._id);            
+        }
+        
+        article.readToggle = function () {
+            articlesContext.readToggle(this._id);
+        }
+        
+        return article;      
+    };
+    
     var ViewModel = {
         activate : function (subscription) {
             var self = this;
@@ -14,14 +27,18 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'fastclick', 'jquery.
             return false;
         },
         attached : function () {
+            var self = this;
+            
             $('#articles-container').hammer().on('hold', '.article', function (evt) {
                 var   context = ko.contextFor(this)
-                    , data = context.$data
-                    , vm = context.$root;
+                    , data = context.$data;
                     
-                vm.activeArticle(data._id);
+                self.activeArticle(data._id);
             });
-                        
+            $(document).hammer().on('scroll', function () {
+                self.activeArticle('');    
+            });                
+            
             /*
             $('img.lazy').lazy({
                 onError : function (elm) {
@@ -41,7 +58,7 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'fastclick', 'jquery.
                 , articles = ko.utils.arrayFilter(articlesContext.articles(), function (article) {
                     return ((self.subscription() == null) || (article.subscription == self.subscription()));
                 });
-            return articles;
+            return ko.utils.arrayMap(articles, mapArticle);
         }, ViewModel);
 
     return ViewModel;

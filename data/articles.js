@@ -201,6 +201,14 @@ exports.read = function (profile, article) {
             .fin(function () { db.close(); });
 };
 
+exports.unread = function (profile, article) {
+    return Q.ninvoke(db, 'open')
+            .then (function (db) {
+                return Q.ninvoke(db.collection('articles'), 'update', { _id : article._id }, { $pull : { read : new ObjectID(profile) } }, {w:1});
+            })
+            .fin(function () { db.close(); });
+};
+
 exports.starred = function (profile, article) {
     return Q.ninvoke(db, 'open')
             .then (function (db) {

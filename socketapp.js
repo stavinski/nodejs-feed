@@ -87,6 +87,32 @@ var handleUnstarred = function (socket) {
     });
 };
 
+var handleRead = function (socket) {
+    socket.on('backend.articleread', function (data, callback) {
+        articles.read(user._id, data.id)
+            .then(function () {
+                callback({ status : 'success', timestamp: new Date() });
+            })
+            .fail(function () {
+                callback({ status : 'error', timestamp: new Date() });
+            })
+            .done();
+    });
+};
+
+var handleUnread = function (socket) {
+    socket.on('backend.articleunread', function (data, callback) {
+        articles.unread(user._id, data.id)
+            .then(function () {
+                callback({ status : 'success', timestamp: new Date() });
+            })
+            .fail(function () {
+                callback({ status : 'error', timestamp: new Date() });
+            })
+            .done();
+    });
+};
+
 var handleAddSubscription = function (socket) {
     socket.on('backend.addsubscription', function (data, callback) {
             var   feed = require('./feed')
@@ -204,6 +230,8 @@ var start = function (sio) {
         handleSubscriptionUpdated(socket);
         handleStarred(socket);       
         handleUnstarred(socket);
+        handleRead(socket);       
+        handleUnread(socket);
         handleUserDisconnected(socket);       
     });
     

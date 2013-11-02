@@ -131,6 +131,27 @@ define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping', 'contexts/sub
                 callback({ status : 'error', reason: 'could not find article' });
             }
         },
+        readToggle : function (id) {
+            var   self = this
+                , found = this._locateById(id);
+            
+            if (found != null) {
+                var   isRead = found.article.read()
+                    , evt = (isRead) ? 'backend.articleunread' : 'backend.articleread';   
+                
+                connection.send(evt, { id : id }, function (data) {
+                    if (data.status == 'success') {
+                        // store article details into cache
+                        var foundArticle = self.articles()[found.index];
+                        foundArticle.read(!isRead);
+                        self._setCache();
+                        self.articles.valueHasMutated();
+                    } else {
+                        // handle err
+                    }
+                });
+            }
+        },
         starToggle : function (id) {
             var   self = this;
                         
