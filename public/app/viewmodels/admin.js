@@ -1,4 +1,16 @@
-define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fastclick'], function (ko, articlesContext, subscriptionsContext, cache, fastclick) {
+define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fastclick', 'notify'], function (ko, articlesContext, subscriptionsContext, cache, fastclick, notify) {
+    
+    var bindCategory = function (category) {
+        return {
+                    id : category.replace(/\s/g, '_'),
+                    title : category,
+                    subscriptions : subscriptionsContext.subscriptions()
+                                        .filter(function (subscription) {
+                                            return (subscription.category == category);
+                                        })
+                                        .map(bindSubscription)
+        };  
+    };
     
     var bindSubscription = function (model) {
         model.newCategory = ko.observable('');
@@ -7,6 +19,12 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
                 
         model.unsubscribe = function () {
             model.confirming(true);
+            
+            Stashy.Notify({
+                content : '#confirm-' + model._id,
+                contentType : 'selector',
+                style : 'warning'
+            }).bar('top');
         };
         
         model.cancelUnsubscribe = function () {
@@ -18,17 +36,15 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
             subscriptionsContext.unsubscribe(self._id, function (data) {
                 model.confirming(false);
                 
-                if (data.removed) {
-                    // success alert info
-                } else {
-                    // alert here
+                if (!data.removed) {
+                    notify.error('settings', data.reason, 'could not unsubscribe');
                 }
             });
         };
                                
         model.changeCategory = function (category) {
             var   self = this
-                , selectedCategory = (self.newCategory().length > 0) ? self.newCategory() : category
+                , selectedCategory = (self.newCategory().length > 0) ? self.newCategory() : category.title
                 , meta = {
                     subscription : self._id,
                     category : selectedCategory
@@ -37,11 +53,8 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
             self.newCategory('');
             
             subscriptionsContext.update(meta, function (data) {
-                if (data.updated) {
-                    // success alert info
-                    model.currentCategory(meta.category);
-                } else {
-                    // alert here
+                if (!data.updated) {
+                    notify.error('settings', data.reason, 'could not update subscription');
                 }
             });
         };
@@ -64,7 +77,8 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
                         .map(bindSubscription);
         }),
         categories : ko.computed(function () {
-            return subscriptionsContext.categories();    
+            return subscriptionsContext.categories()
+                        .map(bindCategory);
         }),
         activate : function () {
         },
@@ -73,7 +87,7 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
         },
          attached : function () {
             // prevent clicking the textbox from closing the menu
-            $('#subscriptions').on('click', '.dropdown-menu input', function (evt) {
+            $('.setting').on('click', '.dropdown-menu input', function (evt) {
                 evt.stopPropagation();
             });
             fastclick.attach(document.body);

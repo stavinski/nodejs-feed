@@ -6,7 +6,7 @@ requirejs.config({
         'knockout' : '../scripts/knockout/knockout-3.0.0',
         "knockoutmapping" : "../scripts/knockout/knockout.mapping",
         "knockoutbetterobservablearray" : "../scripts/knockout/knockout.betterobservablearray",
-        "bootstrap": "../scripts/bootstrap/js/bootstrap.min",
+        "bootstrap": "../scripts/bootstrap/js/bootstrap",
         "jquery": "../scripts/jquery/jquery-1.9.1.min",
         "jquery.ui" : "../scripts/jquery/jquery-ui-1.9.2.custom.min",
         "amplify" : "../scripts/amplify",

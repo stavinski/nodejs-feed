@@ -1,6 +1,5 @@
 define(['connection', 'cache', 'knockout', 'knockoutmapping'], function (connection, cache, ko, mapping) {
-    
-    
+        
     var sortSubscriptions = function (prev, next) {
         return prev.stitle - next.stitle;
     };

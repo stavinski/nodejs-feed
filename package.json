@@ -16,7 +16,6 @@
   "dependencies": {
     "express": "3.2.6",
     "jade": "*",
-    "forever": "*",
     "bundle-up": "*",
     "nodemon": "*",
     "feedparser": "*",
