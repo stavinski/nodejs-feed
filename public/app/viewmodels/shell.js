@@ -1,4 +1,4 @@
-define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'connection', 'knockout', 'cache', 'contexts/articles', 'contexts/user', 'contexts/subscriptions', 'fastclick'], function (router, dialog, app, system, amplify, connection, ko, cache, articlesContext, userContext, subscriptionsContext, fastclick) {
+define(['Q', 'plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', 'amplify', 'connection', 'knockout', 'cache', 'contexts/articles', 'contexts/user', 'contexts/subscriptions', 'fastclick', 'notify'], function (Q, router, dialog, app, system, amplify, connection, ko, cache, articlesContext, userContext, subscriptionsContext, fastclick, notify) {
     
     var mapRoutes = function () {
         var instance = router
@@ -37,20 +37,27 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
                 .fail(function (reason) { 
                     // this is dealt with via the guard route                    
                     if (reason == 'handshake unauthorized') {
-                        return;
+                        return Q.reject();    
                     }
                     
-                    //logger.logError('could not connect to backend', reason, system.getModuleId(this), true);
+                    return Q.reject();                    
                 })
-                .then(function () { 
+                .then(function () {
+                    
+                    var deferred = Q.defer();
                     self.connected(true);
-                    articlesContext.init();
-                    subscriptionsContext.init();
-                                    
+                    
                     connection.send('backend.syncprofile', null, function (data) {
                         userContext.signIn(data.profile);
-                    });
-                                        
+                        deferred.resolve();
+                    });                    
+                    
+                    return deferred.promise;
+                })
+                .then(function () { 
+                    articlesContext.init();
+                    subscriptionsContext.init();
+                    
                     amplify.subscribe(connection.TOPIC_CONNECTED, function () {
                         self.connected(true);
                     });
@@ -59,7 +66,11 @@ define(['plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/system', '
                         self.connected(false);
                     });
                 })
-                .fail(function (err) { throw err; })
+                .fail(function (err) { 
+                    if (err) {
+                        notify.error('shell', 'could not connect to backend');
+                    }
+                })
                 .fin(mapRoutes);
         },
         forceConnection : function () {

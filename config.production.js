@@ -15,7 +15,7 @@ config.profiles = {};
 config.profiles.id = '51fcf8f50b4f238839000001';
 
 config.logging = {};
-config.logging.level = 'debug';
+config.logging.level = 'error';
 
 config.session = {};
 config.session.key = 'connect.sid';

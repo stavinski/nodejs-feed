@@ -58,7 +58,7 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'plugins/rout
     function(app, viewLocator, system, router) {
 
         //>>excludeStart("build", true);
-        system.debug(true);
+        system.debug(true);        
         //>>excludeEnd("build");
 
         app.title = 'pushfeed.net';

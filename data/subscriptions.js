@@ -1,4 +1,4 @@
-var config = require('../config')
+var   config = require('../config')
     , mongodb = require('mongoskin')
     , ObjectID = require('mongodb').ObjectID
     , db = new mongodb.db(config.db.url + 'pushfeed', {safe : true})

@@ -8,17 +8,17 @@ var renewSubscription = function (subscription) {
 };
 
 var execute = function() {
-    console.log('pubsub bg task');
+    //console.log('pubsub bg task');
     return subscriptions.getForPubSubRenewal()
         .then(function (results) {
-            console.log('for renewal [%d]', results.length);
+            //console.log('for renewal [%d]', results.length);
             return Q.all(results.map(renewSubscription));
         })
         .fail (function (err) {
             console.error(err);
         })
         .fin (function () {
-            console.log('pubsub bg task end');
+            //console.log('pubsub bg task end');
             setTimeout(execute, config.background.pollMs);
         }); 
 };

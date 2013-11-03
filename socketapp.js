@@ -17,6 +17,7 @@ var syncSubscriptions = function (socket) {
                 callback({ status : 'success', timestamp : new Date(), subscriptions : subscriptions });
             })
             .fail(function (err) {
+                console.error(err);
                 callback({ status : 'error', timestamp : new Date() });    
             })
             .done();
@@ -30,6 +31,7 @@ var syncArticles = function (socket) {
                 callback({ status : 'success', timestamp: new Date(), articles : articles });
             })
             .fail(function (err) {
+                console.error(err);
                 callback({ status : 'error', timestamp : new Date() });    
             })
             .done();
@@ -40,8 +42,7 @@ var syncProfile = function (socket) {
     socket.on('backend.syncprofile', function (data, callback) {
         var profile = {
             created : user.created,
-            settings : user.settings,
-            categories : user.categories
+            settings : user.settings
         };
         callback({ timestamp : new Date(), profile : profile });
     });
@@ -55,6 +56,7 @@ var syncArticle = function (socket) {
                 articles.read(user._id, article);
             })
             .fail(function (err) {
+                console.error(err);
                 callback({ status : 'error', timestamp : new Date() });    
             })
             .done();
@@ -68,6 +70,7 @@ var handleStarred = function (socket) {
                 callback({ status : 'success', timestamp: new Date() });
             })
             .fail(function () {
+                console.error(err);
                 callback({ status : 'error', timestamp: new Date() });
             })
             .done();
@@ -81,6 +84,7 @@ var handleUnstarred = function (socket) {
                 callback({ status : 'success', timestamp: new Date() });
             })
             .fail(function () {
+                console.error(err);
                 callback({ status : 'error', timestamp: new Date() });
             })
             .done();
@@ -94,6 +98,7 @@ var handleRead = function (socket) {
                 callback({ status : 'success', timestamp: new Date() });
             })
             .fail(function () {
+                console.error(err);
                 callback({ status : 'error', timestamp: new Date() });
             })
             .done();
@@ -107,6 +112,7 @@ var handleUnread = function (socket) {
                 callback({ status : 'success', timestamp: new Date() });
             })
             .fail(function () {
+                console.error(err);
                 callback({ status : 'error', timestamp: new Date() });
             })
             .done();
@@ -159,6 +165,7 @@ var handleUnsubscribe = function (socket) {
             .then(function () { return subscriptions.get(data.id); })
             .then(function (subscription) { callback({ status : 'success', timestamp : new Date(), subscription : subscription }); })
             .fail(function (err) {
+                console.error(err);
                 callback({ status : 'error', timestamp : new Date() });
             })
             .done();
@@ -202,6 +209,7 @@ var handleSubscriptionUpdated = function (socket) {
                 callback({ status : 'success', timestamp : new Date() }); 
             })
             .fail(function (err) {
+                console.error(err);
                 callback({ status : 'error', timestamp : new Date() });
             })
             .done();
