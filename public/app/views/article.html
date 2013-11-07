@@ -6,16 +6,16 @@
             </a>
             <div>
                 <!-- ko if: !loading() -->
-                <a data-bind="if : prevArticle != null, click: prev">
-                    <i class="icon-chevron-left"></i>
+                <a href="#" data-bind="if : prevArticle != null, click: prev">
+                    <i class="fa fa-chevron-left"></i>
                 </a>
-                <a data-bind="click: article.starToggle">
-                    <i data-bind="css : { 'icon-star' : article.starred(), 'icon-star-empty' : !article.starred() }"></i>
+                <a href="#" data-bind="click: article.starToggle">
+                    <i class="fa" data-bind="css : { 'fa-star' : article.starred(), 'fa-star-empty' : !article.starred() }"></i>
                 </a>
-                <a data-bind="if : nextArticle != null, click: next">
-                    <i class="icon-chevron-right"></i>
+                <a href="#" data-bind="if : nextArticle != null, click: next">
+                    <i class="fa fa-chevron-right"></i>
                 </a>
-                <a class="navicon-button x">
+                <a href="#" class="navicon-button x">
                     <div class="navicon"></div>
                 </a>
                 <!-- /ko -->
@@ -33,12 +33,12 @@
             <div class="row" data-bind="with : article">
                 <h3>
                     <a data-bind="attr: { href : 'javascript:externalLink(\'' + link + '\');' }">
-                        <!-- ko text : title --><!-- /ko --> <i class="icon-external-link"></i>
+                        <!-- ko text : title --><!-- /ko --> <i class="fa fa-external-link"></i>
                     </a>
                 </h3>
                 <div class="col-md-1">
                     <div class="date">
-                        <i class="icon-calendar"></i> <!-- ko text : publishedFormatted --><!-- /ko -->
+                        <i class="fa fa-clock-o"></i> <!-- ko text : publishedFormatted --><!-- /ko -->
                     </div>
                 </div>
                 <article class="col-md-10" data-bind="html : content">

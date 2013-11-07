@@ -61,6 +61,9 @@ define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick'
             });
             */
         },
+        detached : function () {
+            this.activeArticle('');    
+        },
         navItems : [
             { hash : '/#/add', icon : 'icon-plus', text: 'add' },
             { hash : '/#/admin', icon : 'icon-cog', text: 'settings' }

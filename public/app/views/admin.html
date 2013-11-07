@@ -16,8 +16,8 @@
             <div data-bind="attr : { id : id }" class="collapse in">
                 <!-- ko foreach : subscriptions -->
                 <div class="unsubscribe-confirm" data-bind="attr : { id : 'confirm-' + _id }">
-                    <p>Are you sure you want to unsubscribe from <strong data-bind="text: title"></strong>?</p>
-                    <button class="btn btn-danger" data-bind="click : confirmUnsubscribe">confirm</button>
+                    <p>unsubscribe from <strong data-bind="text: title"></strong>?</p>
+                    <button class="btn btn-danger" data-bind="click : confirmUnsubscribe"><i class="fa fa-check"></i> confirm</button>
                 </div>
                 <!-- /ko -->
                 
@@ -25,14 +25,14 @@
                     <tbody data-bind="foreach : subscriptions">
                         <tr>
                             <td>
-                                <button class="btn btn-danger" data-bind="click : unsubscribe">unsubscribe</button>
+                                <button class="btn btn-danger" data-bind="click : unsubscribe"><i class="fa fa-remove"></i> unsubscribe</button>
                             </td>
                             <td data-bind="text: title"></td>
                             <td data-bind="text: xmlurl"></td>
                             <td>
                                 <div class="btn-group">
                                   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    <!-- ko text: currentCategory --> <!-- /ko --> <i class="icon-chevron-down"></i>
+                                    <i class="fa fa-chevron-down"></i> <!-- ko text: currentCategory --> <!-- /ko -->
                                   </button>
                                   <ul class="dropdown-menu" role="menu">
                                     <!-- ko foreach : $root.categories -->   
@@ -43,7 +43,7 @@
                                         <div class="input-group">
                                             <span class="input-group-btn">
                                                 <input type="text" class="input-sm newCategory" data-bind="value : newCategory, valueUpdate : 'keyup'" placeholder="new category" />
-                                                <button class="btn btn-primary btn-sm" data-bind="enable : newCategoryValid, click : changeCategory"><i class="icon-plus"></i></button>
+                                                <button class="btn btn-primary btn-sm" data-bind="enable : newCategoryValid, click : changeCategory"><i class="fa fa-plus"></i></button>
                                             </span>
                                         </div>
                                     </li>  

@@ -19,23 +19,23 @@
                 <div class="details" data-bind="click: $root.view, css : { 'hide' : $data._id == $root.activeArticle() }">
                     <h3 data-bind="text : title"></h3>
                     <div>
-                        <i class="icon icon-calendar"></i>
+                        <i class="fa fa-clock-o"></i>
                         <span data-bind="text: published"></span>
                         <span data-bind="text: parent"></span>
                     </div>
                 </div>
                 <div class="actions" data-bind="css : { 'show' : $data._id == $root.activeArticle() }">
                     <div class="star" data-bind="click : starToggle">
-                        <i class="icon-2x" data-bind="css : { 'icon-star' : starred(), 'icon-star-empty' : !starred() }"></i>
+                        <i class="fa-2x fa" data-bind="css : { 'fa-star' : starred(), 'fa-star-empty' : !starred() }"></i>
                     </div>
                     <div class="read" data-bind="click : readToggle">
-                        <i class="icon-2x" data-bind="css : { 'icon-check' : read(), 'icon-check-empty' : !read() }"></i>
+                        <i class="fa-2x fa" data-bind="css : { 'fa-check' : read(), 'fa-check-empty' : !read() }"></i>
                     </div>
                     <a class="facebook" data-bind="attr : { href : facebookShareLink }" target="_blank">
-                        <i class="icon-2x icon-facebook"></i>
+                        <i class="fa fa-2x fa-facebook"></i>
                     </a>
                     <a class="twitter" data-bind="attr : { href : twitterShareLink }" target="_blank">
-                        <i class="icon-2x icon-twitter"></i>
+                        <i class="fa fa-2x fa-twitter"></i>
                     </a>
                 </div>
             </div>

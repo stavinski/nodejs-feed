@@ -23,7 +23,8 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
             Stashy.Notify({
                 content : '#confirm-' + model._id,
                 contentType : 'selector',
-                style : 'warning'
+                style : 'warning',
+                closeArea : 'element'
             }).bar('top');
         };
         

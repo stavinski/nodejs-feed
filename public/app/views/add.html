@@ -9,10 +9,10 @@
                     <input type="search" class="form-control" data-bind="value: query, valueUpdate: 'keyup'" placeholder="enter query">
                     <span class="input-group-btn">
                         <!-- ko if: !loading() -->
-                        <button class="btn btn-primary" data-bind="enable : queryEntered"><i class="icon-search"></i> search</button>
+                        <button class="btn btn-primary" data-bind="enable : queryEntered"><i class="fa fa-search"></i> search</button>
                         <!-- /ko -->
                         <!-- ko if: loading() -->
-                        <button class="btn btn-primary" disabled="disabled"><i class="icon-spinner icon-spin"></i> searching</button>
+                        <button class="btn btn-primary" disabled="disabled"><i class="fa fa-spinner fa-spin"></i> searching</button>
                         <!-- /ko -->
                     </span>
                 </div>
@@ -32,7 +32,7 @@
                     <!-- ko if: !subscribing() -->
                     <div class="btn-group">
                       <button type="button" class="btn btn-primary dropdown-toggle" data-bind="enable: canSubscribe" data-toggle="dropdown">
-                        <i class="icon-rss"></i> subscribe <span class="caret"></span>
+                        <i class="fa fa-rss"></i> subscribe <span class="caret"></span>
                       </button>
                       <ul class="dropdown-menu" role="menu">
                         <!-- ko foreach : $root.categories -->  
@@ -44,7 +44,7 @@
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <input type="text" class="input-sm newCategory" data-bind="value : newCategory, valueUpdate : 'keyup'" placeholder="new category" />
-                                    <button class="btn btn-primary btn-sm" data-bind="enable : newCategoryValid, click : subscribe"><i class="icon-plus"></i></button>
+                                    <button class="btn btn-primary btn-sm" data-bind="enable : newCategoryValid, click : subscribe"><i class="fa fa-plus"></i></button>
                                 </span>
                             </div>
                         </li>      
@@ -52,7 +52,7 @@
                     </div>
                     <!-- /ko -->
                     <!-- ko if: subscribing() -->
-                    <i class="icon-spinner icon-spin"></i> subscribing
+                    <i class="fa fa-spinner fa-spin"></i> subscribing
                     <!-- /ko -->
                 </div>
             </li>

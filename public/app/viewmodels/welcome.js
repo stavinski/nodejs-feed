@@ -6,7 +6,11 @@ define(['fastclick'], function (fastclick) {
         },
         attached : function () {
             fastclick.attach(document.body);
-        }
+        },
+        navItems : [
+            { hash : '/#/add', icon : 'icon-plus', text: 'add' },    
+            { hash : '/#/admin', icon : 'icon-cog', text: 'settings' }
+        ]
     };
     
     return ViewModel;
