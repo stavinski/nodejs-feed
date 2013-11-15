@@ -13,29 +13,25 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
     };
     
     var bindSubscription = function (model) {
-        model.newCategory = ko.observable('');
-        model.confirming = ko.observable(false);
-        model.currentCategory = ko.observable(model.category);
+        var subscription = $.extend({}, model);
                 
-        model.unsubscribe = function () {
-            model.confirming(true);
-            
-            Stashy.Notify({
-                content : '#confirm-' + model._id,
-                contentType : 'selector',
-                style : 'warning',
-                closeArea : 'element'
-            }).bar('top');
+        subscription.newCategory = ko.observable('');
+        subscription.confirming = ko.observable(false);
+        subscription.currentCategory = ko.observable(model.category);
+                
+        subscription.unsubscribe = function () {
+            subscription.confirming(true);
         };
         
-        model.cancelUnsubscribe = function () {
-            model.confirming(false);
+        subscription.cancelUnsubscribe = function () {
+            subscription.confirming(false);
         };
         
-        model.confirmUnsubscribe = function () {
+        subscription.confirmUnsubscribe = function () {
             var self = this;
+            console.log(self);
             subscriptionsContext.unsubscribe(self._id, function (data) {
-                model.confirming(false);
+                subscription.confirming(false);
                 
                 if (!data.removed) {
                     notify.error('settings', data.reason, 'could not unsubscribe');
@@ -43,7 +39,7 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
             });
         };
                                
-        model.changeCategory = function (category) {
+        subscription.changeCategory = function (category) {
             var   self = this
                 , selectedCategory = (self.newCategory().length > 0) ? self.newCategory() : category.title
                 , meta = {
@@ -60,15 +56,15 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
             });
         };
         
-        model.newCategoryValid = ko.computed(function () {
+        subscription.newCategoryValid = ko.computed(function () {
             var self = this;
             return (self.newCategory().length > 0) &&
                     (subscriptionsContext.categories().every(function (category) {
                         return category.toLowerCase() != self.newCategory().toLowerCase();
                     }));
-        }, model);
+        }, subscription);
         
-        return ko.observable(model);
+        return ko.observable(subscription);
     };
     
     var ViewModel = {
@@ -86,15 +82,18 @@ define(['knockout', 'contexts/articles', 'contexts/subscriptions', 'cache', 'fas
         clearAllCache : function() {
             cache.clearAll();
         },
-         attached : function () {
+        attached : function () {
             // prevent clicking the textbox from closing the menu
             $('.setting').on('click', '.dropdown-menu input', function (evt) {
                 evt.stopPropagation();
             });
             fastclick.attach(document.body);
         },
+        detached : function () {
+            
+        },
         navItems : [
-            { hash : '/#/add', icon : 'icon-plus', text: 'add' }    
+            { hash : '/#/add', icon : 'fa-plus', text: 'add' }    
         ]
     };
     

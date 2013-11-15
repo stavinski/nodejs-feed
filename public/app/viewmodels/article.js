@@ -1,7 +1,7 @@
-define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick', 'Q'], function (router, ko, articlesContext, moment, fastclick, Q) {
+define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick', 'Q', 'sharing'], function (router, ko, articlesContext, moment, fastclick, Q, sharing) {
     
     var bindArticle = function (article) {
-        var   vm = article
+        var   vm = $.extend({}, article)
             , published = moment.utc(article.published);
                 
         vm.starToggle = function () {
@@ -14,6 +14,20 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
                     published.year();
         });
         
+        vm.facebookShareLink = ko.computed(function () {
+            return sharing.facebook({
+                title : article.title,
+                link : article.link
+            });
+        });
+        
+        vm.twitterShareLink = ko.computed(function () {
+            return sharing.twitter({
+                title : article.title,
+                link : article.link
+            });
+        });
+        
         vm.content = ko.computed(function () {
             var articleContent = $('<body></body>')
                                     .html(this.content);
@@ -24,7 +38,7 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
                 });
             
             return articleContent.html();
-        }, article);
+        }, vm);
         
         vm.showExternal = function () {
             externalLink(this.article.link);
@@ -70,9 +84,9 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
                 router.navigate('#/article/' + this.nextArticle._id);
         },
         closeExternal : function () {
-            $('#external iframe').attr('src', '');
-            $('#external').hide();
-            $('#article').show();
+            $('.external iframe').attr('src', '');
+            $('.external').hide();
+            $('.article').show();
         },
         attached : function () {
             var self = this;
@@ -82,15 +96,10 @@ define(['plugins/router', 'knockout', 'contexts/articles', 'moment', 'fastclick'
             $(document).hammer().on('swipeleft', function () { self.next(); });
             $(document).hammer().on('swiperight', function () { self.prev(); });
             
-            $(".navicon-button").click(function(){
-                $(this).toggleClass("open");
-                $("#filter").toggleClass("open");
-            });
-            
             window.externalLink = function (src) {
-                $('#external iframe').attr('src', src);
-                $('#external').show();
-                $('#article').hide();
+                $('.external iframe').attr('src', src);
+                $('.external').show();
+                $('.article').hide();
             };
         }
     };

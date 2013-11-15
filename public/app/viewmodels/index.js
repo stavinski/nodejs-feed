@@ -1,30 +1,36 @@
-define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick', 'jquery.lazy', 'moment'], function (config, router, ko, articlesContext, fastclick, jqueryLazy, moment) {
+define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick', 'jquery.lazy', 'moment', 'sharing'], function (config, router, ko, articlesContext, fastclick, jqueryLazy, moment, sharing) {
     
     var mapArticle = function (article) {
-        article.starToggle = function () {
+        var   vm = $.extend({}, article)
+            , published = moment.utc(article.published);
+        
+        vm.publishedFormatted = ko.computed(function () {
+            return published.fromNow();       
+        });
+        
+        vm.starToggle = function () {
             articlesContext.starToggle(this._id);            
         };
         
-        article.readToggle = function () {
+        vm.readToggle = function () {
             articlesContext.readToggle(this._id);
         };
         
-        article.facebookShareLink = ko.computed(function () {
-            var url = 'https://www.facebook.com/sharer/sharer.php?et=' + article.title +
-                '&u=' + article.link;
-            return url;
+        vm.facebookShareLink = ko.computed(function () {
+            return sharing.facebook({
+                title : article.title,
+                link : article.link
+            });
         });
         
-        article.twitterShareLink = ko.computed(function () {
-            var url = 'https://twitter.com/intent/tweet?original_referer=' + config.baseUri +
-                '&related=pushfeednet' +
-                '&text=' + article.title +
-                '&url=' + article.link +
-                '&via=pushfeednet';
-            return url;
+        vm.twitterShareLink = ko.computed(function () {
+            return sharing.twitter({
+                title : article.title,
+                link : article.link
+            });
         });
         
-        return article;      
+        return vm;      
     };
     
     var ViewModel = {
@@ -42,13 +48,20 @@ define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick'
         },
         attached : function () {
             var self = this;
+            fastclick.attach(document.body);
             
-            $('#articles-container').hammer().on('hold', '.article', function (evt) {
+            $(".navicon-button").click(function(){
+                $(this).toggleClass("open");
+                $(".filter-container").toggleClass("open");
+            });
+            
+            $('.articles-container').hammer().on('hold', '.article', function (evt) {
                 var   context = ko.contextFor(this)
                     , data = context.$data;
                     
                 self.activeArticle(data._id);
             });
+            
             $(document).hammer().on('scroll', function () {
                 self.activeArticle('');    
             });                
@@ -65,8 +78,8 @@ define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick'
             this.activeArticle('');    
         },
         navItems : [
-            { hash : '/#/add', icon : 'icon-plus', text: 'add' },
-            { hash : '/#/admin', icon : 'icon-cog', text: 'settings' }
+            { hash : '/#/add', icon : 'fa-plus', text: 'add' },
+            { hash : '/#/admin', icon : 'fa-cog', text: 'settings' }
         ]
     };
     

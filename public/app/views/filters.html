@@ -1,8 +1,18 @@
-<div id="filter">
-    <div id="accordion" data-bind="foreach: categories">
+<div class="filter">
+    <div class="summary">
+        <h3><i class="fa fa-inbox"></i> 
+            <a href="#">all</a> 
+            <small data-bind="text : allUnread" ></small>
+        </h3>
+        <h3><i class="fa fa-star"></i> 
+            <a href="#">starred</a> 
+            <small data-bind="text : starredUnread" ></small>
+        </h3>
+    </div>
+    <div class="categories" data-bind="foreach : categories">
         <h3>
             <a class="accordion-toggle" data-toggle="collapse" data-bind="click : toggleCollapse, attr: { href: '#' + id }">
-                <i class="fa" data-bind="css : { 'fa-chevron-right' : collapsed(), 'fa-chevron-down' : !collapsed() }"></i>
+                <i class="fa" data-bind="css : { 'fa-angle-right' : collapsed(), 'fa-angle-down' : !collapsed() }"></i>
             </a>
             <a href="#">
                 <span data-bind="text : title"></span>

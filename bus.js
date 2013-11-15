@@ -6,7 +6,7 @@ var bus = {
     _client : null,
     _getClient : function () {
         if (this._client == null) {
-            this._client = mubsub(config.db.url + 'bus');
+            this._client = mubsub(config.db.url + 'pushfeed');
         }
         
         return this._client;

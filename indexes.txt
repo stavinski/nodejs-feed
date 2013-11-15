@@ -1,0 +1,24 @@
+
+/* articles */
+
+db.articles.ensureIndex({downloaded:1}, {name:'find_by_download'})
+db.articles.ensureIndex({subscription:1}, {name:'find_by_subscription'})
+db.articles.ensureIndex({read:1}, {name:'find_by_read'})
+db.articles.ensureIndex({starred:1}, {name:'find_by_starred'})
+db.articles.ensureIndex({guid:1}, {name:'find_by_guid'})
+db.articles.ensureIndex({published:-1}, {name:'published_sort'})
+
+/* profiles */
+
+db.profiles.ensureIndex({openid:1}, {name:'find_by_openid'})
+db.profiles.ensureIndex({connections:1}, {name:'find_by_connection'})
+db.profiles.ensureIndex({'subscriptions._id':1}, {name:'find_by_subscription'})
+
+/* subscriptions */
+
+db.subscriptions.ensureIndex({created:1}, {name:'created_sort'})
+db.subscriptions.ensureIndex({stitle:1}, {name:'title_sort'})
+db.subscriptions.ensureIndex({xmlurl:1}, {name:'find_by_xmlurl'})
+db.subscriptions.ensureIndex({'pubsub.type':1}, {name:'find_pubsub'})
+db.subscriptions.ensureIndex({'pubsub.expires':1}, {name:'find_by_pubsub_lease'})
+db.subscriptions.ensureIndex({lastPoll:1}, {name:'find_by_lastPoll'})

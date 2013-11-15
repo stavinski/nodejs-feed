@@ -18,7 +18,7 @@ var express = require('express')
   , download = require('./background/download')
   , pubsub = require('./background/pubsub')
   , sessionStore = new MongoStore({
-                url: config.db.url + 'web/sessions',
+                url: config.db.url + 'pushfeed/sessions',
                 auto_reconnect : true
             });
 

@@ -48,7 +48,7 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
         },
         attached : function () {
             // prevent clicking the textbox from closing the menu
-            $('#add').on('click', '.dropdown-menu input', function (evt) {
+            $('.add').on('click', '.dropdown-menu input', function (evt) {
                 evt.stopPropagation();
             });
             
@@ -96,7 +96,7 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
             return subscriptionsContext.categories();
         }),
         navItems : [
-            { hash : '/#/admin', icon : 'icon-cog', text: 'settings' }   
+            { hash : '/#/admin', icon : 'fa-cog', text: 'settings' }   
         ]
     };
     

@@ -68,6 +68,20 @@ define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'contexts
         categories : ko.computed(function () {
             var categories = subscriptionsContext.categories();
             return categories.map(bindCategory);
+        }),
+        allUnread : ko.computed(function () {
+            var found = ko.utils.arrayFilter(articlesContext.articles(), function (article) {
+                return !article.read();
+            });
+            
+            return (found.length > 0) ? found.length : '';
+        }),
+        starredUnread : ko.computed(function () {
+            var found = ko.utils.arrayFilter(articlesContext.articles(), function (article) {
+                return (!article.read()) && (article.starred());
+            });
+            
+            return (found.length > 0) ? found.length : '';
         })
     };
     

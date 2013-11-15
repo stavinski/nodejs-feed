@@ -34,7 +34,7 @@ module.exports = function (grunt) {
             },
             client : {
                 files : [
-                    { src: ['public/content/font/*.*', 'public/content/images/*.*'], dest : 'dist/' },
+                    { src: ['public/content/fonts/*.*', 'public/content/images/*.*'], dest : 'dist/' },
                     { src : 'public/scripts/require/require.js', dest : 'dist/public/scripts/require.js' },
                 ]
             },

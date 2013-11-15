@@ -1,13 +1,30 @@
 <div id="index">
-    <!-- ko navbar : { items: navItems } --><!-- /ko -->
+    <header>
+        <div class="nav-bar">
+            <a href="/#/" id="home-icon">
+                <img height="30" width="43" src="/content/images/mobile-logo.png" alt="pushfeed" />
+            </a>
+            <div>
+                <a href="#/add">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <a href="#/admin">
+                    <i class="fa fa-cog"></i>
+                </a>
+                <a href="#" class="navicon-button x">
+                    <div class="navicon"></div>
+                </a>
+            </div>
+        </div>
+    </header>
              
     <div class="corner-loading" data-bind="css : { 'animate' : loading }" title="loading...">
     </div>
     <div class="main">
-        <div id="filter-container" data-bind="compose: { model: 'viewmodels/filters', activate: true }" >
+        <div class="filter-container" data-bind="compose: { model: 'viewmodels/filters', activate: true }" >
         </div>
         
-        <div id="articles-container">
+        <div class="articles-container">
             <!-- ko if: !loading() && articles().length <= 0 -->
             <div class="alert alert-info alert-block">
                 <span>No articles could be located</span>
@@ -16,20 +33,21 @@
             
             <!-- ko foreach: articles -->
             <div class="article">
-                <div class="details" data-bind="click: $root.view, css : { 'hide' : $data._id == $root.activeArticle() }">
+                <div class="details" data-bind="click: $root.view, css : { read : read,  hide : $data._id == $root.activeArticle() }">
                     <h3 data-bind="text : title"></h3>
-                    <div>
-                        <i class="fa fa-clock-o"></i>
-                        <span data-bind="text: published"></span>
-                        <span data-bind="text: parent"></span>
-                    </div>
+                    <div data-bind="text: parent"></div>
+                    <!-- ko if: starred -->
+                    <i class="fa fa-star"></i>
+                    <!-- /ko -->
+                    <i class="fa fa-clock-o"></i>
+                    <span data-bind="text: publishedFormatted"></span>
                 </div>
                 <div class="actions" data-bind="css : { 'show' : $data._id == $root.activeArticle() }">
                     <div class="star" data-bind="click : starToggle">
-                        <i class="fa-2x fa" data-bind="css : { 'fa-star' : starred(), 'fa-star-empty' : !starred() }"></i>
+                        <i class="fa-2x fa" data-bind="css : { 'fa-star' : starred(), 'fa-star-o' : !starred() }"></i>
                     </div>
                     <div class="read" data-bind="click : readToggle">
-                        <i class="fa-2x fa" data-bind="css : { 'fa-check' : read(), 'fa-check-empty' : !read() }"></i>
+                        <i class="fa-2x fa" data-bind="css : { 'fa-check-square-o' : read(), 'fa-square-o' : !read() }"></i>
                     </div>
                     <a class="facebook" data-bind="attr : { href : facebookShareLink }" target="_blank">
                         <i class="fa fa-2x fa-facebook"></i>

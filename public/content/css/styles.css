@@ -70,8 +70,9 @@ header  {
 }
 
 /* Navicon */
+
 @charset "CP850";
-/* Change this to watch in slo-mo */
+
 .navicon-button {
   display: inline-block;
   position: relative;
@@ -122,7 +123,6 @@ header  {
 .open .navicon:after {
   transition: 0.5s; }
 
-/* × */
 .open.x .navicon {
   background: transparent; }
   .open.x .navicon:after {
@@ -136,7 +136,8 @@ header  {
   transition: 0.5s, box-shadow 0; }
 
 .loading .navicon {
-  transition: 0; }
+  transition: 0; 
+}
 
 .open.loading {
   transform: none; }
@@ -146,83 +147,108 @@ header  {
     .open.loading .navicon:before, .open.loading .navicon:after {
       opacity: 0; }
 
+@media (min-width: 768px) {
+    .navicon-button, .navicon {
+        display: none;
+    }
+}
+
 h2 {
 	font-size:1.8em;
 	font-weight: 500;
 }
 
-#main {
-    clear: both;
-    padding: 0;
-    margin: 0;
-}
-
 /* Filtering */
 
-#filter-container {
+.filter-container {
     display: none;
+    -webkit-box-shadow: 0 1px 3px rgba(34,25,25,0.2);
+	-ms-box-shadow: 0 1px 3px rgba(34,25,25,0.2);
+	box-shadow: 0 1px 3px rgba(34,25,25,0.2);
+	border-bottom: 1px solid #bfbfbf;
 }
 
-#filter.open {
+.filter-container.open {
 	display: block;
 }
 
 @media (min-width: 768px) {
-    #filter-container {
+    .filter-container {
         display: block;
         float: left;
         width: 30%;
+        min-width: 30%;
         position: fixed;
+        padding-left: 0.5em;
+        background: #eee;
+        -webkit-box-shadow: none;
+	    -ms-box-shadow: none;
+	    box-shadow: none;
+	    border: none;
     }
 }
-
-#filter a {
+.filter .summary h3 a {
+    margin-left: .5em;   
+}
+.filter .categories {
+    margin-top: 1em;   
+}
+.filter .fa {
+    text-align: center;
+    width: 1em;
+}
+.filter h3 a {
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+.filter h3 {
     color: #959595;
     text-decoration: none;
     font-size: 2em;
     font-weight: normal;
+    position: relative;
+    overflow: hidden;
 }
-
-#filter h3 small {
-    font-size: 2em;
-}
-#filter small {
+.filter small {
     color: #121212;
     float: right;
+    white-space: nowrap;
 }
-#filter ul li a {
-    font-size: 1em;
+.filter ul li a {
     padding: 0.25em;
+    color: #959595;
+    text-decoration: none;
 }
-#filter h3, #filter ul li {
-    margin-bottom: 0.5em;
-    padding: 0.25em 0;
+.filter h3, .filter ul li {
+    margin-bottom: 0.25em;
+    padding: 0.1em 0;
 }
-#filter ul {
-    margin-bottom: 1em;   
+.filter ul {
+    margin-bottom: .5em;   
 }
-#filter .accordion-toggle {
+.filter .accordion-toggle {
     margin-right: 0.5em;
     -webkit-transition: color 0.5s ease-in;    
     -o-transition: color 0.5s ease-in;
     -moz-transition: color 0.5s ease-in;
 }
-#filter .accordion-toggle:hover {
+.filter .accordion-toggle:hover {
     color: #121212;
     transition: color 0.5s ease-in;    
     -webkit-transition: color 0.5s ease-in;    
     -o-transition: color 0.5s ease-in;
     -moz-transition: color 0.5s ease-in;
 }
-#filter h3:nth-of-type(odd) a {
+.filter h3:nth-of-type(odd) a {
     color: #277E8E;
 }
-#filter h3:nth-of-type(even) a {
+.filter h3:nth-of-type(even) a {
     color: #959595;
 }
-#filter a:hover {
+.filter a:hover {
     background: #fff;    
 }
+
 
 /* Articles */
 
@@ -239,12 +265,16 @@ h2 {
 .article:hover {
     background: #ddd;
 }
+.article .read {
+    color: #AAA;   
+}
 .article .details {
     cursor: pointer;
     padding: 0.5em;
     height: 80px;
     max-height: 80px;
 }
+
 .article .details.hide {
     display: none;
 }
@@ -269,7 +299,7 @@ h2 {
     color: #fff;
 }
 @media (min-width: 768px) {
-    #articles-container {
+    .articles-container {
         margin-left: 32%;
         float: left;
         position: relative;
@@ -278,11 +308,11 @@ h2 {
 }
 
 /* Article */
-section {
+.article-content {
 	margin-bottom: 2em;
 	padding: 0 5.5% 4em;
 }
-section h3 {
+.article-content h3 {
 	font-weight: 700;
 	font-style: normal;
 	font-size: 2em;
@@ -291,12 +321,12 @@ section h3 {
 	border-bottom: .07em solid #e5e5e5;
 	margin-bottom:.5em;
 }
-section h3 a {
+.article-content h3 a {
     text-decoration: none;
     color: #000;    
 }
 
-section p {
+.article-content p {
 	font-size: 1.25em;
 	line-height: 1.35em;
 	margin: 0;
@@ -304,17 +334,34 @@ section p {
 	font-weight: 400;
 	font-style: normal;
 }
-#article .date {
+.article-content .date {
 	font-size: 1.1em;
 	color: rgba(0,0,0,0.5);
 	font-weight: 400;
 	font-style: normal;
-	padding: 0 1em 0 0;
+	padding: 0 0.5em 0 0;
 }
-#article .date i {
+.article-content .date i {
 	padding: 1em 1em 0 0;
 }
-
+.article-content .sharing {
+    margin-top: 1em;   
+}
+.article-content .sharing a {
+    color: #fff;
+    text-align: center;
+    background: #333;
+    display: inline-block;
+    font-size: 3em;
+    width: 1em;
+    padding: 0.25em;
+}
+.article-content .sharing .facebook {
+    background: #3B5998;
+}
+.article-content .sharing .twitter {
+    background: #4099FF;
+}
 .media-list li {
 	margin-bottom: 2em;
 }
@@ -322,7 +369,7 @@ section p {
 
 /* Buttons */
 .btn {
-	background: #eee;
+	background: #333;
 	border: 0;
 	color: #444;
 	padding: 5px 9px;
@@ -333,6 +380,10 @@ section p {
 }
 .btn.btn-danger {
 	background: #da4f49;
+	color: #fff;
+}
+.btn.btn-success {
+	background: #39A946;
 	color: #fff;
 }
 .btn i {
@@ -378,27 +429,27 @@ input[type="search"]:focus {
 
 /* Signin */
 
-#signin {
+.signin {
     text-align: center;
 }
-#signin h2 {
+.signin h2 {
     margin: 1em 0;   
 }
-#signin .signin-row {
+.signin .signin-row {
     white-space: nowrap;
 }
-#signin .signin-row img {
+.signin .signin-row img {
     margin: 3px;
 }
 @media (max-width: 480px) {
-    #signin .signin-row img {
+    .signin .signin-row img {
         width: 50%;
     }
 }
 
 /* Article */
 
-#external {
+.external {
     position: absolute;
     top: 0;
     left 0;
@@ -411,12 +462,12 @@ input[type="search"]:focus {
     background: #eee;
 }
 
-#external a {
+.external a {
     text-decoration: none;
     float: right;
 }
 
-#external iframe {
+.external iframe {
     height: 100%;
     width: 100%;
     margin-top: 50px;
@@ -586,8 +637,24 @@ input[type="search"]:focus {
 
 /* Admin */
 
+.setting {
+    margin-top: 1em;   
+}
+
 /* Subscriptions */
 
+.setting .category-accordion {
+    font-size: 1.2em;   
+}
+.setting .subscription {
+    margin: 1em;   
+}
+.setting .subscription h5 {
+    font-weight: normal;
+}
+.setting .subscription .actions {
+    margin-top: 0.5em;   
+}
 .unsubscribe-confirm {
     display: none;
 }
