@@ -11,9 +11,6 @@ config.db.url = process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://mongodb:27017
 config.db.host = process.env.OPENSHIFT_MONGODB_DB_HOST || 'mongodb';
 config.db.port = parseInt(process.env.OPENSHIFT_MONGODB_DB_PORT) || 27017;
 
-config.profiles = {};
-config.profiles.id = '51fcf8f50b4f238839000001';
-
 config.logging = {};
 config.logging.level = 'debug';
 

@@ -25,7 +25,7 @@ var init = function (app, io, sessionStore) {
         key:          config.session.key,        
         secret:       config.session.secret,  
         store:        sessionStore,      
-        fail: function(data, accept) {
+        fail: function(data, msg, critical, accept) {
             accept(null, false);
         },
         success: function(data, accept) {

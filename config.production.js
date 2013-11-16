@@ -7,12 +7,11 @@ config.app.port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 config.app.baseUrl = 'http://app-pushfeed.rhcloud.com/';
 
 config.db = {};
-config.db.url = process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://mongodb:27017/';
 config.db.host = process.env.OPENSHIFT_MONGODB_DB_HOST || 'mongodb';
 config.db.port = parseInt(process.env.OPENSHIFT_MONGODB_DB_PORT) || 27017;
-
-config.profiles = {};
-config.profiles.id = '51fcf8f50b4f238839000001';
+config.db.user = 'pushfeed';
+config.db.pwd = 'Yez3a6CCjLhb9uX';
+config.db.url = 'mongodb://' + config.db.user + ':' + config.db.pwd +'@' + config.db.host + ':' + config.db.port + '/';
 
 config.logging = {};
 config.logging.level = 'error';

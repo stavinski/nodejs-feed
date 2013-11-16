@@ -30,8 +30,8 @@ app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.favicon(__dirname + '/public/content/images/favicon.ico'));
 app.use(express.logger('dev'));
-app.use(express.cookieParser());
 app.use(express.bodyParser());
+app.use(express.cookieParser(config.session.secret));
 app.use(express.methodOverride());
 app.use(express.session({ 
             secret : config.session.secret,
