@@ -659,6 +659,12 @@ input[type="search"]:focus {
     display: none;
 }
 
+/* Import */
+
+.import .feed {
+    margin: 1em 0;   
+}
+
 /* Button Dropdowns */
 
 .btn-group,

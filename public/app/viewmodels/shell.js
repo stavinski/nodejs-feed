@@ -8,6 +8,7 @@ define(['Q', 'plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/syste
                                 { route : 'article/:id', moduleId : 'viewmodels/article', title : 'article', auth : true },
                                 { route : 'add', moduleId : 'viewmodels/add', title : 'add', hash: '/#/add', nav : true, auth : true },
                                 { route : 'admin', moduleId : 'viewmodels/admin', title : 'admin', hash: '/#/admin', nav : true, auth : true },
+                                { route : 'import', moduleId : 'viewmodels/import', title : 'import', hash: '/#/import', auth : true },
                                 { route : 'welcome', moduleId : 'viewmodels/welcome', title : 'welcome', auth : true }
                          ])
                          .buildNavigationModel();

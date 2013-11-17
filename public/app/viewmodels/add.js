@@ -1,4 +1,4 @@
-define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], function (ko, $, uri, subscriptionsContext, fastclick) {
+define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick', 'notify'], function (ko, $, uri, subscriptionsContext, fastclick, notify) {
     
     var mapResult = function (result) {
         result.domain = uri(result.link).host;
@@ -17,9 +17,9 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
             self.newCategory('');
             var handleSubscription = function (result) {
                 if (result.added) {
-                    // display success info        
+                    notify.success('successfully subscribed to feed');
                 } else {
-                    // handle err    
+                    notify.error('add', 'could not subscribe to feed');
                 }
                                 
                 self.subscribing(false);
@@ -84,12 +84,11 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick'], fun
                         var mapped = data.responseData.entries.map(mapResult);
                         self.results(mapped);    
                     } else {
-                        // handle err
-                        console.log('err retrieving');
+                        notify.error('add', 'could not retrieve feed results');
                     }                        
                 });
             } else {
-                // display alert
+                notify.error('add', 'please enter a valid search query');
             }        
         },
         categories : ko.computed(function () {

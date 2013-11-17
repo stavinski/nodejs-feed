@@ -11,8 +11,17 @@ define(['config'], function (config) {
         }).bar('top');
     }
     
+    var success = function (msg, title) {
+        Stashy.Notify({
+            title : title || '',
+            content : msg,
+            style : 'success'
+        }).bar('top');
+    };
+    
     return {
-        error : error   
+        error : error,
+        success : success
     }
     
 });

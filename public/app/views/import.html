@@ -1,0 +1,30 @@
+<div>
+    <!-- ko navbar : { items: navItems } --><!-- /ko -->
+    <div class="import main">
+        <h2>import</h2>
+        
+        <input id="fileupload" type="file" name="importfile" data-url="/import" />
+        
+        <!-- ko if : importFeeds().length > 0 -->
+        <h2>Processing <!-- ko text : importFeeds().length --><!-- /ko --> feeds</h2>
+        
+        <!-- ko foreach : importFeeds -->
+        <div class="feed">
+            <!-- ko if : status() === 'processing' -->
+            <i class="fa fa-spinner fa-spin"></i>
+            <!-- /ko -->
+            <!-- ko if : status() === 'success' -->
+            <i class="fa fa-check"></i>
+            <!-- /ko -->
+            <!-- ko if : status() === 'error' -->
+            <i class="fa fa-times"></i>
+            <!-- /ko -->
+            <span data-bind="text : title"></span><br />
+            <span data-bind="text : xmlurl"></span>
+        </div>
+        <!-- /ko -->
+        
+        <!-- /ko -->
+        
+    </div>    
+</div>

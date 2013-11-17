@@ -59,6 +59,7 @@ app.get('/', routes.index);
 app.get('/fail', routes.fail);
 app.get('/export', routes.export);
 app.get('/subscribe/:url', routes.subscribe);
+app.post('/import', routes.import);
 
 auth.init(app, io, sessionStore);
 socketApp.start(io);

@@ -1,4 +1,6 @@
 var   array = require('array-extended')
+    , fs = require('fs')
+    , Q = require('q')
     , subscriptions = require('../data/subscriptions')
     , profiles = require('../data/profiles')
     , feed = require('../feed')
@@ -41,7 +43,10 @@ exports.export = function (req, res) {
             res.header('Content-Disposition', 'attachment; filename=pushfeed.opml');
             res.send(xml);
         })
-        .fail(function (err) { res.send(500); })
+        .fail(function (err) { 
+            console.error(err);
+            res.send(500); 
+        })
         .done();
 };
 
@@ -85,7 +90,33 @@ exports.subscribe = function (req, res) {
             res.send(200, 'subscription successful');
         })
         .fail(function (err) {
+            console.error(err);
             res.send(500);
         })
         .done();    
+};
+
+exports.import = function (req, res) {
+    var uploadedFile = req.files.importfile;
+    
+    if (!uploadedFile) {
+        res.send({ status : 'error', reason: 'file has not been uploaded' });    
+        return;
+    }
+    if (uploadedFile.type != 'text/xml') {
+        res.send({ status : 'error', reason: 'file is not a valid opml xml file' });
+        return;
+    }
+    
+    Q.ninvoke(fs, 'readFile', uploadedFile.path, { encoding : 'utf-8' })
+        .then(function (data) {
+            return Q.ninvoke(opml, 'parse', data);
+        })
+        .then(function (feeds) {
+            res.send({ status : 'success', feeds : feeds });
+        })
+        .fail(function (err) {
+            console.error(err);
+            res.send({ status : 'error', reason : 'could parse uploaded file' }); 
+        });
 };

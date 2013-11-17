@@ -15,6 +15,8 @@ requirejs.config({
         "socket.io" : "/socket.io/socket.io",
         "fastclick" : "../scripts/fastclick",
         "jquery.lazy" : "../scripts/jquery/jquery.lazy.min",
+        "jquery.ui.widget" : "../scripts/jquery/jquery.ui.widget",
+        "jquery.fileupload" : "../scripts/jquery/jquery.fileupload",
         "jquery.hammer" : "../scripts/jquery/jquery.hammer.min",
         "hammer" : "../scripts/hammer.min",
         "stashy" : "../scripts/stashy"
@@ -35,6 +37,9 @@ requirejs.config({
             deps: ["knockout"]
         },
         "jquery.lazy" : {
+            deps : ["jquery"]    
+        },
+        "jquery.ui.widget" : {
             deps : ["jquery"]    
         },
         "jquery.ui" : {
