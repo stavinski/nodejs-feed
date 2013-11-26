@@ -25,9 +25,15 @@
         </div>
         
         <div class="articles-container">
-            <!-- ko if: !loading() && articles().length <= 0 -->
-            <div class="alert alert-info alert-block">
-                <span>No articles could be located</span>
+            <!-- ko if : noSubscriptions -->
+            <div class="well">
+                <span>You currently have no subscribed feeds, you can either add a feed by using the <a href="#/add">search</a> or by <a href="#/import">importing existing feeds</a></span>
+            </div>
+            <!-- /ko -->
+            
+            <!-- ko if: !loading() && !noSubscriptions && articles().length <= 0 -->
+            <div class="well">
+                <span>no articles for specified filter</span>
             </div>
             <!-- /ko -->
             

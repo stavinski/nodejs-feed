@@ -153,7 +153,7 @@ var handleAddSubscription = function (socket) {
                     .then(function (subscription) { callback({ status : 'success', timestamp : new Date(), subscription : subscription }); })
                     .fail(function (err) {
                         console.error(err);
-                        callback({ status : 'error', reason : '' });
+                        callback({ status : 'error', timeStamp : new Date() });
                     })
                     .done();
        });
@@ -187,8 +187,8 @@ var handleArticlesUpdated = function (sio) {
         profiles.getAllConnected(msg.subscription._id)
             .then(function (results) {
                 results.forEach(function (found) {
-                    found.connections.forEach(function (socketId) {
-                        var socket = sio.sockets.socket(socketId);
+                    found.connections.forEach(function (connection) {
+                        var socket = sio.sockets.socket(connection.socketId);
                                             
                         if (socket)                    
                             socket.emit('backend.articlesupdated', { timestamp: new Date() });            

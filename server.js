@@ -17,6 +17,7 @@ var express = require('express')
   , io = require('socket.io').listen(server)
   , download = require('./background/download')
   , pubsub = require('./background/pubsub')
+  , connections = require('./background/connections')
   , sessionStore = new MongoStore({
                 url: config.db.url + 'pushfeed/sessions',
                 auto_reconnect : true
@@ -70,4 +71,5 @@ server.listen(app.get('port'), app.get('ipaddress'), function(){
     // kick off background tasks
     download.start();
     pubsub.start();
+    connections.start();
 });

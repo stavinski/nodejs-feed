@@ -366,6 +366,13 @@ h2 {
 	margin-bottom: 2em;
 }
 
+/* Well */
+
+.well {
+    padding: 1em;
+    background: #DDD;
+    border: 1px solid #CCC;
+}
 
 /* Buttons */
 .btn {

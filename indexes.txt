@@ -11,7 +11,8 @@ db.articles.ensureIndex({published:-1}, {name:'published_sort'})
 /* profiles */
 
 db.profiles.ensureIndex({openid:1}, {name:'find_by_openid'})
-db.profiles.ensureIndex({connections:1}, {name:'find_by_connection'})
+db.profiles.ensureIndex({'connections.socketId':1}, {name:'find_by_socketId'})
+db.profiles.ensureIndex({'connections.connected':-1}, {name:'find_by_connected'})
 db.profiles.ensureIndex({'subscriptions._id':1}, {name:'find_by_subscription'})
 
 /* subscriptions */

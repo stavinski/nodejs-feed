@@ -65,6 +65,7 @@ define(['Q', 'plugins/router', 'plugins/dialog', 'durandal/app', 'durandal/syste
                     
                     amplify.subscribe(connection.TOPIC_DISCONNECTED, function () {
                         self.connected(false);
+                        notify.error('shell', 'lost connection to backend');
                     });
                 })
                 .fail(function (err) { 

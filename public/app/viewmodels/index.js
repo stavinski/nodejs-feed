@@ -1,4 +1,4 @@
-define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick', 'jquery.lazy', 'moment', 'sharing'], function (config, router, ko, articlesContext, fastclick, jqueryLazy, moment, sharing) {
+define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick', 'jquery.lazy', 'moment', 'sharing', 'contexts/subscriptions'], function (config, router, ko, articlesContext, fastclick, jqueryLazy, moment, sharing, subscriptionsContext) {
     
     var mapArticle = function (article) {
         var   vm = $.extend({}, article)
@@ -74,6 +74,9 @@ define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick'
             });
             */
         },
+        noSubscriptions : ko.computed(function () {
+            return (subscriptionsContext.subscriptions().length <= 0);     
+        }),
         detached : function () {
             this.activeArticle('');    
         },

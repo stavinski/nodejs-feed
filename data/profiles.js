@@ -16,13 +16,12 @@ exports.insert = function (openid) {
     return Q.ninvoke(db, 'open')
         .then(function (db) {
             var data =  {
-                connected : false,
                 created : new Date(),
                 openid : openid,
                 settings : {
                     articleDetailsCache : 5
                 },
-                socketId : '',
+                connections : [],
                 subscriptions : []
             };
             return Q.ninvoke(db.collection('profiles'), 'insert', data, {w:1});
@@ -36,7 +35,11 @@ exports.insert = function (openid) {
 exports.connected = function (profile, socketId) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
-                return Q.ninvoke(db.collection('profiles'), 'update', { _id : new ObjectID(profile) }, { $addToSet : { connections : socketId } });
+                var connection = {
+                    socketId : socketId,
+                    connected : new Date()
+                };
+                return Q.ninvoke(db.collection('profiles'), 'update', { _id : new ObjectID(profile) }, { $addToSet : { connections : connection } });
             })
             .fin(function () { db.close(); });
 };
@@ -45,7 +48,7 @@ exports.disconnected = function (profile, socketId) {
     return Q.ninvoke(db, 'open')
             .then(function (db) {
                 var profiles = db.collection('profiles');
-                return Q.ninvoke(profiles, 'update', { _id : new ObjectID(profile) }, { $pull : { connections : String(socketId) } });
+                return Q.ninvoke(profiles, 'update', { _id : new ObjectID(profile) }, { $pull : { 'connections.socketId' : String(socketId) } });
             })
             .fin(function () { db.close(); });
 };
@@ -101,6 +104,14 @@ exports.subscriptionUpdate = function (profile, meta) {
                 return Q.ninvoke(db.collection('profiles'), 'update', { _id : new ObjectID(profile), 'subscriptions._id' : new ObjectID(meta.subscription) }, update, {w:1});
             })
             .fin(function () { db.close(); })
+};
+
+exports.removeOldConnections = function (before) {
+    return Q.ninvoke(db, 'open')
+            .then(function () {
+                return Q.ninvoke(db.collection('profiles'), 'update', { 'connections.connected' : { $lte : new Date(before) } }, { $pull : { connections: { connected : { $lte : new Date(before) } } } });
+            })
+            .fin(function () { db.close(); });
 };
 
 

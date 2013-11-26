@@ -52,7 +52,7 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick', 'not
                 evt.stopPropagation();
             });
             
-            fastclick.attach(document.body);        
+            fastclick.attach(document.body);
         },
         deactivate : function () {
             this.results.removeAll();
@@ -65,7 +65,22 @@ define(['knockout', 'jquery', 'uri', 'contexts/subscriptions', 'fastclick', 'not
         results : ko.observableArray(),
         loading : ko.observable(false),
         resultQuery : ko.observable(''),
-        search : function (limit) {
+        quickAdd : ko.observable(''),
+        add : function () {
+            var self = this;
+            
+            var handleSubscription = function (result) {
+                console.log(result);
+                if (result.added) {
+                    notify.success('successfully subscribed to feed');
+                } else {
+                    notify.error('add', 'could not subscribe to feed');
+                }
+            };
+            
+            subscriptionsContext.subscribe(self.quickAdd(), 'main', handleSubscription);
+        },
+        search : function () {
             var   self = this
                 , searchUrl = 'https://ajax.googleapis.com/ajax/services/feed/find?v=1.0&callback=?';
             

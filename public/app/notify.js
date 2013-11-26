@@ -7,7 +7,9 @@ define(['config'], function (config) {
         Stashy.Notify({
             title : title || '',
             content : msg,
-            style : 'error'
+            style : 'error',
+            closeArea: 'element',
+            activeDuration : 5000
         }).bar('top');
     }
     
@@ -15,7 +17,9 @@ define(['config'], function (config) {
         Stashy.Notify({
             title : title || '',
             content : msg,
-            style : 'success'
+            style : 'success',
+            closeArea: 'element',
+            activeDuration : 5000
         }).bar('top');
     };
     

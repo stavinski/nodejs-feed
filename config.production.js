@@ -29,6 +29,8 @@ config.background.pollMs = 30000;
 config.background.subscriptionPollMins = 10;
 config.background.pubsubActive = true;
 config.background.pollActive = true;
+config.background.connectionCleanupActive = true;
+config.background.connectionStaleHours = 24;
 
 config.feedpush = {};
 config.feedpush.leaseSeconds = 7 * 24 * 60 * 60; // a week
