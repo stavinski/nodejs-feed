@@ -1,6 +1,9 @@
+/* jshint node: true */
+'use strict';
+
 var util = require('util');
 var Stream = require('stream');
-var Buffer = require('buffer').Buffer;
+var buffer = require('buffer').Buffer;
 
 /**
  * A Readable stream for a string or Buffer.
@@ -15,7 +18,7 @@ module.exports = StringReader;
 
 StringReader.prototype.open =
 StringReader.prototype.resume = function () {
-  if (this.encoding && Buffer.isBuffer(this.data)) {
+  if (this.encoding && buffer.isBuffer(this.data)) {
     this.emit('data', this.data.toString(this.encoding));
   }
   else {
@@ -23,16 +26,16 @@ StringReader.prototype.resume = function () {
   }
   this.emit('end');
   this.emit('close');
-}
+};
 
 StringReader.prototype.setEncoding = function (encoding) {
   this.encoding = encoding;
-}
+};
 
 
 StringReader.prototype.pause = function () {
-}
+};
 
 StringReader.prototype.destroy = function () {
   delete this.data;
-}
+};

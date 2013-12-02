@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var   config = require('../config')
     , mongodb = require('mongoskin')
     , ObjectID = require('mongodb').ObjectID
@@ -60,13 +63,13 @@ exports.upsert = function (meta) {
             return host + '/favicon.ico';
         };
         
-        if (meta.favicon != null) return meta.favicon; // use supplied as preference
+        if (meta.favicon !== null) return meta.favicon; // use supplied as preference
         if (meta.link) return parseUrl(meta.link); // then the website 
         return parseUrl(meta.xmlurl); // then the feed which could be a feed provider (i.e. feedburner)
     };
     
     var parsePubSub = function (meta) {
-        if (Object.keys(meta.cloud).length == 0) return null;
+        if (Object.keys(meta.cloud).length === 0) return null;
     
         return meta.cloud;
     };
@@ -102,7 +105,7 @@ exports.upsert = function (meta) {
                                     .fail(deferred.reject);
                             } else {
                                 Q.ninvoke(subscriptions, 'findOne', { xmlurl : meta.xmlurl }, {}, {w:1})
-                                    .then(function (result) { deferred.resolve({ existing : existing, subscription : result }) })
+                                    .then(function (result) { deferred.resolve({ existing : existing, subscription : result }); })
                                     .fail(deferred.reject);
                             }
                             
@@ -153,7 +156,7 @@ exports.subscribe = function (subscription, expires) {
             .then(function (db) {
                 return Q.ninvoke(db.collection('subscriptions'), 'update', { _id : subscription._id }, { $set : { 'pubsub.verified' : new Date(), 'pubsub.expires' : expires } }, {w:1});
             })
-            .fin(function () { db.close(); })
+            .fin(function () { db.close(); });
 };
 
 exports.unsubscribe = function (subscription) {
@@ -161,7 +164,7 @@ exports.unsubscribe = function (subscription) {
             .then(function (db) {
                 return Q.ninvoke(db.collection('subscriptions'), 'update', { _id : subscription._id }, { $set : { 'pubsub.unsubscribed' : new Date() } }, {w:1});
             })
-            .fin(function () { db.close(); })
+            .fin(function () { db.close(); });
 };
 
 exports.getForPubSubRenewal = function () {
@@ -173,5 +176,5 @@ exports.getForPubSubRenewal = function () {
             
             return Q.ninvoke(cursor, 'toArray');
         })
-        .fin(function () { db.close(); })
+        .fin(function () { db.close(); });
 };

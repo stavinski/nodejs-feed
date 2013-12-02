@@ -1,3 +1,5 @@
+/* jshint node: true */
+'use strict';
 
 var   providers = ['google', 'twitter', 'yahoo', 'facebook']
     , config = require('../config')

@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var config = require('../config')
     , mongodb = require('mongoskin')
     , ObjectID = require('mongodb').ObjectID
@@ -103,7 +106,7 @@ exports.subscriptionUpdate = function (profile, meta) {
                                 
                 return Q.ninvoke(db.collection('profiles'), 'update', { _id : new ObjectID(profile), 'subscriptions._id' : new ObjectID(meta.subscription) }, update, {w:1});
             })
-            .fin(function () { db.close(); })
+            .fin(function () { db.close(); });
 };
 
 exports.removeOldConnections = function (before) {

@@ -198,6 +198,8 @@ define(['connection', 'cache', 'knockout', 'Q', 'knockoutmapping', 'contexts/sub
             
             return null;
         },
+        categoryFilter : null,
+        subscriptionFilter : null,
         articles : ko.observableArray(),
         loading : ko.observable(false)
     };

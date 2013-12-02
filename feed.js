@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var   Q = require('q')
     , FeedParser = require('feedparser')
     , url = require('url')
@@ -19,7 +22,7 @@ var feed = {
                     .on('meta', function (meta) {
                         // some feeds do not provide the actual xml url, :-/
                         // in which case just use the feed url provided
-                        if (meta.xmlurl == null) 
+                        if (meta.xmlurl === null) 
                             meta.xmlurl = feedUrl.toLowerCase();
                                                 
                         deferred.resolve(meta);
@@ -45,7 +48,7 @@ var feed = {
                             var   stream = this
                                 , item = null;
                                 
-                            while (item = stream.read()) {
+                            while ((item = stream.read()) !== null) {
                                 results.push(item);
                             }
                         })
@@ -65,7 +68,7 @@ var feed = {
                  var   stream = this
                      , item = null;
                  
-                 while (item = stream.read()) {
+                 while ((item = stream.read()) !== null) {
                     results.push(item);
                  }
             })

@@ -78,6 +78,19 @@ module.exports = function (grunt) {
                    wrap: false
                }
             }
+        },
+        jshint : {
+            files : ['*.js', 'auth/*.js', 'background/*.js', 'data/*.js', 'routes/*.js'],
+            options : {
+                laxcomma : true,
+                ignores : ['node_modules/**/*.js']         
+            }
+        },
+        watch : {
+            scripts : {
+                files : ['**/*.js'],
+                tasks : ['jshint']
+            }
         }
     });
     
@@ -86,12 +99,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     
     // build tasks
     grunt.registerTask('build-server', ['copy:server']);
     grunt.registerTask('build-client', ['copy:client', 'cssmin:client', 'durandal:client']);
-    grunt.registerTask('default', ['clean:build', 'build-server', 'build-client']);
-    
+    grunt.registerTask('default', ['jshint', 'clean:build', 'build-server', 'build-client']);
+        
     // deploy tasks
     grunt.registerTask('deploy', ['clean:deploy', 'copy:deploy']);
 };

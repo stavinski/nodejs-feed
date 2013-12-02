@@ -1,3 +1,5 @@
+/* jshint node: true */
+'use strict';
 
 var   config = require('./config')
     , mongodb = require('mongoskin')
@@ -59,7 +61,7 @@ var logger = {
                 // return Q.ninvoke(cursor, "toArray"); 
             // });
     }
-}
+};
 
 // expose public methods
 module.exports.error = logger.error;

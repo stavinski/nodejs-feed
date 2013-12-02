@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var   profiles = require('../data/profiles')
     , config = require('../config');
 

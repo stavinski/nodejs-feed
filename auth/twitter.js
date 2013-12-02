@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var   config = require('../config')
     , profiles = require('../data/profiles')
     , passport = require('passport')
@@ -14,7 +17,7 @@ var initialize = function (app) {
         }, function(token, tokenSecret, profile, done) {
             profiles.find(profile.id)
                 .then (function (found) {
-                    if (found == null) {
+                    if (found === null) {
                         profiles.insert(profile.id)
                             .then(function (profile) {
                                 profile.new = true;

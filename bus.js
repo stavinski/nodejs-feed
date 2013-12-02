@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var   config = require('./config')
     , mubsub = require('mubsub')
     , Q = require('q');
@@ -5,7 +8,7 @@ var   config = require('./config')
 var bus = {
     _client : null,
     _getClient : function () {
-        if (this._client == null) {
+        if (this._client === null) {
             this._client = mubsub(config.db.url + 'pushfeed');
         }
         
@@ -13,12 +16,10 @@ var bus = {
     },
     publish : function (evt, msg) {
         var channel = this._getClient().channel('bg');
-                
-        //client.on('error', console.error);
-        //channel.on('error', console.error);
-                
+        
         channel.publish(evt, msg, function (err) {
-            //console.log(err);    
+            if (err)
+                console.error(err);
         }); 
     },
     subscribe : function (evt, callback) {

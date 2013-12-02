@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+    <head>
+        <title>Mike subscriptions in Google Reader</title>
+    </head>
+    <body>
+        <outline title="Master" text="Master">
+            <outline text=".NET Rocks!" title=".NET Rocks!" type="rss"
+                xmlUrl="http://www.pwop.com/feed.aspx?show=dotnetrocks&amp;filetype=master" htmlUrl="http://www.dotnetrocks.com"/>
+        </outline>
+        <outline title=".NET" text=".NET">
+        <outline text="Alt.NET Podcast" title="Alt.NET Podcast"
+                type="rss"
+                xmlUrl="http://feeds.feedburner.com/altnetpodcast" htmlUrl="http://altnetpodcast.com/"/>
+        </outline>
+    </body>
+</opml>

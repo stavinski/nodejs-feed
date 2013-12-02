@@ -52,6 +52,8 @@
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-cssmin": "~0.6.2",
     "grunt-durandal": "~0.1.2",
-    "requirejs": "~2.1.9"
+    "requirejs": "~2.1.9",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-watch": "~0.5.3"
   }
 }

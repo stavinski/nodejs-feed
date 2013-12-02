@@ -34,14 +34,13 @@ define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick'
     };
     
     var ViewModel = {
-        activate : function (subscription) {
-            var self = this;
-            self.subscription(subscription);
+        activate : function (params) {
+            this.filter = params;
         },
         loading: ko.computed(function () { return articlesContext.loading(); }),
-        subscription : ko.observable(''),
         activeArticle : ko.observable(''),
-        filter : 'all',
+        subscription : ko.observable(null),
+        filter : null,
         view : function () {
             router.navigate('#/article/' + this._id);
             return false;

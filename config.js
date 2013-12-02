@@ -1,5 +1,7 @@
+/* jshint node: true */
+'use strict';
 
-config = {};
+var config = {};
 
 config.app = {};
 config.app.ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';

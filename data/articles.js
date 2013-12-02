@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var config = require('../config')
     , mongodb = require('mongoskin')
     , ObjectID = require('mongodb').ObjectID
@@ -109,7 +112,7 @@ exports.get = function(profile, id) {
                 db.collection('articles').findOne({_id : new ObjectID(id), starred : new ObjectID(profile) }, { read : 0, starred : 0 }, {w:1}, function (err, starred) {
                     if (err) throw err;
                     
-                    if (starred != null) {
+                    if (starred !== null) {
                         starred.starred = true;
                         starred.read = false;
                         deferred.resolve(starred);                            
@@ -119,7 +122,7 @@ exports.get = function(profile, id) {
                 db.collection('articles').findOne({_id : new ObjectID(id), read : new ObjectID(profile) }, { read : 0, starred : 0 }, {w:1}, function (err, read) {
                     if (err) throw err;
                     
-                    if (read != null) {
+                    if (read !== null) {
                         read.starred = false;
                         read.read = true;
                         deferred.resolve(read);                            
@@ -128,7 +131,7 @@ exports.get = function(profile, id) {
                 db.collection('articles').findOne({_id : new ObjectID(id), starred : { $ne : new ObjectID(profile) }, read : { $ne : new ObjectID(profile) } }, { read : 0, starred : 0 }, {w:1}, function (err, unread) {
                     if (err) throw err;
                     
-                    if (unread != null) {
+                    if (unread !== null) {
                         unread.starred = false;
                         unread.read = false;
                         deferred.resolve(unread);                            

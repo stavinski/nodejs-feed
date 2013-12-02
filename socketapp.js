@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var   config = require('./config')
     , subscriptions = require('./data/subscriptions')
     , profiles = require('./data/profiles')
@@ -69,7 +72,7 @@ var handleStarred = function (socket) {
             .then(function () {
                 callback({ status : 'success', timestamp: new Date() });
             })
-            .fail(function () {
+            .fail(function (err) {
                 console.error(err);
                 callback({ status : 'error', timestamp: new Date() });
             })
@@ -83,7 +86,7 @@ var handleUnstarred = function (socket) {
             .then(function () {
                 callback({ status : 'success', timestamp: new Date() });
             })
-            .fail(function () {
+            .fail(function (err) {
                 console.error(err);
                 callback({ status : 'error', timestamp: new Date() });
             })
@@ -97,7 +100,7 @@ var handleRead = function (socket) {
             .then(function () {
                 callback({ status : 'success', timestamp: new Date() });
             })
-            .fail(function () {
+            .fail(function (err) {
                 console.error(err);
                 callback({ status : 'error', timestamp: new Date() });
             })
@@ -111,7 +114,7 @@ var handleUnread = function (socket) {
             .then(function () {
                 callback({ status : 'success', timestamp: new Date() });
             })
-            .fail(function () {
+            .fail(function (err) {
                 console.error(err);
                 callback({ status : 'error', timestamp: new Date() });
             })
@@ -138,7 +141,7 @@ var handleAddSubscription = function (socket) {
                                 if (result.existing) 
                                     return subscription;
                                                                 
-                                if ((subscription.pubsub != null) && (subscription.pubsub.type == 'hub'))
+                                if ((subscription.pubsub !== null) && (subscription.pubsub.type == 'hub'))
                                     feedpush.subscribe(subscription);
                                                                 
                                 return feed.articles(data.url)

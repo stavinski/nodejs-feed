@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var   array = require('array-extended')
     , fs = require('fs')
     , Q = require('q')
@@ -74,7 +77,7 @@ exports.subscribe = function (req, res) {
                     if (result.existing) 
                         return subscription;
                                                     
-                    if ((subscription.pubsub != null) && (subscription.pubsub.type == 'hub'))
+                    if ((subscription.pubsub !== null) && (subscription.pubsub.type == 'hub'))
                         feedpush.subscribe(subscription);
                                                     
                     return feed.articles(url)

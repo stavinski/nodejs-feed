@@ -71,88 +71,21 @@ header  {
 
 /* Navicon */
 
-@charset "CP850";
-
 .navicon-button {
-  display: inline-block;
-  position: relative;
-  padding: 2.0625rem 1.5rem;
-  transition: 0.25s;
-  cursor: pointer;
-  user-select: none;
-  opacity: .8; }
-  .navicon-button .navicon:before, .navicon-button .navicon:after {
-    transition: 0.25s; }
-  .navicon-button:hover {
-    transition: 0.5s;
-    opacity: 1; }
-    .navicon-button:hover .navicon:before, .navicon-button:hover .navicon:after {
-      transition: 0.25s; }
-    .navicon-button:hover .navicon:after {
-      top: -.825rem; }
-    .navicon-button:hover .navicon:before {
-      top: .825rem; }
-
-.navicon {
-  position: relative;
-  width: 2.2em;
-  height: .3125rem;
-  background: #e7e6dd;
   transition: 0.5s;
-  border-radius: 2.5rem; }
-  .navicon:after, .navicon:before {
-    display: block;
-    content: "";
-    height: .3125rem;
-    width: 2.2rem;
-    background: #e7e6dd;
-    position: absolute;
-    z-index: -1;
-    transition: 0.5s 0.25s;
-    border-radius: 1rem; }
-  .navicon:after {
-    top: -.625rem; }
-  .navicon:before {
-    top: .625rem; }
-
-.open:not(.steps) .navicon:before,
-.open:not(.steps) .navicon:after {
-  top: 0 !important; }
-
-.open .navicon:before,
-.open .navicon:after {
-  transition: 0.5s; }
-
-.open.x .navicon {
-  background: transparent; }
-  .open.x .navicon:after {
-    -webkit-transform: rotate(45deg); }
-  .open.x .navicon:before {
-    -webkit-transform: rotate(-45deg); }
-
-.loading .navicon {
-  color: dodgerblue;
-  box-shadow: inset 0 0;
-  transition: 0.5s, box-shadow 0; }
-
-.loading .navicon {
-  transition: 0; 
+}  
+.navicon-button.open {
+    -moz-transform:  translate3d(0, 0, 0) rotate(90deg);
+    -webkit-transform:  translate3d(0, 0, 0) rotate(90deg);
+    -o-transform:  translate3d(0, 0, 0) rotate(90deg);
+    -ms-transform:  translate3d(0, 0, 0) rotate(90deg);
+    transform:  translate3d(0, 0, 0) rotate(90deg);
 }
-
-.open.loading {
-  transform: none; }
-  .open.loading .navicon {
-    box-shadow: inset 2.5rem 0;
-    transition: 0.5s, box-shadow 2.5s; }
-    .open.loading .navicon:before, .open.loading .navicon:after {
-      opacity: 0; }
-
 @media (min-width: 768px) {
-    .navicon-button, .navicon {
+    .navicon-button, .navicon-button i {
         display: none;
     }
 }
-
 h2 {
 	font-size:1.8em;
 	font-weight: 500;
@@ -170,6 +103,7 @@ h2 {
 
 .filter-container.open {
 	display: block;
+    transition: 0.5s;
 }
 
 @media (min-width: 768px) {

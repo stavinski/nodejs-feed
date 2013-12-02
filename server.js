@@ -1,3 +1,5 @@
+/* jshint node: true */
+'use strict';
 
 var express = require('express')
   , config = require('./config')
@@ -34,13 +36,14 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.cookieParser(config.session.secret));
 app.use(express.methodOverride());
+app.use('/push', feedpush.handler());
 app.use(express.session({ 
             secret : config.session.secret,
-            store : sessionStore
+            store : sessionStore,
+            cookie: { maxAge: null } // make it a session cookie
         }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/push', feedpush.handler());
 app.use(app.router);
 
 bundleUp(app, __dirname + '/assets', {

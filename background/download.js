@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var   config = require('../config')
     , util = require('util')
     , crypto = require('crypto')
@@ -25,12 +28,12 @@ var handleDownload = function (subscription, results) {
     // had an issue downloading feed so mark it as in error
     if (response.statusCode != 200) {
         subscriptions.setError(subscription, true)
-                     .then(function () { return { proceed : false } });
+                     .then(function () { return { proceed : false }; });
     }
     
     // all is good so return the feed response and body
     return subscriptions.setError(subscription, false)
-                        .then(function () { return { proceed : true, response : response, body : body } });
+                        .then(function () { return { proceed : true, response : response, body : body }; });
 };
 
 var parseFeed = function (body) {
@@ -44,7 +47,7 @@ var parseFeed = function (body) {
              var   stream = this
                  , item = null;
              
-             while (item = stream.read()) {
+             while ((item = stream.read()) !== null) {
                 results.push(item);
              }
         })
@@ -59,7 +62,7 @@ var execute = function() {
     
     return subscriptions.getForPolling()
         .then(function (subscription) {
-            if (subscription == null) return;
+            if (subscription === null) return;
             
             var opts = {
                 url : subscription.xmlurl,
@@ -70,21 +73,21 @@ var execute = function() {
             };
             
             return subscriptions.setLastPoll(subscription)
-                    .then(function () { return Q.nfcall(request, opts) })
+                    .then(function () { return Q.nfcall(request, opts); })
                     .then(function (results) { return handleDownload(subscription, results); })
                     .then(function (results) {
                         // there was an issue
                         if (!results.proceed) return [];
                     
-                        return subscriptions.setPollingData(subscription, results.response.headers['last-modified'], results.response.headers['etag'])
-                                .then(function () { return parseFeed(results.body) });
+                        return subscriptions.setPollingData(subscription, results.response.headers['last-modified'], results.response.headers.etag)
+                                .then(function () { return parseFeed(results.body); });
                     })
                     .then(function (downloaded) {
                         return articles.upsert(subscription, downloaded);
                     })
                     .then(function (result) {
                         // check whether there were any new articles
-                        var allExisting = result.every(function (existing) { return existing == true; });
+                        var allExisting = result.every(function (existing) { return existing === true; });
                                         
                         if (!allExisting) {
                             bus.publish('bg.articlesupdated', { timestamp : new Date(), subscription : subscription });

@@ -1,9 +1,13 @@
+/* jshint node: true */
+'use strict';
+
 var   config = require('./config')
     , Q = require('q')
     , uuid = require('uuid')
     , subscriptions = require('./data/subscriptions')
     , articles = require('./data/articles')
     , feed = require('./feed')
+    , bus = require('./bus')
     , request = require('request')
     , verifyTokens = {};
 
@@ -50,7 +54,7 @@ var handleSubscriptionContent = function (req, res, subscription) {
             })
             .then(function (result) {
                 // check whether there were any new articles
-                var allExisting = result.every(function (existing) { return existing == true; });
+                var allExisting = result.every(function (existing) { return existing === true; });
                                 
                 if (!allExisting) {
                     bus.publish('bg.articlesupdated', { timestamp : new Date(), subscription : subscription });
@@ -63,7 +67,7 @@ var handleSubscriptionContent = function (req, res, subscription) {
 };
 
 var subscriptionRequest = function (subscription, subscribe) {
-    if (subscription.pubsub == null)
+    if (subscription.pubsub === null)
             throw new Error('not a pubsub subscription');
         
     var pubsub = subscription.pubsub;
@@ -113,7 +117,7 @@ var feedpush = {
             
             subscriptions.get(id)
                 .then(function (subscription) {
-                    if (subscription == null) {
+                    if (subscription === null) {
                         res.send(404);
                         return;
                     }

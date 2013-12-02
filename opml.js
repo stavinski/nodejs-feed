@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var   op = require('opmlparser')
     , xml = require('xml')
     , fs = require('fs')

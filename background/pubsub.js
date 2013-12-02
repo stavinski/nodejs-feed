@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var   subscriptions = require('../data/subscriptions')
     , feedpush = require('../feedpush')
     , config = require('../config')
