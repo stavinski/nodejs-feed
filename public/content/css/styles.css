@@ -54,7 +54,7 @@ header  {
 	float: right;
 	text-align: right;
 }
-.nav-bar a {
+.nav-bar a, .nav-bar button  {
 	display: inline-block;
 	margin-left:10px;
 	color: #FFF;
@@ -65,7 +65,7 @@ header  {
 .nav-bar a:first-child {
 	margin: 0;
 }
-.nav-bar a i {
+.nav-bar a i, .nav-bar button i {
 	font-size: 32px;
 }
 
@@ -926,4 +926,24 @@ input[type="search"]:focus {
   overflow: hidden;
   -webkit-transition: height 0.35s ease;
           transition: height 0.35s ease;
+}
+
+/* Format buttons as text */
+
+.text {
+    overflow:visible; /* Shrinkwrap the text in IE7- */
+    margin:0;
+    padding:0;
+    border:0;
+    background:transparent;
+    font:inherit; /* Inherit font settings (doesn’t work in IE7-) */
+    cursor:pointer; /* Buttons don’t make the cursor change in all browsers */
+    -moz-user-select:text; /* Make button text selectable in Gecko */
+}
+/* Remove mystery padding in Gecko browsers.
+ * See https://bugzilla.mozilla.org/show_bug.cgi?id=140562
+ */
+.text::-moz-focus-inner {
+    padding:0;
+    border:0;
 }

@@ -12,7 +12,6 @@ define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'contexts
                                         .map(bindSubscription),
                     toggleCollapse : function () {
                         this.collapsed(!this.collapsed());
-                        return true;
                     },
                     unread : ko.computed(function () {
                         var self = category
@@ -55,13 +54,6 @@ define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'contexts
         activate: function () {
             
         },
-        makeActive : function () {
-            var   self = this
-                , route = '#/' + router.activeItem().filter + '/';
-                        
-            router.navigate(route + self._id);
-            return false;
-        },
         attached : function () {
             fastclick.attach(document.body);
         },
@@ -78,7 +70,7 @@ define(['plugins/router', 'knockout', 'connection', 'cache', 'jquery', 'contexts
         }),
         starredUnread : ko.computed(function () {
             var found = ko.utils.arrayFilter(articlesContext.articles(), function (article) {
-                return (!article.read()) && (article.starred());
+                return article.starred();
             });
             
             return (found.length > 0) ? found.length : '';

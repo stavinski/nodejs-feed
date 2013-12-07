@@ -35,6 +35,7 @@ define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick'
     
     var ViewModel = {
         activate : function (params) {
+            console.log(params);
             this.filter = params;
         },
         loading: ko.computed(function () { return articlesContext.loading(); }),
@@ -42,18 +43,14 @@ define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick'
         subscription : ko.observable(null),
         filter : null,
         view : function () {
-            router.navigate('#/article/' + this._id);
+            var url = '#/article/' + this._id;
+            router.navigate(url);
             return false;
         },
         attached : function () {
             var self = this;
             fastclick.attach(document.body);
-            
-            $(".navicon-button").click(function(){
-                $(this).toggleClass("open");
-                $(".filter-container").toggleClass("open");
-            });
-            
+                        
             $('.articles-container').hammer().on('hold', '.article', function (evt) {
                 var   context = ko.contextFor(this)
                     , data = context.$data;
@@ -72,6 +69,10 @@ define(['config', 'plugins/router', 'knockout', 'contexts/articles', 'fastclick'
                 }
             });
             */
+        },
+        filterOpen : ko.observable(false),
+        toggleFilter : function () {
+            this.filterOpen(!this.filterOpen());    
         },
         noSubscriptions : ko.computed(function () {
             return (subscriptionsContext.subscriptions().length <= 0);     

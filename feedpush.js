@@ -3,13 +3,12 @@
 
 var   config = require('./config')
     , Q = require('q')
-    , uuid = require('uuid')
     , subscriptions = require('./data/subscriptions')
     , articles = require('./data/articles')
     , feed = require('./feed')
     , bus = require('./bus')
     , request = require('request')
-    , verifyTokens = {};
+    , verifyTokens = require('./verifytokens');
 
 var handleSubscriptionVerification = function (req, res, subscription) {
     
@@ -26,7 +25,7 @@ var handleSubscriptionVerification = function (req, res, subscription) {
         if (subscription.xmlurl.toLowerCase() != topic.toLowerCase())
             throw new Error('topic does not match the subscription');
         
-        if (verifyTokens[subscription._id] != verifyToken)
+        if (!verifyTokens.verify(verifyToken))
             throw new Error('incorrect verify token supplied');
         
         var   now = new Date()
@@ -80,7 +79,7 @@ var subscriptionRequest = function (subscription, subscribe) {
                 'hub.mode' : (subscribe) ? 'subscribe' : 'unsubscribe',
                 'hub.topic' : subscription.xmlurl,
                 'hub.verify' : 'sync',
-                'hub.verify_token' : verifyTokens[subscription._id] = uuid.v4(),
+                'hub.verify_token' : verifyTokens.create(subscription.xmlurl),
                 'hub.lease_seconds' : config.feedpush.leaseSeconds
             }
           }

@@ -11,9 +11,9 @@
                 <a href="#/admin">
                     <i class="fa fa-cog"></i>
                 </a>
-                <a href="#" class="navicon-button x">
+                <button class="text navicon-button x" data-bind="click : toggleFilter, css : { 'open' : filterOpen }">
                     <i class="fa fa-chevron-circle-right"></i>
-                </a>
+                </button>
             </div>
         </div>
     </header>
@@ -21,7 +21,7 @@
     <div class="corner-loading" data-bind="css : { 'animate' : loading }" title="loading...">
     </div>
     <div class="main">
-        <div class="filter-container" data-bind="compose: { model: 'viewmodels/filters', activate: true }" >
+        <div class="filter-container" data-bind="compose: { model: 'viewmodels/filters', activate: true }, css : { 'open' : filterOpen }" >
         </div>
         
         <div class="articles-container">

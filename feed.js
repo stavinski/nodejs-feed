@@ -55,7 +55,7 @@ var feed = {
                         .on('end', function () { deferred.resolve(results); });
                                                 
                     return deferred.promise;
-                });    
+                });  
     },
     parse : function (content) {
         var   sr = new StringReader(content)

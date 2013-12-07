@@ -80,7 +80,7 @@ module.exports = function (grunt) {
             }
         },
         jshint : {
-            files : ['*.js', 'auth/*.js', 'background/*.js', 'data/*.js', 'routes/*.js'],
+            files : ['*.js', 'auth/*.js', 'background/*.js', 'data/*.js', 'routes/*.js', 'test/**/*.js'],
             options : {
                 laxcomma : true,
                 ignores : ['node_modules/**/*.js']         
@@ -89,8 +89,15 @@ module.exports = function (grunt) {
         watch : {
             scripts : {
                 files : ['**/*.js'],
-                tasks : ['jshint']
+                tasks : ['jshint', 'simplemocha']
             }
+        },
+        simplemocha : {
+            options : {
+                ui : 'bdd',
+                reporter : 'spec'
+            },
+            all : ['test/server/*.js']
         }
     });
     
@@ -101,9 +108,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-simple-mocha');
     
     // build tasks
-    grunt.registerTask('build-server', ['copy:server']);
+    grunt.registerTask('build-server', ['copy:server', 'simplemocha']);
     grunt.registerTask('build-client', ['copy:client', 'cssmin:client', 'durandal:client']);
     grunt.registerTask('default', ['jshint', 'clean:build', 'build-server', 'build-client']);
         

@@ -6,7 +6,7 @@ var config = {};
 config.app = {};
 config.app.ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 config.app.port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
-config.app.baseUrl = 'http://app-pushfeed.rhcloud.com/';
+config.app.baseUrl = 'http://app.pushfeed.net/';
 
 config.db = {};
 config.db.host = process.env.OPENSHIFT_MONGODB_DB_HOST || 'mongodb';

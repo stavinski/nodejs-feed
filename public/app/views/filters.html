@@ -1,11 +1,11 @@
 <div class="filter">
     <div class="summary">
         <h3><i class="fa fa-inbox"></i> 
-            <a href="#">all</a> 
+            <a href="/#/">all</a> 
             <small data-bind="text : allUnread" ></small>
         </h3>
         <h3><i class="fa fa-star"></i> 
-            <a href="#">starred</a> 
+            <a href="/#/?starred=1">starred</a> 
             <small data-bind="text : starredUnread" ></small>
         </h3>
     </div>
@@ -14,7 +14,7 @@
             <a class="accordion-toggle" data-toggle="collapse" data-bind="click : toggleCollapse, attr: { href: '#' + id }">
                 <i class="fa" data-bind="css : { 'fa-angle-right' : collapsed(), 'fa-angle-down' : !collapsed() }"></i>
             </a>
-            <a href="#">
+            <a href="#" data-bind="attr : { href : '/#/?cat=' + title }">
                 <span data-bind="text : title"></span>
             </a>
             <small data-bind="text : unread" ></small>
@@ -22,7 +22,7 @@
         <div data-bind="attr : { id : id }" class="panel-collapse collapse">
            <ul class="nav nav-stacked nav-pills" data-bind="foreach: subscriptions">
                 <li>
-                    <a href="#" data-bind="click: $root.makeActive"><!-- ko text: title --> <!-- /ko --> 
+                    <a href="#" data-bind="attr : { href : '/#/?sub=' + _id }"><!-- ko text: title --> <!-- /ko --> 
                         <small data-bind="text : unread" ></small>
                     </a>    
                 </li>
